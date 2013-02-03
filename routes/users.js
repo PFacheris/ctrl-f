@@ -13,9 +13,13 @@ var url = require('url');
 exports.createUser = function(request, response) {
   var firstName, lastName, email, passwdHash, username;
  
+<<<<<<< HEAD
 
 // parse user information in JSON
   var queryData = url.parse(request.url, true).query;
+=======
+  var queryData = response.body;
+>>>>>>> 378bb01b8c262e0876cb0d456b2357210309192a
  
   if (queryData.firstName) {
     firstName = queryData.firstName;
