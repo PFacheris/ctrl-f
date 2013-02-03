@@ -4,10 +4,19 @@
 
 //Dependencies
 var express = require("express"),
-    path = require("path"),
-    db = require('./db'),
-    auth = require('./auth'),
-    user = require('./routes/users');
+    path = require("path");
+
+var MONGO = require('mongodb').MongoClient,
+    MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb',
+    BSON = MONGO.BSONPure,
+    db;
+
+MONGO.connect(MONGO_URI, function (err, database) {
+    db = database;
+});
+
+var auth = require('./auth')(db, BSON),
+    user = require('./routes/users')(db, BSON);
 
 var app = express();
 
@@ -24,6 +33,8 @@ app.listen(port, function() {
 /*
  * Application Logic
  */
+
+
 
 // Session Storage
 var sessionStore = new express.session.MemoryStore;

@@ -7,132 +7,132 @@
  *
  */
 // Database Settings
-var dbHelper = require('../db');
-var db = dbHelper.connect();
-var BSON = dbHelper.BSON;
 var COLLECTION_NAME = 'users';
+module.exports = function (db, BSON) {
+    return {
+        /*
+         * CREATE
+         */
+        create: function (request, response) {
 
-/*
- * CREATE
- */
-exports.create = function (request, response) {
+            var user = {
+                name: {
+                    firstName: request.param('firstName'),
+                    lastName: request.param('lastName')
+                },
+                email: request.param('email'),
+                passwdHash: request.param('passwdHash')
+            };
 
-    var user = {
-        name: {
-            firstName: request.param('firstName'),
-            lastName: request.param('lastName')
+            var collection = db.collection(COLLECTION_NAME);
+            collection.save(user, {
+                safe: true
+            }, function (err, result) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(result[0]);
+                }
+            });
         },
-        email: request.param('email'),
-        passwdHash: request.param('passwdHash')
-    };
 
-    var collection = db.collection(COLLECTION_NAME);
-    collection.save(user, {
-        safe: true
-    }, function (err, result) {
-        if (err) {
-            response.send({
-                'error': 'An error has occurred - ' + err
+        /*
+         * UPDATE
+         */
+        update: function (request, response) {
+            var id = request.param('id');
+            var fieldsToUpdate = req.body;
+            var collection = db.collection(COLLECTION_NAME);
+            collection.update({
+                '_id': new BSON.ObjectID(id)
+            }, {
+                $set: fieldsToUpdate
+            }, function (err, result) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(result);
+                }
             });
-        } else {
-            response.send(result[0]);
-        }
-    });
-}
+        },
 
-/*
- * UPDATE
- */
-exports.update = function (request, response) {
-    var id = request.param('id');
-    var fieldsToUpdate = req.body;
-    var collection = db.collection(COLLECTION_NAME);
-    collection.update({
-        '_id': new BSON.ObjectID(id)
-    }, {
-        $set: fieldsToUpdate
-    }, function (err, result) {
-        if (err) {
-            response.send({
-                'error': 'An error has occurred - ' + err
+
+        /*
+         * READ
+         */
+
+        // Get All
+        getAll: function (request, response) {
+            var collection = db.collection(COLLECTION_NAME);
+            collection.find().toArray(function (err, results) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(results);
+                }
             });
-        } else {
-            response.send(result);
-        }
-    });
-}
+        },
 
-
-
-/*
- * READ
- */
-
-// Get All
-exports.getAll = function (request, response) {
-    var collection = db.collection(COLLECTION_NAME);
-    collection.find().toArray(function (err, results) {
-        if (err) {
-            response.send({
-                'error': 'An error has occurred - ' + err
+        // Get by ID
+        getByID: function (request, response) {
+            var id = request.param('id');
+            var collection = db.collection(COLLECTION_NAME);
+            collection.findOne({
+                '_id': new BSON.ObjectID(id)
+            }, function (err, result) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(result);
+                }
             });
-        } else {
-            response.send(results);
-        }
-    });
-}
+        },
 
-// Get by ID
-exports.getByID = function (request, response) {
-    var id = request.param('id');
-    var collection = db.collection(COLLECTION_NAME);
-    collection.findOne({
-        '_id': new BSON.ObjectID(id)
-    }, function (err, result) {
-        if (err) {
-            response.send({
-                'error': 'An error has occurred - ' + err
+        // Get by Email
+        getByEmail: function (request, response) {
+            var email = request.param('email');
+            var collection = db.collection(COLLECTION_NAME);
+            collection.findOne({
+                'email': email
+            }, function (err, result) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(result);
+                }
             });
-        } else {
-            response.send(result);
-        }
-    });
-}
+        },
 
-// Get by Email
-exports.getByEmail = function (request, response) {
-    var email = request.param('email');
-    var collection = db.collection(COLLECTION_NAME);
-    collection.findOne({
-        'email': email
-    }, function (err, result) {
-        if (err) {
-            response.send({
-                'error': 'An error has occurred - ' + err
-            });
-        } else {
-            response.send(result);
-        }
-    });
-}
+        /*
+         * DESTROY
+         */
 
-/*
- * DESTROY
- */
-exports.destroy = function (request, response) {
-    var id = request.param('id');
-    var collection = db.collection(COLLECTION_NAME);
-    collection.remove({
-        '_id': new BSON.ObjectID(id)
-    }, {
-        safe: true
-    }, function (err, result) {
-        if (err) {
-            response.send({
-                'error': 'An error has occurred - ' + err
+        destroy: function (request, response) {
+            var id = request.param('id');
+            var collection = db.collection(COLLECTION_NAME);
+            collection.remove({
+                '_id': new BSON.ObjectID(id)
+            }, {
+                safe: true
+            }, function (err, result) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(request.body);
+                }
             });
-        } else {
-            response.send(request.body);
         }
-    });
+    }
 }
