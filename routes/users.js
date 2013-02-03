@@ -11,19 +11,19 @@ exports.createUser = function(request, response) {
   if (request.query["firstName"] != null) {
     firstName = request.query["firstName"];
   } else {
-    firstName = null;
+    firstName = first;
   }
 
   if (request.query["lastName"] != null) {
     lastName = request.query["lastName"];
   } else {
-    lastName = null;
+    lastName = last;
   }
 
   if (request.query["email"] != null) {
     email = request.query["email"];
   } else {
-    email = null;
+    email = email;
   }
 
   var newPerson = {name: {firstName: firstName, lastName: lastName}, email: email};
