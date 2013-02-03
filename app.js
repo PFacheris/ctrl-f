@@ -14,8 +14,7 @@ var MONGO = require('mongodb'),
 MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     if (err)
     {
-        console.log("No DB found. Closing.");
-        return;
+        console.log("No DB found. Continuing may be unsafe.");
     }
 
     var auth = require('./auth')(db, BSON),
@@ -51,15 +50,10 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
         app.use(express.methodOverride());
         app.use(app.router);
         app.use(express.static(path.join(application_root, "public")));
-        app.use('/images', express.static(path.join(application_root, "public", "images")));
         app.use(express.errorHandler({
             dumpExceptions: true,
             showStack: true
         }));
-    });
-
-    app.get('/', function (request, response) {
-        response.redirect("/index.html");
     });
 
     // Authentication
@@ -71,7 +65,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.post('/user/new', auth.isAuth, user.create);
     app.put('/user/:id', auth.isAuth, user.update);
     app.get('/users', user.getAll);
-    app.get('/user/:id', auth.isAuth, user.getByID);
-    app.get('/user/:email', auth.isAuth, user.getByEmail);
+    app.get('/userbyid', auth.isAuth, user.getByID);
+    app.get('/userbyemail', auth.isAuth, user.getByEmail);
     app.delete('/user/:id', auth.isAuth, user.destroy);
 });
