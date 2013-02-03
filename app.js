@@ -9,7 +9,7 @@ var app = express();
 var mongojs = require('mongojs');
 var mongoUri = process.env.MONGOLAB_URI || 
   process.env.MONGOHQ_URL || 
-  'mongodb://ctrl-f.herokuapps.com/mydb';
+  'mongodb://localhost/mydb';
 var collections = ["users", "packages"];
 var db = mongojs(mongoUri, collections);
 
@@ -47,7 +47,7 @@ app.get('/createUser', function(request, response){
   }
 
   if (queryData.age) {
-    age = queryData.name;
+    age = queryData.age;
   } else {
     age = null;
   }
