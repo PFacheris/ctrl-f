@@ -85,7 +85,7 @@ exports.deleteUser = function (request, response){
   var id = request.params.id;
   mongo.connect(mongoUri, function (err, db) {
     var collection = db.collection('users');  
-    collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
+    collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function (err, result) {
       if (err) {
         response.send({'error':'An error has occurred - ' + err});
       } else {
