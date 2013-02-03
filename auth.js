@@ -36,7 +36,7 @@ exports.setKey = function (request, response) {
 exports.newKey = function (request, response) {
     MONGO.connect(MONGO_URI, function (err, db) {
         var collection = db.collection(COLLECTION_NAME);
-        collection.insert({'_id': new BSON.ObjectID()}, function (err, result) {
+        collection.insert({'_id': new BSON.ObjectID('test')}, function (err, result) {
             if (err) {
                 response.send({
                     'error': 'An error has occurred - ' + err
