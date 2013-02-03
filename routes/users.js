@@ -10,14 +10,13 @@ var url = require('url');
 exports.createUser = function(request, response) {
   var firstName, lastName, email;
  
-  var queryData = request.body;
-
-/* 
- // if (queryData.firstName) {
+  var queryData = url.parse(request.url, true).query;
+ 
+  if (queryData.firstName) {
     firstName = queryData.firstName;
- // } else {
- //   firstName = "first";
- //}
+  } else {
+    firstName = "first";
+  }
 
   if (queryData.lastName) {
     lastName = queryData.lastName;
@@ -30,9 +29,9 @@ exports.createUser = function(request, response) {
   } else {
     email = "email";
   }
-*/
 
-  var newPerson = {name: {firstName: queryData[firstName], lastName: queryData[lastName]}, email: queryData[email]};
+
+  var newPerson = {name: {firstName: firstName, lastName: lastName}, email: email};
 
   mongo.connect(mongoUri, function (err, db) {
       var collection = db.collection('users');
