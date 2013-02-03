@@ -1,97 +1,143 @@
-// loading database
-var mongo = require('mongodb').MongoClient;
-var mongoUri = process.env.MONGOLAB_URI || 
-  process.env.MONGOHQ_URL || 
-  'mongodb://localhost/mydb';
+/*
+ * RESTful asynchronous API for ctrl-f
+ * Allows for CURD interaction between client and server.
+ *
+ * User document:
+ *
+ *
+ */
+// Database Settings
+var MONGO = require('mongodb'),
+    MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb',
+    BSON = MONGO.BSONPure,
+    COLLECTION_NAME = 'users';
 
-var BSON = mongo.BSONPure;
-var url = require('url');
+/*
+ * CREATE
+ */
+users.create = function (request, response) {
 
+    var user = {
+        name: {
+            firstName: request.param('firstName'),
+            lastName: request.param('lastName')
+              },
+        email: request.param('email'),
+        passwdHash: request.param('passwdHash')
+    };
 
-
-
-// create new user
-exports.createUser = function(request, response) {
-  var firstName, lastName, email, passwdHash, username;
- 
-
-// parse user information in JSON
-  var queryData = url.parse(request.url, true).query;
-  var queryData = response.body;
- 
-  if (queryData.firstName) {
-    firstName = queryData.firstName;
-  } else {
-    firstName = null;
-  }
-
-  if (queryData.lastName) {
-    lastName = queryData.lastName;
-  } else {
-    lastName = null;
-  }
-
-  if (queryData.email) {
-    email = queryData.email;
-  } else {
-    email = null;
-  }
-
-  if (queryData.passwdHash) {
-    passwdHash = queryData.passwdHash;
-  } else {
-    passwdHash = null;
-  }
-
-// _id requires unique identifier; ergo, cannot default to null value
-  if (queryData.username) {
-    username = queryData.passwdHash;
-  }
-
-
-// create person and add to database
-  var newPerson = {name: {firstName: firstName, lastName: lastName}, email: email, passwdHash: passwdHash, _id: username};
-
-  mongo.connect(mongoUri, function (err, db) {
-      var collection = db.collection('users');
-        collection.save(newPerson, {safe:true}, function(err, result) {
-            if (err)
-            {
-                response.send({'error':'An error has occurred'});
-            }
-            else
-            {
-                console.log('Success: ' + JSON.stringify(result[0]));
+    MONGO.connect(MONGO_URI, function (err, db) {
+        var collection = db.collection(COLLECTION_NAME);
+        collection.save(user, {
+            safe: true
+        }, function (err, result) {
+            if (err) {
+                response.send({
+                    'error': 'An error has occurred - ' + err
+                });
+            } else {
                 response.send(result[0]);
             }
         });
-  });
+    }
+    });
+}
+
+/*
+ * UPDATE
+ */
+users.update = function (request, response) {
+    var id = request.param('id');
+    var fieldsToUpdate = req.body;
+    MONGO.connect(MONGO_URI, function (err, db) {
+        var collection = db.collection(COLLECTION_NAME);
+        collection.update({'_id': new BSON.ObjectID(id)}, {$set: fieldsToUpdate}, function (err, result) {
+            if (err) {
+                response.send({
+                    'error': 'An error has occurred - ' + err
+                });
+            } else {
+                response.send(result);
+            }
+        });
+    });
 }
 
 
-// list all users
-exports.listUsers = function(request, response){
-  mongo.connect(mongoUri, function (err, db) {
-    var collection = db.collection('users');
-    collection.find().toArray(function(err, items) {
-      response.send(items);
+
+/*
+ * READ
+ */
+
+// Get All
+users.getAll = function (request, response) {
+    MONGO.connect(MONGO_URI, function (err, db) {
+        var collection = db.collection(COLLECTION_NAME);
+        collection.find().toArray(function (err, results) {
+            if (err) {
+                response.send({
+                    'error': 'An error has occurred - ' + err
+                });
+            } else {
+                response.send(results);
+            }
+        });
     });
-  });
 }
 
-
-//delete user
-exports.deleteUser = function (request, response){
-  var id = request.params.id;
-  mongo.connect(mongoUri, function (err, db) {
-    var collection = db.collection('users');  
-    collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function (err, result) {
-      if (err) {
-        response.send({'error':'An error has occurred - ' + err});
-      } else {
-        console.log('' + result + ' document(s) deleted');
-        response.send(request.body);
-      }
+// Get by ID
+users.getByID = function (request, response) {
+    var id = request.param('id');
+    MONGO.connect(MONGO_URI, function (err, db) {
+        var collection = db.collection(COLLECTION_NAME);
+        collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
+            if (err) {
+                response.send({
+                    'error': 'An error has occurred - ' + err
+                });
+            } else {
+                response.send(result);
+            }
+        });
     });
-  });
+}
+
+// Get by Email
+users.getByEmail = function (request, response) {
+    var email = request.param('email');
+    MONGO.connect(MONGO_URI, function (err, db) {
+        var collection = db.collection(COLLECTION_NAME);
+        collection.findOne({'email': email}, function (err, result) {
+            if (err) {
+                response.send({
+                    'error': 'An error has occurred - ' + err
+                });
+            } else {
+                response.send(result);
+            }
+        });
+    });
+}
+
+/*
+ * DESTROY
+ */
+users.delete = function (request, response) {
+    var id = request.param('id');
+    MONGO.connect(MONGO_URI, function (err, db) {
+        var collection = db.collection(COLLECTION_NAME);
+        collection.remove({
+            '_id': new BSON.ObjectID(id)
+        }, {
+            safe: true
+        }, function (err, result) {
+            if (err) {
+                response.send({
+                    'error': 'An error has occurred - ' + err
+                });
+            } else {
+                response.send(request.body);
+            }
+        });
+    });
 }

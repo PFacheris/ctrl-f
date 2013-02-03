@@ -2,12 +2,11 @@
  * Requires and initialization.
  */
 
-//Express
-var express = require('express');
-var app = express();
-
-// other modules
-var users = require('./routes/users');
+//Dependencies
+var application_root = __dirname,
+    express = require("express"),
+    path = require("path"),
+    users = require('./routes/users');
 
 /*
  * Listening Port
@@ -20,15 +19,22 @@ app.listen(port, function() {
 /*
  * Application Logic
  */
-app.use(express.bodyParser());
+app.configure(function () {
+  app.set('title', 'ctrl-f API');
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express.static(path.join(application_root, "public")));
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
  
-app.get('/', function(request, response) {
-  response.send('Hello World! And also Patrick');
+app.get('/api', function(request, response) {
+  response.send('ctrl-f API is running.');
 });
 
 
-// user actions: references
-app.get('/createUser', users.createUser);
+// User Actions
 app.get('/users', users.listUsers);
-app.delete('/users/:id', users.deleteUser);
-//app.post('/user/new', users.createUser);
+app.get('/user/:id', users.listUsers);
+app.post('/user/new', users.createUser);
+app.delete('/user/:id', users.deleteUser);
