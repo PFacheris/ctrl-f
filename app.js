@@ -27,3 +27,5 @@ app.get('/', function(request, response) {
 
 // user actions: references
 app.get('/createUser', users.createUser);
+app.get('/users', users.listUsers);
+app.delete('/users/:id', users.deleteUser);
