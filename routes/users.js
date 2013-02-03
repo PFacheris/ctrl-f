@@ -4,7 +4,7 @@ var server = mongo.Server('localhost', 27017, {auto_reconnect: true});
 var db = mongo.Db('mydb', server, {safe:true});
 
 //var url = require('url');
-
+var collection = db.collection('users');
 
 
 // create new user
@@ -33,7 +33,7 @@ exports.createUser = function(request, response) {
         name: {firstName: firstName, lastName: lastName},
         email: email
   };
-  db.users.save(newPerson);
+  collection.save(newPerson);
 };
 
 /* app.get('/listUsers', function(request, response){
