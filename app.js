@@ -27,7 +27,8 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(__dirname + "/public"));
+  app.use(express.static(path.join(application_root, "public")));
+  app.use('/images', express.static(path.join(application_root, "public", "images")));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
