@@ -14,7 +14,7 @@ var MONGO = require('mongodb'),
 MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     if (err)
     {
-        console.log('No DB found. Closing.");
+        console.log("No DB found. Closing.");
         return;
     }
 
