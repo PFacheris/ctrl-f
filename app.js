@@ -9,11 +9,13 @@ var express = require("express"),
 var MONGO = require('mongodb').MongoClient,
     MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb',
     BSON = MONGO.BSONPure,
-    db;
+    db = null;
 
 MONGO.connect(MONGO_URI, function (err, database) {
     db = database;
 });
+
+console.log(db);
 
 var auth = require('./auth')(db, BSON),
     user = require('./routes/users')(db, BSON);
@@ -33,8 +35,6 @@ app.listen(port, function() {
 /*
  * Application Logic
  */
-
-
 
 // Session Storage
 var sessionStore = new express.session.MemoryStore;
