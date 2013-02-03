@@ -8,10 +8,10 @@ var mongoUri = process.env.MONGOLAB_URI ||
 exports.createUser = function(request, response) {
   var firstName, lastName, email;
   
-  if (request.query["firstName"]) {
+  //if (request.query["firstName"]) {
     firstName = request.query["firstName"];
-  } else {
-    name = null;
+  //} else {
+  //  firstName = null;
   }
 
   if (request.query["lastName"]) {
