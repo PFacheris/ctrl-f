@@ -10,7 +10,7 @@ var url = require('url');
 exports.createUser = function(request, response) {
   var firstName, lastName, email;
  
-  var queryData = url.parse(request.url, true).query;
+  var queryData = response.body;
  
   if (queryData.firstName) {
     firstName = queryData.firstName;

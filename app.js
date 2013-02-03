@@ -20,10 +20,12 @@ app.listen(port, function() {
 /*
  * Application Logic
  */
+app.use(express.bodyParser());
+ 
 app.get('/', function(request, response) {
   response.send('Hello World! And also Patrick');
 });
 
 
 // user actions: references
-app.get('/createUser', users.createUser);
+app.post('/user/new', users.createUser);
