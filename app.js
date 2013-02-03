@@ -6,6 +6,9 @@
 var express = require('express');
 var app = express();
 
+// other modules
+var users = require('/routes/users');
+
 /*
  * Listening Port
  */
