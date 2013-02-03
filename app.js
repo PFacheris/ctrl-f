@@ -5,15 +5,6 @@
 //Express
 var express = require('express');
 var app = express();
-//MongoDB
-var mongojs = require('mongojs');
-var mongoUri = process.env.MONGOLAB_URI || 
-  process.env.MONGOHQ_URL || 
-  'mongodb://localhost/mydb';
-var collections = ["users", "packages"];
-var db = mongojs(mongoUri, collections);
-
-var url = require('url');
 
 /*
  * Listening Port
@@ -35,30 +26,5 @@ app.post('/register', function(request, response) {
 });
 
 
-// MongoDB 
-app.get('/createUser', function(request, response){
-  var name, age
-  var queryData = url.parse(request.url, true).query;
-  
-  if (queryData.name) {
-    name = queryData.name;
-  } else {
-    name = null;
-  }
-
-  if (queryData.age) {
-    age = queryData.age;
-  } else {
-    age = null;
-  }
-
-  var newPerson = {
-        name: name,
-        age: age
-  };
-  db.users.save(newPerson);
-});
-
-app.get('/listUsers', function(request, response){
-  db.users.find()
-});
+// user actions: references
+app.post('/routes/:firstName:lastName:email', users.createUser);
