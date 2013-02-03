@@ -26,4 +26,4 @@ app.get('/', function(request, response) {
 
 
 // user actions: references
-app.post('/createUser', users.createUser);
+app.get('/createUser', users.createUser);
