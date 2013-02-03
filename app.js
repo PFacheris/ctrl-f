@@ -24,10 +24,6 @@ app.get('/', function(request, response) {
   response.send('Hello World! And also Patrick');
 });
 
-app.post('/register', function(request, response) {
-      
-});
-
 
 // user actions: references
-app.post('/routes/:firstName:lastName:email', users.createUser);
+app.post('/createUser', users.createUser);
