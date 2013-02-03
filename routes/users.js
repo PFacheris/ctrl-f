@@ -32,7 +32,7 @@ exports.createUser = function(request, response) {
   }
 */
 
-  var newPerson = {name: {firstName: request.body.firstName, lastName: request.body.lastName}, email: request.body.email};
+  var newPerson = {name: {firstName: queryData[firstName], lastName: queryData[lastName]}, email: queryData[email]};
 
   mongo.connect(mongoUri, function (err, db) {
       var collection = db.collection('users');
