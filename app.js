@@ -5,6 +5,7 @@
 //Dependencies
 var express = require("express"),
     path = require("path"),
+    db = require('./db'),
     auth = require('./auth'),
     user = require('./routes/users');
 
@@ -52,7 +53,7 @@ app.get('/api', auth.isAuth);
 // User Actions
 app.post('/user/new', auth.isAuth, user.create);
 app.put('/user:id', auth.isAuth, user.update);
-app.get('/users', auth.isAuth, user.getAll);
+app.get('/users', user.getAll);
 app.get('/user:id', auth.isAuth, user.getByID);
 app.get('/user:email', auth.isAuth, user.getByEmail);
 app.delete('/user:id', auth.isAuth, user.destroy);

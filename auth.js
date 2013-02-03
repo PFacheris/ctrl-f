@@ -1,9 +1,11 @@
 var dbHelper = require('./db');
 var db = dbHelper.connect();
+var BSON = dbHelper.BSON;
 var COLLECTION_NAME = 'keys';
 
 // Check if Authenticated
 exports.isAuth = function checkAuth(request, response, next) {
+    console.log(db);
     if (!request.session.authenticated) {
         response.send('API key not recognized, please reconnect using a different API key.');
     } else {

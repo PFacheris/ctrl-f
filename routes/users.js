@@ -9,6 +9,7 @@
 // Database Settings
 var dbHelper = require('../db');
 var db = dbHelper.connect();
+var BSON = dbHelper.BSON;
 var COLLECTION_NAME = 'users';
 
 /*

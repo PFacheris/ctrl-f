@@ -18,3 +18,5 @@ exports.disconnect = function() {
     db.close();
     db = null
 }
+
+exports.BSON = BSON;
