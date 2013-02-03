@@ -33,15 +33,12 @@ exports.createUser = function(request, response) {
         name: {firstName: firstName, lastName: lastName},
         email: email
   };
-<<<<<<< HEAD
   collection.save(newPerson, {safe:true}, function(err, result){
     if (err) {
       res.send({'error':'An error has occurred'});
     }
   });
-=======
   collection.save(newPerson, {safe:true}, function(err, result){});
->>>>>>> c531b45e05fb8d1e12b1f6bb696e9c11e6774e16
 };
 
 /* app.get('/listUsers', function(request, response){
