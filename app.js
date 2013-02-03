@@ -3,10 +3,13 @@
  */
 
 //Dependencies
-var application_root = __dirname,
-    express = require("express"),
+var express = require("express"),
     path = require("path"),
-    users = require('./routes/users');
+    user = require('./routes/users');
+
+var app = express();
+
+var application_root = __dirname;
 
 /*
  * Listening Port
@@ -34,7 +37,9 @@ app.get('/api', function(request, response) {
 
 
 // User Actions
-app.get('/users', users.listUsers);
-app.get('/user/:id', users.listUsers);
-app.post('/user/new', users.createUser);
-app.delete('/user/:id', users.deleteUser);
+app.post('/user/new', user.create);
+app.put('/user/:id', user.update);
+app.get('/users', user.getAll);
+app.get('/user/:id', user.getByID);
+app.get('/user/:email', user.getByEmail);
+app.delete('/user/:id', user.destroy);

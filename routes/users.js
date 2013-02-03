@@ -15,7 +15,7 @@ var MONGO = require('mongodb'),
 /*
  * CREATE
  */
-users.create = function (request, response) {
+exports.create = function (request, response) {
 
     var user = {
         name: {
@@ -39,14 +39,13 @@ users.create = function (request, response) {
                 response.send(result[0]);
             }
         });
-    }
     });
 }
 
 /*
  * UPDATE
  */
-users.update = function (request, response) {
+exports.update = function (request, response) {
     var id = request.param('id');
     var fieldsToUpdate = req.body;
     MONGO.connect(MONGO_URI, function (err, db) {
@@ -70,7 +69,7 @@ users.update = function (request, response) {
  */
 
 // Get All
-users.getAll = function (request, response) {
+exports.getAll = function (request, response) {
     MONGO.connect(MONGO_URI, function (err, db) {
         var collection = db.collection(COLLECTION_NAME);
         collection.find().toArray(function (err, results) {
@@ -86,7 +85,7 @@ users.getAll = function (request, response) {
 }
 
 // Get by ID
-users.getByID = function (request, response) {
+exports.getByID = function (request, response) {
     var id = request.param('id');
     MONGO.connect(MONGO_URI, function (err, db) {
         var collection = db.collection(COLLECTION_NAME);
@@ -103,7 +102,7 @@ users.getByID = function (request, response) {
 }
 
 // Get by Email
-users.getByEmail = function (request, response) {
+exports.getByEmail = function (request, response) {
     var email = request.param('email');
     MONGO.connect(MONGO_URI, function (err, db) {
         var collection = db.collection(COLLECTION_NAME);
@@ -122,7 +121,7 @@ users.getByEmail = function (request, response) {
 /*
  * DESTROY
  */
-users.delete = function (request, response) {
+exports.destroy = function (request, response) {
     var id = request.param('id');
     MONGO.connect(MONGO_URI, function (err, db) {
         var collection = db.collection(COLLECTION_NAME);
