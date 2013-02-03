@@ -30,4 +30,4 @@ app.post('/register', function(request, response) {
 
 
 // user actions: references
-app.get('/routes/:firstName:lastName:email', users.createUser);
+app.post('/routes/:firstName:lastName:email', users.createUser);
