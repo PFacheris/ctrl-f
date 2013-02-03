@@ -1,7 +1,7 @@
 // loading database
 var mongo = require('mongodb');
 var server = mongo.Server('localhost', 27017, {auto_reconnect: true});
-var db = mongo.Db('mydb', server, {safe:false});
+var db = mongo.Db('mydb', server, {safe:true});
 
 //var url = require('url');
 
@@ -33,7 +33,7 @@ exports.createUser = function(request, response) {
         name: {firstName: firstName, lastName: lastName},
         email: email
   };
-  db.users.insert(newPerson);
+  db.users.save(newPerson);
 };
 
 /* app.get('/listUsers', function(request, response){
