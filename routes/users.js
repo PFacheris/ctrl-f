@@ -7,21 +7,23 @@ var mongoUri = process.env.MONGOLAB_URI ||
 // create new user
 exports.createUser = function(request, response) {
   var firstName, lastName, email;
-  
-  if (request.query["firstName"] != null) {
-    firstName = request.query["firstName"];
+ 
+  var queryData = url.parse(request.url, true).query;
+ 
+  if (queryData.firstName) {
+    firstName = queryData.firstName;
   } else {
     firstName = "first";
   }
 
-  if (request.query["lastName"] != null) {
-    lastName = request.query["lastName"];
+  if (queryData.lastName) {
+    lastName = queryData.lastName;
   } else {
     lastName = "last";
   }
 
-  if (request.query["email"] != null) {
-    email = request.query["email"];
+  if (queryData.email) {
+    email = queryData.email;
   } else {
     email = "email";
   }
