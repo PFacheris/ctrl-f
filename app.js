@@ -6,10 +6,12 @@
 var express = require('express');
 var app = express();
 //MongoDB
-var mongo = require('mongojs');
+var mongojs = require('mongojs');
 var mongoUri = process.env.MONGOLAB_URI || 
   process.env.MONGOHQ_URL || 
   'mongodb://localhost/mydb';
+var collections = ["users", "packages"];
+var db = mongojs(mongoUri, collections);
 
 /*
  * Listening Port
@@ -28,4 +30,14 @@ app.get('/', function(request, response) {
 
 app.post('/register', function(request, response) {
       
+});
+
+
+// MongoDB 
+app.get('/createUser', function(request, response){
+  var newPerson = {
+        name: "Chae Jubb",
+        age: "18"
+  };
+  db.users.save(newPerson);
 });
