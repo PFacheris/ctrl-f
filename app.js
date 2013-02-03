@@ -9,7 +9,7 @@ var express = require("express"),
 
 var app = express();
 
-var application_root = __dirname;
+var application_root = process.cwd();
 
 /*
  * Listening Port
@@ -38,8 +38,8 @@ app.get('/api', function(request, response) {
 
 // User Actions
 app.post('/user/new', user.create);
-app.put('/user/:id', user.update);
+app.put('/user:id', user.update);
 app.get('/users', user.getAll);
-app.get('/user/:id', user.getByID);
-app.get('/user/:email', user.getByEmail);
-app.delete('/user/:id', user.destroy);
+app.get('/user:id', user.getByID);
+app.get('/user:email', user.getByEmail);
+app.delete('/user:id', user.destroy);
