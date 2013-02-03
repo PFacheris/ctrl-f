@@ -33,7 +33,7 @@ exports.createUser = function(request, response) {
         name: {firstName: firstName, lastName: lastName},
         email: email
   };
-  db.users.save(newPerson);
+  db.users.insert(newPerson);
 };
 
 /* app.get('/listUsers', function(request, response){
