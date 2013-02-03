@@ -5,6 +5,7 @@
 //Dependencies
 var express = require("express"),
     path = require("path"),
+    auth = require('./auth'),
     user = require('./routes/users');
 
 var app = express();
@@ -22,8 +23,15 @@ app.listen(port, function() {
 /*
  * Application Logic
  */
+
+// Session Storage
+var sessionStore = new express.session.MemoryStore;
+ 
+// Config
 app.configure(function () {
   app.set('title', 'ctrl-f API');
+  app.use(express.cookieParser("secret"))
+  app.use(express.session({store: sessionStore})); 
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
@@ -36,15 +44,15 @@ app.get('/', function(request, response) {
     response.redirect("/index.html");
 });
  
-app.get('/api', function(request, response) {
-  response.send('ctrl-f API is running.');
-});
-
+// Authentication
+app.post('/api:key', auth.setKey);
+app.get('/api/new', auth.newKey);
+app.get('/api', auth.isAuth);
 
 // User Actions
-app.post('/user/new', user.create);
-app.put('/user:id', user.update);
-app.get('/users', user.getAll);
-app.get('/user:id', user.getByID);
-app.get('/user:email', user.getByEmail);
-app.delete('/user:id', user.destroy);
+app.post('/user/new', auth.isAuth, user.create);
+app.put('/user:id', auth.isAuth, user.update);
+app.get('/users', auth.isAuth, user.getAll);
+app.get('/user:id', auth.isAuth, user.getByID);
+app.get('/user:email', auth.isAuth, user.getByEmail);
+app.delete('/user:id', auth.isAuth, user.destroy);
