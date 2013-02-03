@@ -27,8 +27,12 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(application_root, "public")));
+  app.use(express.static(__dirname + "/public"));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.get('/', function(request, response) {
+    response.redirect("/index.html");
 });
  
 app.get('/api', function(request, response) {
