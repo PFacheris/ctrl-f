@@ -31,11 +31,6 @@ exports.createUser = function(request, response) {
     email = "email";
   }
 */
-  response.send(queryData);
-
-  response.send(queryData.firstName);
-  response.send(queryData.lastName);
-  response.send(queryData.email);
 
   var newPerson = {name: {firstName: queryData.firstName, lastName: queryData.lastName}, email: queryData.email};
 
