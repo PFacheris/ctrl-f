@@ -4,6 +4,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL || 
   'mongodb://localhost/mydb';
 
+var BSON = mongo.BSONPure;
 var url = require('url');
 
 
@@ -13,13 +14,10 @@ var url = require('url');
 exports.createUser = function(request, response) {
   var firstName, lastName, email, passwdHash, username;
  
-<<<<<<< HEAD
 
 // parse user information in JSON
   var queryData = url.parse(request.url, true).query;
-=======
   var queryData = response.body;
->>>>>>> 378bb01b8c262e0876cb0d456b2357210309192a
  
   if (queryData.firstName) {
     firstName = queryData.firstName;
@@ -43,6 +41,7 @@ exports.createUser = function(request, response) {
     passwdHash = queryData.passwdHash;
   } else {
     passwdHash = null;
+  }
 
 // _id requires unique identifier; ergo, cannot default to null value
   if (queryData.username) {
@@ -72,9 +71,10 @@ exports.createUser = function(request, response) {
 
 // list all users
 exports.listUsers = function(request, response){
-  db.collection('mydb', function(err, collection){
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('users');
     collection.find().toArray(function(err, items) {
-      request.send(items);
+      response.send(items);
     });
   });
 }
@@ -82,14 +82,15 @@ exports.listUsers = function(request, response){
 
 //delete user
 exports.deleteUser = function (request, response){
-  var id = req.params.id;
-  db.collection('mydb', function(err, collection) {
+  var id = request.params.id;
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('users');  
     collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
       if (err) {
         response.send({'error':'An error has occurred - ' + err});
       } else {
         console.log('' + result + ' document(s) deleted');
-        response.send(wine);
+        response.send(request.body);
       }
     });
   });

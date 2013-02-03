@@ -28,10 +28,7 @@ app.get('/', function(request, response) {
 
 
 // user actions: references
-<<<<<<< HEAD
 app.get('/createUser', users.createUser);
 app.get('/users', users.listUsers);
 app.delete('/users/:id', users.deleteUser);
-=======
-app.post('/user/new', users.createUser);
->>>>>>> 378bb01b8c262e0876cb0d456b2357210309192a
+//app.post('/user/new', users.createUser);
