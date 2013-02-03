@@ -7,7 +7,7 @@
  *
  */
 // Database Settings
-var MONGO = require('mongodb'),
+var MONGO = require('mongodb').MongoClient,
     MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb',
     BSON = MONGO.BSONPure,
     COLLECTION_NAME = 'users';
