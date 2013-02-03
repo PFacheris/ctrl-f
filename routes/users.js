@@ -1,17 +1,14 @@
 // loading database
-var mongodb = require('mongodb');
-var mongoUri = process.env.MONGOLAB_URI || 
-  process.env.MONGOHQ_URL || 
-  'mongodb://localhost/mydb';
-var collections = ["users", "packages"];
-var db = mongojs(mongoUri, collections);
+var mongo = require('mongodb');
+var server = mongo.Server('localhost', 27017, {auto_reconnect: true});
+var db = mongo.Db('mydb', server, {safe:false});
 
-var url = require('url');
+//var url = require('url');
 
 
 
 // create new user
-users.createUser = function(request, response) {
+exports.createUser = function(request, response) {
   var firstName, lastName, email
   
   if (request.params.firstName) {
@@ -37,7 +34,7 @@ users.createUser = function(request, response) {
         email: email
   };
   db.users.save(newPerson);
-});
+};
 
 /* app.get('/listUsers', function(request, response){
   db.users.find()
