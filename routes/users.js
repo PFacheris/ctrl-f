@@ -12,11 +12,11 @@ exports.createUser = function(request, response) {
  
   var queryData = url.parse(request.url, true).query;
  
-  if (queryData.firstName) {
+ // if (queryData.firstName) {
     firstName = queryData.firstName;
-  } else {
-    firstName = "first";
-  }
+ // } else {
+ //   firstName = "first";
+ //}
 
   if (queryData.lastName) {
     lastName = queryData.lastName;
