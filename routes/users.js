@@ -11,7 +11,8 @@ exports.createUser = function(request, response) {
   var firstName, lastName, email;
  
   var queryData = url.parse(request.url, true).query;
- 
+
+/* 
  // if (queryData.firstName) {
     firstName = queryData.firstName;
  // } else {
@@ -29,8 +30,8 @@ exports.createUser = function(request, response) {
   } else {
     email = "email";
   }
-
-  var newPerson = {name: {firstName: firstName, lastName: lastName}, email: email};
+*/
+  var newPerson = {name: {firstName: queryData.firstName, lastName: queryData.lastName}, email: queryData.email};
 
   mongo.connect(mongoUri, function (err, db) {
       var collection = db.collection('users');
