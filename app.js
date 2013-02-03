@@ -11,9 +11,7 @@ var MONGO = require('mongodb').MongoClient,
     BSON = MONGO.BSONPure,
     db = null;
 
-MONGO.connect(MONGO_URI, function (err, database) {
-    db = database;
-});
+MONGO.connect(MONGO_URI, function (err, db) {
 
 console.log(db);
 
@@ -68,3 +66,4 @@ app.get('/users', user.getAll);
 app.get('/user:id', auth.isAuth, user.getByID);
 app.get('/user:email', auth.isAuth, user.getByEmail);
 app.delete('/user:id', auth.isAuth, user.destroy);
+});
