@@ -8,7 +8,7 @@ var express = require("express"),
 var MONGO = require('mongodb'),
     MONGO_CLIENT = MONGO.MongoClient,
     MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb',
-    BSON = MONGO.pure().BSON,
+    BSON = MONGO.BSONPure,
     db = null;
 
 MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
