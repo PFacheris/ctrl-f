@@ -4,7 +4,7 @@ var MONGO = require('mongodb').MongoClient,
     db;
     
 exports.connect = function () {
-    if (!db) db
+    if (!db)
     {
         MONGO.connect(MONGO_URI, function (err, database) {
             db = database;
