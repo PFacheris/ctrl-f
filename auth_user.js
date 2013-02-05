@@ -41,7 +41,10 @@ module.exports = function (db, BSON) {
             
             for (var i = 0; i < password.length; i++) {
                 code = password.charCodeAt(i);
-                hash *= Math.power(code, (i+1));
+                
+                for (var j = i+1; i > 0; i--) {
+                    hash *= code;
+                }
             }
 
             return hash;
