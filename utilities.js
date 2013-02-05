@@ -29,7 +29,9 @@ exports.pwHash = function(password) {
 
       
     }
-    hash = hash1 ^ hash2;
+console.log(hash1); console.log(hash2)
 
+    hash = hash1 ^ hash2;
+console.log(hash);
     return hash;
 }
