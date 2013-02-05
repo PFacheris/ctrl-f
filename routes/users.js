@@ -21,11 +21,12 @@ module.exports = function (db, BSON) {
                     lastName: request.param('lastName')
                 },
                 email: request.param('email'),
-                passwdHash: request.param('passwdHash')
-            };
+                passwdHash: request.param('passwdHash'),
+                items: []
+        };
 
             var collection = db.collection(COLLECTION_NAME);
-            collection.save(user, {
+            collection.insert(user, {
                 safe: true
             }, function (err, result) {
                 if (err) {
@@ -43,7 +44,7 @@ module.exports = function (db, BSON) {
          */
         update: function (request, response) {
             var id = request.param('id');
-            var fieldsToUpdate = req.body;
+            var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
             collection.update({
                 '_id': new BSON.ObjectID(id)
@@ -84,7 +85,7 @@ module.exports = function (db, BSON) {
             var id = request.param('id');
             var collection = db.collection(COLLECTION_NAME);
             collection.findOne({
-                '_id': new BSON.ObjectID(id)
+                '_id': id
             }, function (err, result) {
                 if (err) {
                     response.send({
@@ -112,6 +113,47 @@ module.exports = function (db, BSON) {
                 }
             });
         },
+
+
+        // Generic Get
+        userSearch: function (request, response) {
+            var collection = db.collection(COLLECTION_NAME);
+            var firstName, lastName, email, item, id;
+            var searchParam, searchResult;
+ 
+            // Check existence of paramters in order and create corresponding searchParam
+            if (request.param('id')) {
+                id = request.param('id');
+                searchParam = {'_id': id};
+
+            } else if (request.param('items')) {
+                item = request.param('items');
+                searchParam = {'items': item};
+
+            } else if (request.param('email')) {
+                email = request.param('email');
+                searchParam = {'email': email};
+
+            } else if (request.param('firstName') && request.param('lastName')) {
+                firstName = request.param('firstName');
+                lastName = request.param('lastName');
+                searchParam = {'firstName': firstName, 'lastName': lastName};
+
+            } else {
+                response.send('No search term specified');
+            }
+
+            // Execute search
+            collection.find(searchParam, {safe:true}, function (err, result) {
+                if (err) {
+                    response.send({
+                        'error': 'An error has occurred - ' + err
+                    });
+                } else {
+                    response.send(result);
+                }
+            });
+        },  
 
         /*
          * DESTROY

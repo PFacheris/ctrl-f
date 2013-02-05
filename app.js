@@ -14,8 +14,7 @@ var MONGO = require('mongodb'),
 MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     if (err)
     {
-        console.log("No DB found. Closing.");
-        return;
+        console.log("No DB found. Caution.");
     }
 
     var auth = require('./auth')(db, BSON),
@@ -73,5 +72,6 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.get('/users', user.getAll);
     app.get('/userbyid', auth.isAuth, user.getByID);
     app.get('/userbyemail', auth.isAuth, user.getByEmail);
+    app.get('/userSearch', user.userSearch);
     app.delete('/user/:id', auth.isAuth, user.destroy);
 });
