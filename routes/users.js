@@ -147,7 +147,7 @@ module.exports = function (db, BSON) {
 		console.log(searchParam); //
 
             // Execute search
-            collection.findOne({'email': email}, function (err, result) {//removed {safe:true}
+            collection.find(searchParam).toArray(function (err, results {
                 if (err) {
                     response.send({
                         'error': 'An error has occurred - ' + err
@@ -156,7 +156,7 @@ module.exports = function (db, BSON) {
 
 		for (var prop in result){console.log(result[prop]);};
                     console.log(result.toString());
-                    response.send(result);
+                    response.send(results);
                 }
             });
         },  
