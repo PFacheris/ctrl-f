@@ -150,7 +150,7 @@ module.exports = function (db, BSON) {
                         'error': 'An error has occurred - ' + err
                     });
                 } else {
-                    console.log(result.toSource());
+                    console.log(result.toString());
                     response.send(result);
                 }
             });
