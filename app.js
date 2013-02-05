@@ -63,7 +63,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.get('/api', auth.isAuth);
 
     // User Actions
-    app.post('/user/new', auth.isAuth, user.create);
+    app.post('/user/new', user.create);
     app.put('/user/:id', auth.isAuth, user.update);
     app.get('/users', user.getAll);
     app.get('/userSearch', user.userSearch);
