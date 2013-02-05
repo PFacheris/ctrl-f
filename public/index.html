@@ -15,24 +15,34 @@
 
 	<script src="javascripts/modernizr.foundation.js"></script>
     <style type="text/css">
+        body
+        {
+            background: url('images/bg.png');
+        }
+
+        .header
+        {
+            height: 70px;
+        }
+
+        .content
+        {
+            height: 700px;
+            padding-top: 100px;
+        }
+
+
+        .footer
+        {
+            height: 95px;
+            padding: 15px;
+        }
+        
         #input
         {
             padding-top: 40px;
         }
         
-        #content
-        {
-            height: 700px;
-            background: url('images/bg.png');
-            padding-top: 100px;
-        }
-
-
-        #footer
-        {
-            height: 95px;
-            background: #111;
-        }
     </style>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -73,13 +83,11 @@
     </div>
 
     <footer class="footer">
-        <p class="pull-right"><a href="#">Home</a></p>
-        <p>Built with <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>,
-        <a href="http://foundation.zurb.com/">Zurb Foundation</a>,
-        <a href="http://nodejs.org/">Node.js</a>,
-        <a href="http://expressjs.com/">Express</a>,
-        and <a href="http://www.mongodb.org/">MongoDB</a> by
-        <a href=# target="_blank">1505, Inc.</a>.<br/>
+        <hr>
+        <ul class="inline-list">
+            <li style="float:left;"><a href="#">Home</a></p></li>
+            <li style="float:right;">&copy;2013 1505, Inc.</li>
+        </ul>
     </footer>
 
 	<!-- Included JS Files -->
@@ -87,5 +95,7 @@
 	<script src="lib/json2.min.js"></script>
 	<script src="lib/underscore.min.js"></script>
 	<script src="lib/backbone.min.js"></script>
+	<script src="lib/backbone.ModelBinder.min.js"></script>
+	<script src="lib/backbone.CollectionBinder.min.js"></script>
 </body>
 </html>
