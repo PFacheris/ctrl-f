@@ -1,9 +1,7 @@
 var COLLECTION_NAME = 'users';
-module.exports = function (db, BSON) {
-    return {
-        pwHash: function(password) {
-            var hash = 0;
-            var code;
+exports.pwHash: function(password) {
+    var hash = 0;
+    var code;
             
             /*for (var i = 0; i < password.length; i++) {
                 code = password.charCodeAt(i);
@@ -13,12 +11,9 @@ module.exports = function (db, BSON) {
                 }
             }*/
 
-            for (var i = 0; i < password.length; i++) {
-                code = password.charCodeAt(i);
-                hash += code;
-            }
-
-            return hash;
-        }
+    for (var i = 0; i < password.length; i++) {
+        code = password.charCodeAt(i);
+        hash += code;
     }
+    return hash;
 }
