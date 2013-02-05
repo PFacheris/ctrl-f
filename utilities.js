@@ -1,5 +1,5 @@
 var COLLECTION_NAME = 'users';
-exports.pwHash: function(password) {
+exports.pwHash = function(password) {
     var hash = 0;
     var code;
             
