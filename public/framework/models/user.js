@@ -1,5 +1,5 @@
 window.User = Backbone.Model.extend({
-    urlRoot: "/users",
+    urlRoot: "/user",
     idAttribute: "_id",
 
     validate: function (attrs) {
@@ -17,19 +17,26 @@ window.User = Backbone.Model.extend({
         firstName: "",
         lastName: "",
         email: "",
-        password: "",
-        isLoggedIn: false,
+        password: ""
+    },
+    
+    isAuthorized: function() {
+       return Boolean(this.get("_id"));
     },
 
     logout: function() {
-        this.isLoggedIn = false;
+        this.clear();
+    },
+
+    login: function() {
+        $.ajax({
+            type: "GET",
+            url: "/api/login",
+            data: { email: this.get("email"), password: this.get("password") }
+        }).done(function(result) {
+                if(result)
+                    this.fetch();
+                this.set({ password: ""});
+            })
     }
-
-    login = function(userName, password)
-    {
-        
-        this.save();
-    }
-
-
 });
