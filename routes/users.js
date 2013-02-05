@@ -147,7 +147,7 @@ module.exports = function (db, BSON) {
 		console.log(searchParam); //
 
             // Execute search
-            collection.find(searchParam).toArray(function (err, results) {
+            collection.find(searchParam,{passwdHash: 0}).toArray(function (err, results) {
                 if (err) {
                     response.send({
                         'error': 'An error has occurred - ' + err
