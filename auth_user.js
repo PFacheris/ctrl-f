@@ -1,3 +1,5 @@
+utilities = require('utilities');
+
 var COLLECTION_NAME = 'users';
 module.exports = function (db, BSON) {
     return {
@@ -14,11 +16,10 @@ module.exports = function (db, BSON) {
         // check if login password hashes to value in db
         loginAuth: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var passwdHash = this.pwHash(password);
             var user;
             var email = request.params('email');
             var password = request.params('password');            
-
+            var passwdHash = utilities.pwHash(password);
 
             collection.findOne({email: email}, function(err, result) {
                 if (err) {
@@ -34,7 +35,7 @@ module.exports = function (db, BSON) {
                 }
             });
         },
-
+}
         pwHash: function(password) {
             var hash = 0;
             var code;
@@ -55,4 +56,3 @@ module.exports = function (db, BSON) {
             return hash;
         }
     }
-}

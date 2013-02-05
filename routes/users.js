@@ -9,6 +9,7 @@
 // Database Settings
 var COLLECTION_NAME = 'users';
 userAuth = require('../auth_user.js');
+utilities = require('../utilities.js');
 
 module.exports = function (db, BSON) {
     return {
@@ -16,7 +17,7 @@ module.exports = function (db, BSON) {
          * CREATE
          */
         create: function (request, response) {
-            var passwdHash = userAuth.pwHash(request.param('password'));
+            var passwdHash = utilities.pwHash(request.param('password'));
 
 
             var user = {
