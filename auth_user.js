@@ -17,8 +17,8 @@ module.exports = function (db, BSON) {
         loginAuth: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var user;
-            var email = request.params('email');
-            var password = request.params('password');            
+            var email = request.param('email');
+            var password = request.param('password');            
             var passwdHash = utilities.pwHash(password);
 
             collection.findOne({email: email}, function(err, result) {
