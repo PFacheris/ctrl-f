@@ -147,7 +147,7 @@ module.exports = function (db, BSON) {
 		console.log(searchParam); //
 
             // Execute search
-            collection.find(searchParam, {safe:true}, function (err, result) {
+            collection.find({'email': email}, {safe:true}, function (err, result) {
                 if (err) {
                     response.send({
                         'error': 'An error has occurred - ' + err
