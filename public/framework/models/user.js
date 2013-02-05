@@ -16,27 +16,7 @@ window.User = Backbone.Model.extend({
         _id: null,
         firstName: "",
         lastName: "",
-        email: "",
-        password: ""
+        email: ""
     },
     
-    isAuthorized: function() {
-       return Boolean(this.get("_id"));
-    },
-
-    logout: function() {
-        this.clear();
-    },
-
-    login: function() {
-        $.ajax({
-            type: "GET",
-            url: "/api/login",
-            data: { email: this.get("email"), password: this.get("password") }
-        }).done(function(result) {
-                if(result)
-                    this.fetch();
-                this.set({ password: ""});
-            })
-    }
 });

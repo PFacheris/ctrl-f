@@ -70,5 +70,5 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.delete('/user/:id', auth.isAuth, user.destroy);
 
     // User Authentication
-    app.get('/user/auth/login', userAuth.loginAuth);
+    app.post('/session', userAuth.loginAuth);
 });

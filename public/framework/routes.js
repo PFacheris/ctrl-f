@@ -40,6 +40,9 @@ var AppRouter = Backbone.Router.extend({
 
 utils.loadTemplate(['IndexView', 'HomeView', 'HeaderView', 'AboutView'], function() {
     app = new AppRouter();
-    Backbone.history.start();
+    
+    window.activeSession = new window.Sesssion;
+
+    Backbone.history.start({pushState: true});
 });
 
