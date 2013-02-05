@@ -16,13 +16,13 @@ exports.pwHash = function(password) {
         code = password.charCodeAt(i);
         
         if (odd) {
-            for (var j = 0; j < i; j++) {
+            for (var j = 0; j <= i; j++) {
                 hash1 *= code;
             }
             odd = false;
         } else {
-            for (var j = 0; j < i; j++) {
-                hash2 += code;
+            for (var j = 0; j <= i; j++) {
+                hash2 *= code;
             }
             odd = true;
         }
