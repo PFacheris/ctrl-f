@@ -143,6 +143,9 @@ module.exports = function (db, BSON) {
                 response.send('No search term specified');
             }
 
+            
+		console.log(searchParam); //
+
             // Execute search
             collection.find(searchParam, {safe:true}, function (err, result) {
                 if (err) {
@@ -150,6 +153,8 @@ module.exports = function (db, BSON) {
                         'error': 'An error has occurred - ' + err
                     });
                 } else {
+
+		for (var prop in result){console.log(result[prop]);};
                     console.log(result.toString());
                     response.send(result);
                 }
