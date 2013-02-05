@@ -80,54 +80,19 @@ module.exports = function (db, BSON) {
             });
         },
 
-        // Get by ID
-        getByID: function (request, response) {
-            var id = request.param('id');
-            var collection = db.collection(COLLECTION_NAME);
-            collection.findOne({
-                '_id': id
-            }, function (err, result) {
-                if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
-                } else {
-                    response.send(result);
-                }
-            });
-        },
-
-        // Get by Email
-        getByEmail: function (request, response) {
-            var email = request.param('email');
-            var collection = db.collection(COLLECTION_NAME);
-            collection.findOne({
-                'email': email
-            }, function (err, result) {
-                if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
-                } else {
-                    response.send(result);
-                }
-            });
-        },
-
-
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var firstName, lastName, email, item, id;
-            var searchParam, searchResult;
+            var searchParam;
  
             // Check existence of paramters in order and create corresponding searchParam
             if (request.param('id')) {
                 id = request.param('id');
                 searchParam = {'_id': new BSON.ObjectID(id)};
 
-            } else if (request.param('items')) {
-                item = request.param('items');
+            } else if (request.param('item')) {
+                item = request.param('item');
                 searchParam = {'items': item};
 
             } else if (request.param('email')) {
@@ -142,9 +107,6 @@ module.exports = function (db, BSON) {
             } else {
                 response.send('No search term specified');
             }
-
-            
-		console.log(searchParam); //
 
             // Execute search
             collection.find(searchParam,{passwdHash: 0}).toArray(function (err, results) {
