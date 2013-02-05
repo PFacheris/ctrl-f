@@ -17,7 +17,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
         console.log("No DB found. Continuing may be unsafe.");
     }
 
-    var auth = require('./auth')(db, BSON),
+    var auth = require('./auth_api')(db, BSON),
         user = require('./routes/users')(db, BSON);
 
     var app = express();
@@ -67,4 +67,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.get('/users', user.getAll);
     app.get('/userSearch', user.userSearch);
     app.delete('/user/:id', auth.isAuth, user.destroy);
+
+    // User Authentication
+    app.get('/user/auth/login', userAuth.loginAuth);
 });
