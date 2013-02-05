@@ -28,11 +28,11 @@ module.exports = function (db, BSON) {
                 }
             
                 if (user[passwdHash] == passwdHash) {
-                    return true;
+                    response.send('true');
                 } else {
-                    return false;
-                }    
-            }
+                    reponse.send('false');
+                }
+            });
         },
 
         pwHash: function(password) {

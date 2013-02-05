@@ -19,6 +19,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     var auth = require('./auth_api')(db, BSON),
         user = require('./routes/users')(db, BSON);
+        userAuth = require('./auth_user')(db, BSON);
 
     var app = express();
 

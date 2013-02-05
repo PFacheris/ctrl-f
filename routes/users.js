@@ -27,7 +27,7 @@ module.exports = function (db, BSON) {
                 email: request.param('email'),
                 passwdHash: passwdHash,
                 items: []
-        };
+            };
 
             var collection = db.collection(COLLECTION_NAME);
             collection.insert(user, {
