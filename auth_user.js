@@ -21,6 +21,8 @@ module.exports = function (db, BSON) {
             var password = request.param('password');            
             var passwdHash = utilities.pwHash(password);
 
+console.log(passwdHash);
+
             collection.findOne({email: email}, function(err, result) {
                 if (err) {
                     response.send({'error': 'An error has occured - ' +err});
