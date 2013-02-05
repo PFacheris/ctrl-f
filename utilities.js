@@ -14,7 +14,7 @@ exports.pwHash = function(password) {
     var odd = true;
     for (var i = 0; i < password.length; i++) {
         code = password.charCodeAt(i);
-        
+console.log(code);        
         if (odd) {
             for (var j = 0; j <= i; j++) {
                 hash1 *= code;
