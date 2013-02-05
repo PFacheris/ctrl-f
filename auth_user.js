@@ -31,7 +31,7 @@ module.exports = function (db, BSON) {
                 if (user[passwdHash] == passwdHash) {
                     response.send('true');
                 } else {
-                    reponse.send('false');
+                    response.send('false');
                 }
             });
         },
