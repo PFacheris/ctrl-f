@@ -29,8 +29,9 @@ console.log(passwdHash);
                 } else {
                     user = result;
                 }
-            
-                if (user[passwdHash] == passwdHash) {
+console.log(user);
+console.log(user['passwdHash']);           
+                if (user['passwdHash'] == passwdHash) {
                     response.send('true');
                 } else {
                     response.send('false');
