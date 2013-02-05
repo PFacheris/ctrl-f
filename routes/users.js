@@ -124,7 +124,7 @@ module.exports = function (db, BSON) {
             // Check existence of paramters in order and create corresponding searchParam
             if (request.param('id')) {
                 id = request.param('id');
-                searchParam = {'_id': id};
+                searchParam = {'_id': new BSON.ObjectID(id)};
 
             } else if (request.param('items')) {
                 item = request.param('items');
@@ -137,7 +137,7 @@ module.exports = function (db, BSON) {
             } else if (request.param('firstName') && request.param('lastName')) {
                 firstName = request.param('firstName');
                 lastName = request.param('lastName');
-                searchParam = {'firstName': firstName, 'lastName': lastName};
+                searchParam = {'name': {'firstName': firstName, 'lastName': lastName}};
 
             } else {
                 response.send('No search term specified');
