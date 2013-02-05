@@ -153,9 +153,6 @@ module.exports = function (db, BSON) {
                         'error': 'An error has occurred - ' + err
                     });
                 } else {
-
-		for (var prop in result){console.log(result[prop]);};
-                    console.log(result.toString());
                     response.send(results);
                 }
             });
