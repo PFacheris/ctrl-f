@@ -20,6 +20,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     var auth = require('./auth_api')(db, BSON),
         user = require('./routes/users')(db, BSON);
         userAuth = require('./auth_user')(db, BSON);
+        item = require('./routes/items')(db, BSON);
 
     var app = express();
 
@@ -72,7 +73,12 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     // User Authentication
     app.post('/session', userAuth.loginAuth);
 
-
+    // Item Actions
+    app.post('/item/newParcel', item.createParcel);
+    app.put('/user/:id', item.update);
+    app.get('/items', item.getAllParcels);
+    app.get('/item', item.parcelSearch);
+    app.delete('/item/:id', item.destroy);
 
 //CHAE TESTING
     utilities = require('./utilities');
@@ -84,8 +90,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 console.log(hash);
 //response.send('Hello, World! And Patrick');   
 response.send(hash.toString());
-}
+});
 //END CHAE TESTING
 
-);
 });
