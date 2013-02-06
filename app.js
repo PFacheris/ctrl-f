@@ -58,20 +58,23 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
         }));
     });
 
-    // Authentication
+    // API Authentication
     app.post('/api/:key', auth.setKey);
     app.get('/api/new', auth.newKey);
     app.get('/api', auth.isAuth);
 
+    // User Authentication
+    app.post('/session/new', userAuth.create);
+    app.put('/session', userAuth.update);
+    app.get('/session', userAuth.read);
+    app.delete('/session', userAuth.destroy);
+
     // User Actions
     app.post('/user/new', user.create);
-    app.put('/user/:id', auth.isAuth, user.update);
+    app.put('/user/:id', user.update);
     app.get('/users', user.getAll);
     app.get('/user', user.userSearch);
-    app.delete('/user/:id', auth.isAuth, user.destroy);
-
-    // User Authentication
-    app.post('/session', userAuth.loginAuth);
+    app.delete('/user/:id', user.destroy);
 
     // Item Actions
     app.post('/item/newParcel', item.createParcel);
