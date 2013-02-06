@@ -44,6 +44,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     // Config
     app.configure(function () {
         app.set('title', 'ctrl-f API');
+        app.use(express.compress());
         app.use(express.cookieParser("secret"))
         app.use(express.session({
             store: sessionStore
