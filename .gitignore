@@ -1,6 +1,7 @@
 #swapfiles
 .*.sw*
 
+.DS_Store
 humans.txt
 robots.txt
 
