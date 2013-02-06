@@ -40,7 +40,7 @@ utilities = require('./utilities');
 exports.testHash = function (request, response) {
     var password = request.param('password');
 
-    var hash = this.pwHash(password);
+    var hash = utilities.pwHash(password);
 
     response.send(hash);
 }
