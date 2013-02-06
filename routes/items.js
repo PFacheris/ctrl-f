@@ -21,7 +21,7 @@ module.exports = function (db, BSON) {
             var collection = db.collection(COLLECTION_NAME);
             collection.insert(parcel, {safe:true}, function(err, result) {
                 if (err) {
-                    response.send({'error': 'An error has occured - ' +err});
+                    response.send(400);
                 } else {
                     response.send(result);
                 }
@@ -38,7 +38,7 @@ module.exports = function (db, BSON) {
             collection.update({'_id' : new BSON.ObjectID(id)},
                 {$set: fieldsToUpdate}, function (err, result) {
                     if (err) {
-                        response.send({'error': 'An error has occured - ' +err});
+                        response.send(400);
                     } else {
                         response.send(result);
                     }
@@ -52,7 +52,7 @@ module.exports = function (db, BSON) {
             
             collection.find({type: 'parcel'}).toArray(function (err, results) {
                 if (err) {
-                    response.send({'error': 'An error has occured - ' + err});
+                    response.send(500);
                 } else {
                     response.send(results);
                 }
@@ -90,9 +90,7 @@ module.exports = function (db, BSON) {
 	    // Execute search
 	    collection.find(searchParam).toArray(function (err, results) {
 		if (err) {
-		    response.send({
-			'error': 'An error has occurred - ' + err
-		    });
+		    response.send(500);
 		} else {
 		    response.send(results);
 		}
@@ -109,9 +107,7 @@ module.exports = function (db, BSON) {
                 safe: true
             }, function (err, result) {
                 if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
+                    response.send(400);
                 } else {
                     response.send(request.body);
                 }

@@ -35,9 +35,7 @@ module.exports = function (db, BSON) {
                 safe: true
             }, function (err, result) {
                 if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
+                    response.send(400);
                 } else {
                     response.send(result[0]);
                 }
@@ -57,9 +55,7 @@ module.exports = function (db, BSON) {
                 $set: fieldsToUpdate
             }, function (err, result) {
                 if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
+                    response.send(400);
                 } else {
                     response.send(result);
                 }
@@ -76,9 +72,7 @@ module.exports = function (db, BSON) {
             var collection = db.collection(COLLECTION_NAME);
             collection.find().toArray(function (err, results) {
                 if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
+                    response.send(500);
                 } else {
                     response.send(results);
                 }
@@ -116,9 +110,7 @@ module.exports = function (db, BSON) {
             // Execute search
             collection.find(searchParam,{passwdHash: 0}).toArray(function (err, results) {
                 if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
+                    response.send(500);
                 } else {
                     response.send(results);
                 }
@@ -138,9 +130,7 @@ module.exports = function (db, BSON) {
                 safe: true
             }, function (err, result) {
                 if (err) {
-                    response.send({
-                        'error': 'An error has occurred - ' + err
-                    });
+                    response.send(400);
                 } else {
                     response.send(request.body);
                 }
