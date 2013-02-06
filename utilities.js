@@ -35,3 +35,12 @@ console.log(hash1); console.log(hash2)
 console.log(hash);
     return hash;
 }
+
+utilities = require('./utilities');
+exports.testHash = function (request, response) {
+    var password = request.param('password');
+
+    var hash = this.pwHash(password);
+
+    response.send(hash);
+}

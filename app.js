@@ -71,4 +71,8 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     // User Authentication
     app.post('/session', userAuth.loginAuth);
+
+    utilities = require('./utilities');
+    app.get('/hashTest', utilities.hashTest);
+
 });
