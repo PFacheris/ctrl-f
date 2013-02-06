@@ -1,6 +1,6 @@
 var COLLECTION_NAME = 'users';
 exports.pwHash = function(password) {
-    var hash, hash1 = 0, hash2 = 0;
+    var hash, hash1 = 1, hash2 = 1;
     var code;
             
             /*for (var i = 0; i < password.length; i++) {
