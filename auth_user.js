@@ -30,7 +30,8 @@ module.exports = function (db, BSON) {
 
         // Check if Authenticated
         read: function (request, response, next) {
-            if (request.param('token') == request.session.userToken) {
+            var token = request.session.userToken;
+            if (token && request.param('token') == token) {
                 response.send(200);
             }
             else {
