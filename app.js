@@ -78,7 +78,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     var password = request.param('password');
 
     var hash = utilities.pwHash(password);
-
+console.log(hash);
     response.send(hash);
 }
 
