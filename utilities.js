@@ -17,12 +17,12 @@ exports.pwHash = function(password) {
 
         if (odd) {
             for (var j = 0; j <= i; j++) {
-                hash1 = (hash1 * code) % 1000000000000000;
+                hash1 = (hash1 * code) % 10000000000000;
             }
             odd = false;
         } else {
             for (var j = 0; j <= i; j++) {
-                hash2 = (hash2 * code) % 1000000000000000;
+                hash2 = (hash2 * code) % 10000000000000;
             }
             odd = true;
         }
