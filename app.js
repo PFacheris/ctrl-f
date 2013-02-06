@@ -64,24 +64,24 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.get('/api', auth.isAuth);
 
     // User Authentication
-    app.post('/session/new', userAuth.create);
+    app.post('/session', userAuth.create);
     app.put('/session', userAuth.update);
     app.get('/session', userAuth.read);
     app.delete('/session', userAuth.destroy);
 
     // User Actions
-    app.post('/user/new', user.create);
-    app.put('/user/:id', user.update);
+    app.post('/user', user.create);
+    app.put('/user', user.update);
     app.get('/users', user.getAll);
     app.get('/user', user.userSearch);
-    app.delete('/user/:id', user.destroy);
+    app.delete('/user', user.destroy);
 
     // Item Actions
-    app.post('/item/newParcel', item.createParcel);
-    app.put('/user/:id', item.update);
+    app.post('/item', item.createParcel);
+    app.put('/item', item.update);
     app.get('/items', item.getAllParcels);
     app.get('/item', item.parcelSearch);
-    app.delete('/item/:id', item.destroy);
+    app.delete('/item', item.destroy);
 
 //CHAE TESTING
     utilities = require('./utilities');
