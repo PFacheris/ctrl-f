@@ -13,26 +13,13 @@
 	<!-- Included CSS Files -->
 	<link rel="stylesheet" href="stylesheets/app.css">
 
-	<script src="javascripts/modernizr.foundation.js"></script>
     <style type="text/css">
         body
         {
             background: url('images/bg.png');
         }
 
-        .header
-        {
-            height: 70px;
-        }
-
-        .content
-        {
-            height: 700px;
-            padding-top: 100px;
-        }
-
-
-        .footer
+        footer
         {
             height: 95px;
             padding: 15px;
@@ -52,37 +39,26 @@
 
 </head>
 <body>
-    <div class="header"></div>
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="four mobile-one columns"></div>
-                <div class="four mobile-two columns centered">
-                    <img src="images/logo.png" />
-                </div>
-                <div class="four mobile-one columns"></div>
-            </div>
-            <div id="input" class="row">
-                <div class="six columns centered">
-                <div class="row collapse">
-                    <div class="one mobile-one columns">
-                        <span class="prefix mobile-two">#</span>
-                    </div>
-                    <div class="nine mobile-two columns">
-                        <input type="text" placeholder="Tracking Number" />
-                    </div>
-                    <div class="two mobile-one columns">
-                        <span class="twelve mobile-two" style="float:left;">
-                            <a class="button expand postfix">Add</a>
-                        </span>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <header>
+        <nav class="top-bar">
+          <ul>
+            <li class="name"><h1><a href="#">Title</a></h1></li>
+            <li class="toggle-topbar"><a href="#"></a></li>
+          </ul>
+          <section>
+            <ul class="left">
+              <li><a href="#">Link</a></li>
+            </ul>
 
-    <footer class="footer">
+            <ul class="right">
+              <li><a href="#">Link</a></li>
+            </ul>
+          </section>
+        </nav>
+    </header>
+    <div class="content"></div>
+
+    <footer>
         <hr>
         <ul class="inline-list">
             <li style="float:left;"><a href="#">Home</a></p></li>
@@ -91,11 +67,17 @@
     </footer>
 
 	<!-- Included JS Files -->
-	<script src="lib/zepto.min.js"></script>
+	<script src="lib/jquery.min.js"></script>
 	<script src="lib/json2.min.js"></script>
 	<script src="lib/underscore.min.js"></script>
-	<script src="lib/backbone.min.js"></script>
-	<script src="lib/backbone.ModelBinder.min.js"></script>
-	<script src="lib/backbone.CollectionBinder.min.js"></script>
+    <script src="lib/backbone.min.js"></script>
+    <script src="framework/utils.js"></script>
+    <script src="framework/models/session.js"></script>
+    <!--<script src="framework/models/package.js"></script>-->
+    <script src="framework/models/user.js"></script>
+    <script src="framework/views/home.js"></script>
+    <script src="framework/views/index.js"></script>
+    <script src="framework/routes.js"></script>
+
 </body>
 </html>
