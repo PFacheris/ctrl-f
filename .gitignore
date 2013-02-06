@@ -1,0 +1,10 @@
+#swapfiles
+.*.sw*
+
+humans.txt
+robots.txt
+
+#sass
+*.rb
+.sass-cache
+sass
