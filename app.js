@@ -72,6 +72,9 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     // User Authentication
     app.post('/session', userAuth.loginAuth);
 
+
+
+//CHAE TESTING
     utilities = require('./utilities');
     app.get('/hashTest', 
     function (request, response) {
@@ -79,10 +82,10 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     var hash = utilities.pwHash(password);
 console.log(hash);
-response.send('Hello, World! And Patrick');   
- response.send(hash);
+//response.send('Hello, World! And Patrick');   
+response.send(hash.toString());
 }
-
+//END CHAE TESTING
 
 );
 });

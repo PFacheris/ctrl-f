@@ -14,24 +14,21 @@ exports.pwHash = function(password) {
     var odd = true;
     for (var i = 0; i < password.length; i++) {
         code = password.charCodeAt(i);
-console.log(code);        
+
         if (odd) {
             for (var j = 0; j <= i; j++) {
-                hash1 *= code;
+                hash1 = (hash1 * code) % 1000000000000000;
             }
             odd = false;
         } else {
             for (var j = 0; j <= i; j++) {
-                hash2 *= code;
+                hash2 = (hash2 * code) % 1000000000000000;
             }
             odd = true;
         }
 
       
     }
-console.log(hash1); console.log(hash2)
-
     hash = hash1 ^ hash2;
-console.log(hash);
     return hash;
 }
