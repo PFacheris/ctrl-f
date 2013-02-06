@@ -57,18 +57,36 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
         }));
     });
 
-    // Authentication
+    // API Authentication
     app.post('/api/:key', auth.setKey);
     app.get('/api/new', auth.newKey);
     app.get('/api', auth.isAuth);
 
     // User Actions
     app.post('/user/new', user.create);
-    app.put('/user/:id', auth.isAuth, user.update);
-    app.get('/users', auth.isAuth, user.getAll);
-    app.get('/user', auth.isAuth, user.userSearch);
-    app.delete('/user/:id', auth.isAuth, user.destroy);
+    app.put('/user/:id', user.update);
+    app.get('/users', user.getAll);
+    app.get('/user', user.userSearch);
+    app.delete('/user/:id', user.destroy);
 
     // User Authentication
-    app.post('/session', userAuth.loginAuth);
+    app.post('/session/new', userAuth.create);
+    app.put('/session', userAuth.update);
+    app.get('/session', userAuth.read);
+    app.delete('/session', userAuth.destroy);
+
+//CHAE TESTING
+    utilities = require('./utilities');
+    app.get('/hashTest', 
+    function (request, response) {
+    var password = request.param('password');
+
+    var hash = utilities.pwHash(password);
+console.log(hash);
+//response.send('Hello, World! And Patrick');   
+response.send(hash.toString());
+}
+//END CHAE TESTING
+
+);
 });
