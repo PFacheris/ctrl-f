@@ -46,7 +46,7 @@ module.exports = function (db, BSON) {
          * UPDATE
          */
         update: function (request, response) {
-console.log({'request.body' + request.body});
+console.log('request.body' + request.body);
             var id = request.param('id');
             var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
@@ -54,10 +54,10 @@ console.log({'request.body' + request.body});
 
             collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 if (err) {response.send(400);}
-                else {tempPull = result.items; console.log({'result.items' +result.items});console.log({'result' +result})}
+                else {tempPull = result.items; console.log('result.items' +result.items);console.log('result' +result)}
             });
-console.log({'tempPull' +tempPull});
-console.log({'request.body.item' +request.body.item});
+console.log('tempPull' +tempPull);
+console.log('request.body.item' +request.body.item);
             request.body.items = tempPull.push(request.body.item);
 
             collection.update({
