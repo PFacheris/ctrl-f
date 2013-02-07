@@ -58,9 +58,12 @@ module.exports = function (db, BSON) {
         read: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var id, name, tracking, service;
-            var searchParam;
+            
+            var key = request.param.getKey(0);
+            var value = request.param.getValues(0);
+            var searchParam = {key: value};
 
-            // Check existence of paramters in order and create corresponding searchParam
+/*            // Check existence of paramters in order and create corresponding searchParam
             if (request.param('id')) {
                 id = request.param('id');
                 searchParam = {'type': 'parcel', '_id': new BSON.ObjectID(id)};
@@ -80,7 +83,7 @@ module.exports = function (db, BSON) {
 	    } else {
 		response.send('No search term specified');
 	    }
-
+*/
 	    // Execute search
 	    collection.find(searchParam).toArray(function (err, results) {
 		if (err) {
