@@ -16,19 +16,17 @@
         $('nav').css('background', 'none');
     });
     var hasEntered = false;
-    //$(window).on("mouseenter", function() {
-        if (!hasEntered){
-            $('#header').animate(
-                {top: '0px'},
-                500,
-                function() {
-                    $('.ribbon').animate({marginTop: '-28px'}, 500);
-                }
-            );
-            hasEntered = true;
-        }
+    if (!hasEntered){
+        $('#header').animate(
+            {top: '0px'},
+            500,
+            function() {
+                $('.ribbon').animate({marginTop: '-28px'}, 500);
+            }
+        );
+        hasEntered = true;
+    }
         
-    //});
 
     $('.ribbon').on("mouseenter mouseleave", function() {
         
