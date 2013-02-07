@@ -58,41 +58,34 @@ module.exports = function (db, BSON) {
         read: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var id, name, tracking, service;
-            
-            var key = request.param.getKey(0);
-            var value = request.param.getValues(0);
-            var searchParam = {key: value};
+            var searchParam;
 
-/*            // Check existence of paramters in order and create corresponding searchParam
+            // Check existence of paramters in order and create corresponding searchParam
             if (request.param('id')) {
                 id = request.param('id');
-                searchParam = {'type': 'parcel', '_id': new BSON.ObjectID(id)};
+                searchParam = {'_id': new BSON.ObjectID(id)};
 
-	    } else if (request.param('name')) {
-		name = request.param('name');
-		searchParam = {'type': 'parcel', 'name': name};
+            } else if (request.param('name')) {
+                name = request.param('name');
+                searchParam = {'name': name};
 
-	    } else if (request.param('tracking')) {
-		tracking = request.param('tracking');
-		searchParam = {'type': 'parcel', 'trackingNumber': tracking};
+            } else if (request.param('tracking')) {
+                tracking = request.param('tracking');
+                searchParam = {'trackingNumber': tracking};
 
-	    } else if (request.param('service')) {
-		service = request.param('service');
-		searchParam = {'type': 'parcel', 'deliveryService': service};
+            } else {
+                response.send('No search term specified');
+            }
 
-	    } else {
-		response.send('No search term specified');
-	    }
-*/
-	    // Execute search
-	    collection.find(searchParam).toArray(function (err, results) {
-		if (err) {
-		    response.send(500);
-		} else {
-		    response.send(results);
-		}
-	    });
-	}, 
+            // Execute search
+            collection.find(searchParam).toArray(function (err, results) {
+                if (err) {
+                    response.send(500);
+                } else {
+                    response.send(results);
+                }
+            });
+        }, 
         
         // Destroy entry
         destroy: function (request, response) {
@@ -110,6 +103,5 @@ module.exports = function (db, BSON) {
                 }
             });
         }
-
     }
 }
