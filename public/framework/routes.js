@@ -3,7 +3,7 @@ var AppRouter = Backbone.Router.extend({
     routes: {
         ""                  : "index",
         "home"            	: "home",
-        //"me"      	        : "settings",
+        //"me"      	    : "settings",
         "about"             : "about"
     },
 
@@ -41,7 +41,6 @@ var AppRouter = Backbone.Router.extend({
             this.aboutView = new AboutView();
         }
         $('.content').html(this.aboutView.el);
-        this.headerView.selectMenuItem('about-menu');
     }
 
 });
@@ -51,6 +50,6 @@ utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView"], functio
     
     window.activeSession = new window.Session;
 
-    Backbone.history.start({pushState: true});
+    Backbone.history.start();
 });
 
