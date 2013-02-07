@@ -8,8 +8,8 @@ var AppRouter = Backbone.Router.extend({
     },
 
     initialize: function () {
-        //this.headerView = new HeaderView();
-        //$('.header').html(this.headerView.el);
+        this.headerView = new HeaderView();
+        $('header').html(this.headerView.el);
     },
 
     index: function (id) {
@@ -46,7 +46,7 @@ var AppRouter = Backbone.Router.extend({
 */
 });
 
-utils.loadTemplate(['IndexView', 'HomeView'], function() {
+utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView'], function() {
     app = new AppRouter();
     
     window.activeSession = new window.Session;

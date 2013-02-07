@@ -17,17 +17,57 @@
         body
         {
             background: url('images/bg.png');
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            height: 100%;
+            width:100%;
+        }
+
+        header
+        {
+            position: fixed;
+            top: -45px;
+            width: 100%;
+            z-index: 5;
+        }
+
+        .content
+        {
+           height:100%; 
         }
 
         footer
         {
             height: 95px;
-            padding: 15px;
+            padding-top: 30px;
         }
         
         #input
         {
             padding-top: 40px;
+        }
+
+        .ribbon
+        {
+            height: 84px;
+            width: 39px;
+            margin-top: -40px;
+        }
+
+        .info
+        {
+            background: url('/images/info.png');
+        }
+
+        .settings
+        {
+            background: url('/images/settings.png');
+        }
+
+        .no-highlight
+        {
+            background: transparent !important;
         }
         
     </style>
@@ -39,27 +79,9 @@
 
 </head>
 <body>
-    <header>
-        <nav class="top-bar">
-          <ul>
-            <li class="name"><h1><a href="#">Title</a></h1></li>
-            <li class="toggle-topbar"><a href="#"></a></li>
-          </ul>
-          <section>
-            <ul class="left">
-              <li><a href="#">Link</a></li>
-            </ul>
-
-            <ul class="right">
-              <li><a href="#">Link</a></li>
-            </ul>
-          </section>
-        </nav>
-    </header>
+    <header></header>
     <div class="content"></div>
-
     <footer>
-        <hr>
         <ul class="inline-list">
             <li style="float:left;"><a href="#">Home</a></p></li>
             <li style="float:right;">&copy;2013 1505, Inc.</li>
@@ -75,6 +97,7 @@
     <script src="framework/models/session.js"></script>
     <!--<script src="framework/models/package.js"></script>-->
     <script src="framework/models/user.js"></script>
+    <script src="framework/views/header.js"></script>
     <script src="framework/views/home.js"></script>
     <script src="framework/views/index.js"></script>
     <script src="framework/routes.js"></script>
