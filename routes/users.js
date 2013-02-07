@@ -87,8 +87,8 @@ module.exports = function (db, BSON) {
             } else {
                 response.send('Improper Request');
                 console.log('Improper Request');
+            }
         },
-
 
         /*
          * READ
