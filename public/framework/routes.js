@@ -9,6 +9,7 @@ var AppRouter = Backbone.Router.extend({
     },
 
     initialize: function () {
+        window.activeSession = new window.Session;
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
     },
@@ -22,27 +23,32 @@ var AppRouter = Backbone.Router.extend({
     },
 
     home: function (id) {
-        if (!this.homeView) {
-            this.homeView = new HomeView();
+        if (window.activeSession.isAuthorized)
+        {
+            if (!this.homeView) {
+                this.homeView = new HomeView();
+            }
+            $('.content').html(this.homeView.el);
+            //this.headerView.selectMenuItem('home-menu');
         }
-        $('.content').html(this.homeView.el);
-        //this.headerView.selectMenuItem('home-menu');
+        else
+            app.navigate('#');
     },
-    
+
     register: function () {
         var user = new User();
         $('.content').html(new RegisterView({model: user}).el);
         //this.headerView.selectMenuItem('home-menu');
     },
-/*
+    /*
     settings: function (id) {
-        if (!this.homeView) {
-            this.homeView = new SettingsView();
-        }
-        $('.content').html(this.homeView.el);
-        this.headerView.selectMenuItem('settings-menu');
+    if (!this.homeView) {
+    this.homeView = new SettingsView();
+    }
+    $('.content').html(this.homeView.el);
+    this.headerView.selectMenuItem('settings-menu');
     },
-*/
+    */
     about: function () {
         if (!this.aboutView) {
             this.aboutView = new AboutView();
@@ -54,8 +60,6 @@ var AppRouter = Backbone.Router.extend({
 
 utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView"], function() {
     app = new AppRouter();
-    
-    window.activeSession = new window.Session;
 
     Backbone.history.start();
 });

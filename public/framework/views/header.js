@@ -1,6 +1,8 @@
 window.HeaderView = Backbone.View.extend({
 
     initialize: function () {
+        if (window.activeSession)
+            this.listenTo(window.activeSession, "change", this.checkSession);
         this.render();
     },
 
@@ -29,6 +31,20 @@ window.HeaderView = Backbone.View.extend({
         $('#login').animate({opacity: newOpacity}, 500);
     },
     
+    checkSession: function () {
+        if (window.activeSession.isAuthorized())
+        {
+            $('.error').removeClass('error');
+            $('.login').toggleClass('login').toggleClass('settings');
+            this.toggleLoginBox();
+        }
+        else
+        {
+            $('#txtEmail').addClass('error');
+            $('#txtPassword').addClass('error');
+        }
+    },
+    
     login: function () {
         window.activeSession.set(
             {
@@ -40,16 +56,7 @@ window.HeaderView = Backbone.View.extend({
         );
         window.activeSession.save();
 
-        if (window.activeSession.isAuthorized())
-        {
-            $('.login').toggleClass('login').toggleClass('settings');
-            this.toggleLoginBox();
-        }
-        else
-        {
-            $('#txtEmail').addClass('error');
-            $('#txtpassword').addClass('error');
-        }
+        this.checkSession(); 
     },
 
     showActive: function (menuItem) {
