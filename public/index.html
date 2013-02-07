@@ -51,6 +51,34 @@
         {
             background: transparent !important;
         }
+
+        .tooltip-new
+        {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            line-height: 20px;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+            background: rgba(76, 76, 76, 0.9);
+            border: 0px solid rgba(76, 76, 76, 0.9);
+            border-radius: 5px;
+            text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
+            box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
+        }
+
+        .tooltip-new:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent rgba(76, 76, 76, .9) transparent;
+            top: -20px;
+            left: 90px;
+        }
         
     </style>
 

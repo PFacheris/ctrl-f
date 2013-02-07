@@ -6,7 +6,12 @@
       <section>
         <ul class="right">
             <li class="no-highlight"><a href="#"><div class="ribbon info"></div></a></li>
-            <li class="no-highlight"><a href="#"><div class="ribbon settings"></div></a></li>
+            <li class="no-highlight">
+                <a href="#"><div class="ribbon settings"></div></a>
+                <div class="tooltip-new" style="top:50px;left:-65px;">
+                    
+                </div>
+            </li>
         </ul>
       </section>
     </nav>
@@ -15,20 +20,12 @@
     $(document).ready( function() {
         $('nav').css('background', 'none');
     });
-    var hasEntered = false;
-    if (!hasEntered){
-        $('#header').animate(
-            {top: '0px'},
-            500,
-            function() {
-                $('.ribbon').animate({marginTop: '-28px'}, 500);
-            }
-        );
-        hasEntered = true;
-    }
-        
-
-    $('.ribbon').on("mouseenter mouseleave", function() {
-        
-    });
+    
+    $('#header').animate(
+        {top: '0px'},
+        500,
+        function() {
+            $('.ribbon').animate({marginTop: '-28px'}, 500);
+        }
+    );
 </script>
