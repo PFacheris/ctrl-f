@@ -9,17 +9,10 @@ var COLLECTION_NAME = 'items';
 module.exports = function (db, BSON) {
     return {
         // Create Item
-        createParcel: function (request, response) {
-            var parcel = {
-                type: 'Parcel',
-                name: request.param('name'),
-                trackingNumber: request.param('tracking'),
-                deliveryService: request.param('service'),
-                arrived: false
-            };
-
+        create: function (request, response) {
+            var item = request.body;
             var collection = db.collection(COLLECTION_NAME);
-            collection.insert(parcel, {safe:true}, function(err, result) {
+            collection.insert(item, {safe:true}, function(err, result) {
                 if (err) {
                     response.send(400);
                 } else {
@@ -32,11 +25,12 @@ module.exports = function (db, BSON) {
         // Update item
         update: function (request, response) {
             var id = request.param('id');
-            var fieldsToUpdate = request.body;
-            var collection = db.collection(COLLECTION_NAME);
+            var item = request.body;
+            delete item._id;
 
+            var collection = db.collection(COLLECTION_NAME);
             collection.update({'_id' : new BSON.ObjectID(id)},
-                {$set: fieldsToUpdate}, function (err, result) {
+                item, {safe: true}, function (err, result) {
                     if (err) {
                         response.send(400);
                     } else {
@@ -47,10 +41,10 @@ module.exports = function (db, BSON) {
 
 
         // GetAll Parcels
-        getAllParcels: function (request, response) {
+        getAll: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             
-            collection.find({type: 'parcel'}).toArray(function (err, results) {
+            collection.find().toArray(function (err, results) {
                 if (err) {
                     response.send(500);
                 } else {
@@ -60,10 +54,10 @@ module.exports = function (db, BSON) {
         },
 
 
-        // Generic Parcel Search
-        parcelSearch: function (request, response) {
+        // Generic Item Search
+        read: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var id, name, tracking, service
+            var id, name, tracking, service;
             var searchParam;
 
             // Check existence of paramters in order and create corresponding searchParam
