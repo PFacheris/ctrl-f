@@ -8,7 +8,7 @@
             <li class="no-highlight"><a href="#about"><div class="ribbon info"></div></a></li>
             <li class="no-highlight">
                 <a id="btnSettings" href="#"><div class="ribbon settings"></div></a>
-                <div id="login" class="tooltip-new" style="top:50px;left:-65px;">
+                <div id="login" class="tooltip-new" style="top:50px;left:-65px;opacity:0;">
                     
                 </div>
             </li>
@@ -16,16 +16,3 @@
       </section>
     </nav>
 </div>
-<script type="text/javascript">
-    $(document).ready( function() {
-        $('nav').css('background', 'none');
-    });
-    
-    $('#header').animate(
-        {top: '0px'},
-        500,
-        function() {
-            $('.ribbon').animate({marginTop: '-28px'}, 500);
-        }
-    );
-</script>
