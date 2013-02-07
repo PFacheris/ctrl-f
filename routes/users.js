@@ -46,6 +46,7 @@ module.exports = function (db, BSON) {
          * UPDATE
          */
         update: function (request, response) {
+console.log(request.body);
             var id = request.param('id');
             var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
