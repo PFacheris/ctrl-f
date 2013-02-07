@@ -43,7 +43,7 @@ window.HeaderView = Backbone.View.extend({
         if (window.activeSession.isAuthorized)
         {
             $('.login').toggleClass('login').toggleClass('settings');
-            toggleLoginBox();
+            this.toggleLoginBox();
         }
     },
 
