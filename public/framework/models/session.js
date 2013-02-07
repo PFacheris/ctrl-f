@@ -9,9 +9,7 @@ window.Session = Backbone.Model.extend({
     },
     
     isAuthorized: function() {
-        var isAuthed = _.size(this.get("token")) > 0;
-        console.log(isAuthed);
-        return isAuthed;
+        return Boolean(_.size(this.get("token")) > 0);
     }
 
 });

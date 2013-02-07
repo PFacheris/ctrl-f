@@ -42,9 +42,13 @@ window.HeaderView = Backbone.View.extend({
 
         if (window.activeSession.isAuthorized())
         {
-            console.log(window.activeSession.get("token"));
             $('.login').toggleClass('login').toggleClass('settings');
             this.toggleLoginBox();
+        }
+        else
+        {
+            $('#txtEmail').addClass('error');
+            $('#txtpassword').addClass('error');
         }
     },
 
