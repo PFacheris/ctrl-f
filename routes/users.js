@@ -50,13 +50,14 @@ module.exports = function (db, BSON) {
             var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
             var tempPull = {};  
-
+console.log(tempPull.items);
             collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 if (err) {console.log('error'); response.send(400);}
                 else {tempPull.items = result.items;}
-            
+            });    
+console.log(tempPull.items);
             request.body.items = tempPull.items.push(request.body.items);
-
+console.log(tempPull.items);
             collection.update({
                 '_id': new BSON.ObjectID(id)
             }, {
@@ -68,7 +69,7 @@ module.exports = function (db, BSON) {
                     response.send(result);
                 }
             });
-        });
+        
         },
 
 
