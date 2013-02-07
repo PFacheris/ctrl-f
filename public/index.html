@@ -16,20 +16,7 @@
     <style type="text/css">
         body
         {
-            background: url('images/bg.png');
-            position: absolute;
-            top: 0px;
-            bottom: 0px;
-            height: 100%;
-            width:100%;
-        }
-
-        header
-        {
-            position: fixed;
-            top: -45px;
-            width: 100%;
-            z-index: 5;
+            background: url('images/bg.jpg');
         }
 
         .content
@@ -43,11 +30,6 @@
             padding-top: 30px;
         }
         
-        #input
-        {
-            padding-top: 40px;
-        }
-
         .ribbon
         {
             height: 84px;
@@ -77,20 +59,44 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <!-- Modernizr Library-->
+	<script src="lib/modernizr.foundation.js"></script>
+
 </head>
 <body>
-    <header></header>
+    <header style="top: -45px;"></header>
     <div class="content"></div>
     <footer>
-        <ul class="inline-list">
-            <li style="float:left;"><a href="#">Home</a></p></li>
-            <li style="float:right;">&copy;2013 1505, Inc.</li>
-        </ul>
+    <div class="row">
+        <div class="twelve columns">
+            <ul class="inline-list">
+                <li style="float:left;"><a href="#">Return to Top</a></p></li>
+                <li style="float:right;">&copy;2013 1505, Inc.</li>
+            </ul>
+        </div>
+    </div>
+</div>
     </footer>
 
 	<!-- Included JS Files -->
-	<script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <!-- Foundation Includes -->
+    <script src="lib/jquery.foundation.mediaQueryToggle.js"></script>
+    <script src="lib/jquery.foundation.forms.js"></script>
+    <script src="lib/jquery.event.move.js"></script>
+    <script src="lib/jquery.event.swipe.js"></script>
+    <script src="lib/jquery.foundation.navigation.js"></script>
+    <script src="lib/jquery.foundation.buttons.js"></script>
+    <script src="lib/jquery.foundation.tabs.js"></script>
+    <script src="lib/jquery.foundation.tooltips.js"></script>
+    <script src="lib/jquery.foundation.accordion.js"></script>
+    <script src="lib/jquery.placeholder.js"></script>
+    <script src="lib/jquery.foundation.alerts.js"></script>
+    <script src="lib/jquery.foundation.topbar.js"></script>
+
+    <!-- Backbone Framework -->
 	<script src="lib/json2.min.js"></script>
+	<script src="lib/jquery.xml2json.js"></script>
 	<script src="lib/underscore.min.js"></script>
     <script src="lib/backbone.min.js"></script>
     <script src="framework/utils.js"></script>
@@ -101,6 +107,9 @@
     <script src="framework/views/home.js"></script>
     <script src="framework/views/index.js"></script>
     <script src="framework/routes.js"></script>
+
+    <!-- Initialize JS -->
+    <script src="lib/app.js"></script>
 
 </body>
 </html>
