@@ -49,7 +49,7 @@ module.exports = function (db, BSON) {
             var id = request.param('id');
             var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
-            
+            console.log(fieldsToUpdate);
             /*collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 var tempPull = {};
                 if (err) {console.log('error'); response.send(400);}
@@ -70,6 +70,7 @@ module.exports = function (db, BSON) {
                         response.send(result);
                     }
                 });
+                console.log('update Path taken');
             } else if (request.param('selector') == 'addItem') {
                 collection.update({
                     '_id': new BSON.ObjectID(id)
@@ -82,7 +83,10 @@ module.exports = function (db, BSON) {
                         response.send(result);
                     }
                 });
-            }
+                console.log('addToSet Path taken');
+            } else {
+                response.send('Improper Request');
+                console.log('Improper Request');
         },
 
 
