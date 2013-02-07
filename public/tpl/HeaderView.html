@@ -1,8 +1,7 @@
-<div class="contain-to-grid">
+<div id="header" class="contain-to-grid fixed" style="top: -45px;">
     <nav class="top-bar">
       <ul>
           <li class="name"><h1><a href="#"><img src="/images/logo.png" width="40px">&nbsp;ctrl-f</a></h1></li>
-        <li class="toggle-topbar"><a href="#"></a></li>
       </ul>
       <section>
         <ul class="right">
@@ -19,7 +18,7 @@
     var hasEntered = false;
     //$(window).on("mouseenter", function() {
         if (!hasEntered){
-            $('header').animate(
+            $('#header').animate(
                 {top: '0px'},
                 500,
                 function() {

@@ -2269,7 +2269,7 @@ ul.flyout li.active a, .nav-bar li ul li.active a {
 /* Element that controls breakpoint, no need to change this ever */
 /* line 16, ../../../../../.rvm/gems/ruby-1.9.3-p374/gems/zurb-foundation-3.2.5/scss/foundation/components/modules/_topbar.scss */
 .top-bar-js-breakpoint {
-  width: 940px !important;
+  width: 1px !important;
   visibility: hidden;
 }
 
@@ -5700,7 +5700,7 @@ table.hide-for-medium {
   }
 }
 /* Topbar Specific Breakpoint that you can customize */
-@media only screen and (max-width: 940px) {
+@media only screen and (max-width: 1px) {
   /* line 354, ../../../../../.rvm/gems/ruby-1.9.3-p374/gems/zurb-foundation-3.2.5/scss/foundation/components/modules/_mqueries.scss */
   .top-bar {
     margin-bottom: 0;
