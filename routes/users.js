@@ -61,7 +61,7 @@ console.log(tempPull.items);console.log(request.body.items);
             collection.update({
                 '_id': new BSON.ObjectID(id)
             }, {
-                $addToSet: fieldsToUpdate
+                $set: fieldsToUpdate
             }, function (err, result) {
                 if (err) {
                     response.send(400);
