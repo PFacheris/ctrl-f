@@ -54,7 +54,7 @@ console.log('request.body' + request.body);
 
             collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 if (err) {response.send(400);}
-                else {tempPull = result[0].items; console.log('result.items' +result[0].items);console.log('result' +result)}
+                else {tempPull = result.items.toArray(); console.log('result.items' +result[0].items);console.log('result' +result)}
             });
 console.log('tempPull' +tempPull);
 console.log('request.body.item' +request.body.item);
