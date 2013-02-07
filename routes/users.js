@@ -57,7 +57,7 @@ module.exports = function (db, BSON) {
                 
 console.log(tempPull.items);console.log(request.body.items);
             request.body.items = tempPull.items.push(request.body.items);
-console.log(tempPull.items);request.body.item(request.body.items);
+console.log(tempPull.items);console.log(request.body.items);
             collection.update({
                 '_id': new BSON.ObjectID(id)
             }, {
