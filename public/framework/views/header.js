@@ -19,13 +19,29 @@ window.HeaderView = Backbone.View.extend({
     },
     
     events: {
-        "click .settings"    : "toggleLoginBox"
+        "click .settings"     : "toggleLoginBox",
+        "click #btnSubmit"    : "login",
+        "click #btnCancel"    : "toggleLoginBox"
     },
 
     toggleLoginBox: function () {
         var newOpacity = ($('#login').css('opacity') == 0) ? 1 : 0;
         $('#login').animate({opacity: newOpacity}, 500);
-    }/*,
+    },
+    
+    login: function () {
+        window.activeSession.set(
+            {
+                email: $('#txtEmail').val(),
+                password: $('#txtPassword').val()
+            },{
+                silent:true
+            }
+        );
+        window.activeSession.save();
+
+    }
+    /*,
 
     showActive: function (menuItem) {
         $('.ribbon').removeClass('active');

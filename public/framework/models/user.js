@@ -2,16 +2,36 @@ window.User = Backbone.Model.extend({
     urlRoot: "/user",
     idAttribute: "_id",
 
-    validate: function (attrs) {
-        var invalid = [];
-        var regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"; 
+    initialize: function () {
+        this.validators = {};
         
-        if (!regex.test(attrs.email)) invalid.push("email");
-        if (attrs.firstName.length <= 0) invalid.push("first name");
-        if (attrs.lastName.length <= 0) invalid.push("last name");
-        if (attrs.password.length < 6) invalid.push("password length");
+        this.validators.firstName = function (value) {
+            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a first name"};
+        };
 
-        if (invalid.length > 0) return invalid;
+        this.validators.lastName = function (value) {
+            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a last name"};
+        };
+
+        this.validators.email = function(value) {
+            var regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+            return regex.test(attrs.email) ? {isValid: true} : {isValid: false, message: "You must enter a valid email"};
+        }
+    },
+
+    validateAll: function (attrs) {
+        var messages = {};
+
+        for (var key in this.validators) {
+            if(this.validators.hasOwnProperty(key)) {
+                var check = this.validators[key](this.get(key));
+                if (check.isValid === false) {
+                    messages[key] = check.message;
+                }
+            }
+        }
+
+        return _.size(messages) > 0 ? {isValid: false, messages: messages} : {isValid: true};
     },
 
     defaults: {

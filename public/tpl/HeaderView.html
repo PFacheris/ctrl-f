@@ -1,18 +1,24 @@
 <div id="header" class="contain-to-grid fixed" style="top: -45px;">
     <nav class="top-bar">
-      <ul>
-          <li class="name"><h1><a href="#"><img src="/images/logo.png" width="40px">&nbsp;ctrl-f</a></h1></li>
-      </ul>
-      <section>
-        <ul class="right">
-            <li class="no-highlight"><a href="#about"><div class="ribbon info"></div></a></li>
-            <li class="no-highlight">
-                <a id="btnSettings"><div class="ribbon settings"></div></a>
-                <div id="login" class="tooltip-new" style="top:50px;left:-65px;opacity:0;">
-                    
-                </div>
-            </li>
-        </ul>
-      </section>
+    <ul>
+        <li class="name"><h1><a href="#"><img src="/images/logo.png" width="40px">&nbsp;ctrl-f</a></h1></li>
+    </ul>
+    <section>
+    <ul class="right">
+        <li class="no-highlight"><a href="#about"><div class="ribbon info"></div></a></li>
+        <li class="no-highlight">
+        <a id="btnSettings"><div class="ribbon settings"></div></a>
+        <div id="login" class="tooltip-new" style="top:50px;left:-65px;opacity:0;width:250px;height:165px;">
+            <form id="loginForm">
+                        <input id="txtEmail" type="text" placeholder="Email Address" />
+                        <input id="txtPassword" type="password" placeholder="Password" />
+                        <a id="btnSubmit" class="secondary button small radius" style="color:#111">Login</a>
+                        <a id="btnCancel" class="secondary button small radius" style="color:#111">Cancel</a>
+                        <div style="font-size:10px;"><a style="display:inline;font-size:10px;">Forgot Password?</a> or <a style="display:inline;font-size:10px;" href="#register">Get an Account</a><div>
+            </form> 
+        </div>
+        </li>
+    </ul>
+    </section>
     </nav>
 </div>
