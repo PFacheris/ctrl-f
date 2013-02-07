@@ -55,7 +55,7 @@ console.log('request.body' + request.body);
             collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 if (err) {console.log('error'); response.send(400);}
                 else {tempPull = result.items; tempPull1 = tempPull; console.log('tempPull1' +tempPull1); console.log('tempPull' +tempPull); console.log('result.items' +result.items);console.log('result' +result);}
-            });
+            
 console.log('tempPull2' +tempPull); console.log('tempPull12' +tempPull1);
 console.log('request.body.item' +request.body.items);
             request.body.items = tempPull.push(request.body.items);
@@ -71,6 +71,7 @@ console.log('request.body.item' +request.body.items);
                     response.send(result);
                 }
             });
+        });
         },
 
 
