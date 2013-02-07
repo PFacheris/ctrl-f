@@ -75,7 +75,7 @@ module.exports = function (db, BSON) {
                 collection.update({
                     '_id': new BSON.ObjectID(id)
                 }, {
-                    $addToSet: fieldsToUpdate
+                    $addToSet: {items: request.param('items')}
                 }, function (err, result) {
                     if (err) {
                         response.send(400);
