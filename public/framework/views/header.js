@@ -19,7 +19,7 @@ window.HeaderView = Backbone.View.extend({
     },
     
     events: {
-        "click #btnSettings"    : "toggleLoginBox"
+        "click .settings"    : "toggleLoginBox"
     },
 
     toggleLoginBox: function () {
