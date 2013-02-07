@@ -19,7 +19,7 @@ window.HeaderView = Backbone.View.extend({
     },
     
     events: {
-        "click .settings"     : "toggleLoginBox",
+        "click .login"     : "toggleLoginBox",
         "click #btnSubmit"    : "login",
         "click #btnCancel"    : "toggleLoginBox"
     },
@@ -40,8 +40,12 @@ window.HeaderView = Backbone.View.extend({
         );
         window.activeSession.save();
 
-    }
-    /*,
+        if (window.activeSession.isAuthorized)
+        {
+            $('.login').toggleClass('login').toggleClass('settings');
+            toggleLoginBox();
+        }
+    },
 
     showActive: function (menuItem) {
         $('.ribbon').removeClass('active');
@@ -49,6 +53,6 @@ window.HeaderView = Backbone.View.extend({
             $('.' + menuItem).addClass('active');
         }
     }
-*/
+
 });
 

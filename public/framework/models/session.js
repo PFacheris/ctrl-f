@@ -3,13 +3,13 @@ window.Session = Backbone.Model.extend({
     idAttribute: "_id", 
 
     defaults: {
-        _id: "",
+        token: "",
         email: "",
         password: "",
     },
     
     isAuthorized: function() {
-       return Boolean(this.get("sessionId"));
+       return this.fetch();
     }
 
 });

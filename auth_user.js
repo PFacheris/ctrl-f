@@ -21,7 +21,7 @@ module.exports = function (db, BSON) {
                 if (user['passwdHash'] == passwdHash) {
                     var token = BSON.ObjectID();
                     request.session.userToken = token;
-                    response.send(token);
+                    response.send({email: email, password: "", token: token});
                 } else {
                     response.send(401);
                 }
@@ -58,7 +58,7 @@ module.exports = function (db, BSON) {
                     var token = BSON.ObjectID();
                     request.session.userToken = null;
                     request.session.userToken = token;
-                    response.send(token);
+                    response.send({email: email, password: "", token: token});
                 } else {
                     response.send(401);
                 }
