@@ -23,10 +23,10 @@ module.exports = function (db, BSON) {
                             request.session.userToken = token;
                             response.send({email: email, password: "", token: token});
                         } else {
-                            response.send(401);
+                            response.send({email: email, password: "", token: ""});
                         }
                     } else {
-                        response.send(401);
+                        response.send({email: email, password: "", token: ""});
                     }
                 }
             });
@@ -36,10 +36,10 @@ module.exports = function (db, BSON) {
         read: function (request, response, next) {
             var token = request.session.userToken;
             if (token && request.param('token') == token) {
-                response.send(200);
+                response.send({email: email, password: "", token: token});
             }
             else {
-                response.send(401);
+                response.send({email: email, password: "", token: ""});
             }
         },
 
@@ -66,10 +66,10 @@ module.exports = function (db, BSON) {
                         request.session.userToken = token;
                         response.send({email: email, password: "", token: token});
                     } else {
-                        response.send(401);
+                        response.send({email: email, password: "", token: ""});
                     }
                 } else {
-                    response.send(401);
+                        response.send({email: email, password: "", token: ""});
                 }
             }); 
         },
