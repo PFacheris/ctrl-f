@@ -1,8 +1,8 @@
-var Package = Backbone.Model.extend({
-    idAttribute = "_id",
+var Package = Item.extend({
+
+    type: "Parcel",
 
     defaults: {
-        _id: null,
         trackingNumber: "",
         deliveryService: "",
         arrived: false,
@@ -12,12 +12,11 @@ var Package = Backbone.Model.extend({
         var invalid = [];
         if (attrs.trackingNumber.length <= 0) invalid.push("tracking number");
         if (attrs.deliveryService.length <= 0) invalid.push("delivery service");
-
     },
 
-    startTrack: function(orderNum, service) {
-        this.deliveryService = service;
-        this.trackingNumber = orderNum;
+    getName: function() {
+        return (name == "") ? ("Package from " + deliveryService) : name;
     }
+
 
 });

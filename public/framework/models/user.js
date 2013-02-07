@@ -11,6 +11,7 @@ window.User = Backbone.Model.extend({
         if (attrs.lastName.length <= 0) invalid.push("last name");
         if (attrs.password.length < 6) invalid.push("password length");
 
+        if (invalid.length > 0) return invalid;
     },
 
     defaults: {
