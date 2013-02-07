@@ -53,12 +53,12 @@ console.log('request.body' + request.body);
             var tempPull;            
 
             collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
-                if (err) {response.send(400);}
-                else {tempPull = result.items.toArray(); console.log('result.items' +result[0].items);console.log('result' +result)}
+                if (err) {console.log('error'); response.send(400);}
+                else {tempPull = result.items; console.log('result.items' +result.items);console.log('result' +result)}
             });
 console.log('tempPull' +tempPull);
-console.log('request.body.item' +request.body.item);
-            request.body.items = tempPull.push(request.body.item);
+console.log('request.body.item' +request.body.items);
+            request.body.items = tempPull.push(request.body.items);
 
             collection.update({
                 '_id': new BSON.ObjectID(id)
