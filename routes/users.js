@@ -50,26 +50,39 @@ module.exports = function (db, BSON) {
             var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
             
-            collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
+            /*collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 var tempPull = {};
                 if (err) {console.log('error'); response.send(400);}
                 else {tempPull.items = result.items;}
                 
-console.log(tempPull.items);console.log(request.body.items);
             request.body.items = tempPull.items.push(request.body.items);
-console.log(tempPull.items);console.log(request.body.items);
-            collection.update({
-                '_id': new BSON.ObjectID(id)
-            }, {
-                $set: fieldsToUpdate
-            }, function (err, result) {
-                if (err) {
-                    response.send(400);
-                } else {
-                    response.send(result);
-                }
-            });
-        });
+            */
+            
+            if (request.param('selector') == 'update') {
+                collection.update({
+                    '_id': new BSON.ObjectID(id)
+                }, {
+                    $set: fieldsToUpdate
+                }, function (err, result) {
+                    if (err) {
+                        response.send(400);
+                    } else {
+                        response.send(result);
+                    }
+                });
+            } else if (request.param('selector') == 'addItem') {
+                collection.update({
+                    '_id': new BSON.ObjectID(id)
+                }, {
+                    $addToSet: fieldsToUpdate
+                }, function (err, result) {
+                    if (err) {
+                        response.send(400);
+                    } else {
+                        response.send(result);
+                    }
+                });
+            }
         },
 
 
