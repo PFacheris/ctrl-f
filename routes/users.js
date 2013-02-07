@@ -49,10 +49,19 @@ module.exports = function (db, BSON) {
             var id = request.param('id');
             var fieldsToUpdate = request.body;
             var collection = db.collection(COLLECTION_NAME);
+            var tempPull;            
+
+            collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
+                if (err) {response.send(400);}
+                else {tempPull = result.items;}
+            });
+
+            request.body.items = tempPull.push(request.body.items);
+
             collection.update({
                 '_id': new BSON.ObjectID(id)
             }, {
-                $set: fieldsToUpdate
+                $addToSet: fieldsToUpdate
             }, function (err, result) {
                 if (err) {
                     response.send(400);
