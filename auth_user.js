@@ -16,14 +16,14 @@ module.exports = function (db, BSON) {
                     response.send({'error': 'An error has occured - ' + err});
                 } else {
                     user = result;
-                }
-                
-                if (user['passwdHash'] == passwdHash) {
-                    var token = BSON.ObjectID();
-                    request.session.userToken = token;
-                    response.send({email: email, password: "", token: token});
-                } else {
-                    response.send(401);
+
+                    if (user['passwdHash'] == passwdHash) {
+                        var token = BSON.ObjectID();
+                        request.session.userToken = token;
+                        response.send({email: email, password: "", token: token});
+                    } else {
+                        response.send(401);
+                    }
                 }
             });
         },
@@ -41,7 +41,7 @@ module.exports = function (db, BSON) {
 
         update: function (request, response)
         {
-           var usersCollection = db.collection(COLLECTION_NAME);
+            var usersCollection = db.collection(COLLECTION_NAME);
             var email = request.param('email');
             var password = request.param('password');            
             var passwdHash = utilities.pwHash(password);
@@ -53,7 +53,7 @@ module.exports = function (db, BSON) {
                 } else {
                     user = result;
                 }
-                
+
                 if (user['passwdHash'] == passwdHash) {
                     var token = BSON.ObjectID();
                     request.session.userToken = null;
