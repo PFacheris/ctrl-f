@@ -17,7 +17,7 @@
         $('nav').css('background', 'none');
     });
     var hasEntered = false;
-    $(window).on("mouseenter", function() {
+    //$(window).on("mouseenter", function() {
         if (!hasEntered){
             $('header').animate(
                 {top: '0px'},
@@ -29,7 +29,7 @@
             hasEntered = true;
         }
         
-    });
+    //});
 
     $('.ribbon').on("mouseenter mouseleave", function() {
         
