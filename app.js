@@ -78,10 +78,10 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.delete('/user', user.destroy);
 
     // Item Actions
-    app.post('/item', item.createParcel);
+    app.post('/item', item.create);
     app.put('/item', item.update);
-    app.get('/items', item.getAllParcels);
-    app.get('/item', item.parcelSearch);
+    app.get('/items', item.getAll);
+    app.get('/item', item.read);
     app.delete('/item', item.destroy);
 
 //CHAE TESTING
