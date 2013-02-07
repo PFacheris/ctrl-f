@@ -17,10 +17,14 @@ module.exports = function (db, BSON) {
                 } else {
                     user = result;
 
-                    if (user['passwdHash'] == passwdHash) {
-                        var token = BSON.ObjectID();
-                        request.session.userToken = token;
-                        response.send({email: email, password: "", token: token});
+                    if (user != null) {
+                        if (user['passwdHash'] == passwdHash) {
+                            var token = BSON.ObjectID();
+                            request.session.userToken = token;
+                            response.send({email: email, password: "", token: token});
+                        } else {
+                            response.send(401);
+                        }
                     } else {
                         response.send(401);
                     }
@@ -54,11 +58,16 @@ module.exports = function (db, BSON) {
                     user = result;
                 }
 
-                if (user['passwdHash'] == passwdHash) {
-                    var token = BSON.ObjectID();
-                    request.session.userToken = null;
-                    request.session.userToken = token;
-                    response.send({email: email, password: "", token: token});
+                if (user != null) {
+
+                    if (user['passwdHash'] == passwdHash) {
+                        var token = BSON.ObjectID();
+                        request.session.userToken = null;
+                        request.session.userToken = token;
+                        response.send({email: email, password: "", token: token});
+                    } else {
+                        response.send(401);
+                    }
                 } else {
                     response.send(401);
                 }
