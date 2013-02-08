@@ -8,7 +8,7 @@
         <li class="no-highlight"><a href="#about"><div class="ribbon info"></div></a></li>
         <li class="no-highlight">
         <a><div class="ribbon login"></div></a>
-        <div id="login" class="tooltip-new" style="top:50px;left:-65px;opacity:0;width:250px;height:165px;">
+        <div id="login" class="tooltip-new" style="position:absolute;opacity:0;width:250px;height:165px;">
             <form id="loginForm">
                         <input id="txtEmail" type="text" placeholder="Email Address" />
                         <input id="txtPassword" type="password" placeholder="Password" />
@@ -18,6 +18,15 @@
             </form> 
         </div>
         </li>
+        <script type="text/javascript">
+            var tooltipPosition = function () {
+                $('#login').css('left', $('#login').parent().position().left - 65);
+                $('#login').css('top', $('#login').parent().position().top + 70);
+            }
+
+            $(window).resize(tooltipPosition);
+            tooltipPosition();
+        </script>
         <li class="no-highlight"><a href="#me"><div class="ribbon settings" style="display:none;"></div></a></li>
     </ul>
     </section>
