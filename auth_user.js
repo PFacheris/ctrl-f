@@ -35,6 +35,7 @@ module.exports = function (db, BSON) {
         // Check if Authenticated
         read: function (request, response, next) {
             var token = request.session.userToken;
+            console.log(token);
             if (token && request.param('token') == token) {
                 response.send({email: email, password: "", token: token});
             }
