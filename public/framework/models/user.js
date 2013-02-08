@@ -3,6 +3,7 @@ window.User = Backbone.Model.extend({
     idAttribute: "_id",
 
     initialize: function () {
+        var self = this;
         this.validators = {};
         
         this.validators.firstName = function (value) {
@@ -23,7 +24,7 @@ window.User = Backbone.Model.extend({
         };
 
         this.validators.passwordConfirm = function (value) {
-            return value == this.get('password') ? {isValid: true} : {isValid: false, message: "Passwords must match."};
+            return value == self.get('password') ? {isValid: true} : {isValid: false, message: "Passwords must match."};
         };
     },
 
