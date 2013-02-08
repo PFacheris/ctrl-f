@@ -18,10 +18,10 @@ var SendGrid = require('sendgrid').SendGrid,
             });
         };
 
-        // confirmation email
-        exports.confirmationEmail= function (request, response) {
+        // sign up confirmation email
+        exports.confirmationEmail= function (email) {
             var message = {
-                to: request.param('to'),
+                to: email,
                 from: 'club1505inc@gmail.com',
                 fromname: 'ctrl-f',
                 subject: 'Welcome to ctrl-f!',
