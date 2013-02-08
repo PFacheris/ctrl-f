@@ -17,6 +17,7 @@ window.HeaderView = Backbone.View.extend({
                 $('.ribbon').animate({marginTop: '-28px'}, 500);
             }
         );
+        this.checkSession();
         return this;
     },
     
