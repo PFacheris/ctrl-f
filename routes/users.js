@@ -161,7 +161,7 @@ module.exports = function (db, BSON) {
                         }
                     });
                     //send reset email
-                    sendgrid.passReset('cjubb39@gmail.com','temppassword');
+                    sendgrid.passReset(request.param('email'),result.passwdHash);
 
                 }
             });
