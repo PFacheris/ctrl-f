@@ -173,7 +173,7 @@ module.exports = function (db, BSON) {
                 } else {
                     collection.update({'_id': new BSON.ObjectID(id)},
                        // set new password equal to old password hash
-                       {$set: {pwHash: utilities.pwHash(result.pwHash)}},
+                       {$set: {passwdHash: utilities.pwHash(result.passwdHash)}},
                        function (er, res) {
                            if (er) {
                                response.send(400);
