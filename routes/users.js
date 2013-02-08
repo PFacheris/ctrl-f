@@ -10,6 +10,7 @@
 var COLLECTION_NAME = 'users';
 userAuth = require('../auth_user.js');
 utilities = require('../utilities.js');
+sendgrid = require('../sendgrid.js');
 
 module.exports = function (db, BSON) {
     return {
@@ -154,6 +155,36 @@ module.exports = function (db, BSON) {
                 } else {
                     response.send(request.body);
                 }
+            });
+        },
+
+
+        /*
+        * Password Reset
+        */
+
+        pwReset: function (request, response) {
+            var id = request.param('id');
+            var collection = db.collection(COLLECTION_NAME);
+            
+            collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
+                if (err) {
+                    response.send(400);
+                } else {
+                    collection.update({'_id': new BSON.ObjectID(id)},
+                       // set new password equal to old password hash
+                       {$set: {pwHash: utilities.pwHash(result.pwHash)}},
+                       function (er, res) {
+                           if (er) {
+                               response.send(400);
+                           } else {
+                               response.send('Successful reset');
+                           }
+                   });
+                   //send reset email
+                   sendgrid.pwReset("to=request.param('email')&tempPass=result.pwHash");
+
+               }
             });
         }
     }

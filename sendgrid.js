@@ -1,23 +1,53 @@
-var email = require("mailer");
-module.exports = function () {
+module.exports = function (mailer, db) {
     return {
+        // send Single Email with specified to, subject, text body
         singleEmail: function (request, response) {
             var message = {
-                host: 'smtp.sendgrid.net',
-                port: "587",
-                domain: 'ctrl-f.herokuapp.com',
                 to: request.param('to'),
                 from: 'club1505inc@gmail.com', 
+                fromname: 'ctrl-f',
                 subject: request.param('subject'),
                 text: request.param('text'),
-                authentication: 'login',
-                username: 'club1505',
-                password: 'schaprio'
             };
 
-            email.send(message, function(err, result) {
-                if (err) {
-                    console.log(err);
+            mailer.send(message, function(success, message) {
+                if (!success) {
+                    console.log(message);
+                }
+            });
+        },
+
+        // confirmation email
+        confirmationEmail: function (request, response) {
+            var message = {
+                to: request.param('to'),
+                from: 'club1505inc@gmail.com',
+                fromname: 'ctrl-f',
+                subject: 'Welcome to ctrl-f!',
+                html: "Welcome to ctrl-f!  We're just three hooligans tyring to help you find your stuff! <br> Come visit us at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a><br><br>We hope you enjoy! <br> Chae, Patrick, & Ted"
+            };
+
+            mailer.send(message, function (success, message) {
+                if (!success) {
+                    console.log(message);
+                }
+           });
+
+        },
+
+        // password reset email
+        pwReset: function (request, response) {
+            var message = {
+                to: request.param('to'),
+                from: 'club1505inc@gmail.com',
+                fromname: 'ctrl-f Password Rest',
+                subject: 'Your Password has been Reset!',
+                html: "Your password has been reset by one of the three hooligans.  Use the below password to login and manually reset your password. <br><br>&nbsp;&nbsp;&nbsp;&nbsp;Password: " + request.param('tempPass') + "<br><br>Find your stuff at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a>"
+            };
+
+            mailer.send(message, function (success, message) {
+                if (!success) {
+                    console.log(message);
                 }
             });
         }
