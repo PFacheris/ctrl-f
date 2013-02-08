@@ -14,8 +14,8 @@ window.User = Backbone.Model.extend({
         };
 
         this.validators.email = function(value) {
-            var regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-            return regex.test(attrs.email) ? {isValid: true} : {isValid: false, message: "You must enter a valid email"};
+            var regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+            return regex.test(value) ? {isValid: true} : {isValid: false, message: "You must enter a valid email"};
         }
     },
 
@@ -34,10 +34,16 @@ window.User = Backbone.Model.extend({
         return _.size(messages) > 0 ? {isValid: false, messages: messages} : {isValid: true};
     },
 
+    validateItem: function (key) {
+        return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
+    },
+
+
     defaults: {
         _id: null,
         firstName: "",
         lastName: "",
+        password: "",
         email: ""
     },
     
