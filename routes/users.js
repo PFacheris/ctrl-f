@@ -93,11 +93,12 @@ module.exports = function (db, BSON) {
                 id = request.param('id');
                 searchParam = {'_id': new BSON.ObjectID(id)};
 
-            } /*else if (request.param('item')) {
+            } 
+            else if (request.param('item')) {
                 item = request.param('item');
                 searchParam = {'items': item};
 
-            }*/ 
+            } 
             else if (request.param('email')) {
                 email = request.param('email');
                 searchParam = {'email': email};
