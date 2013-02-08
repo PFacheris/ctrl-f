@@ -10,9 +10,7 @@ var AppRouter = Backbone.Router.extend({
 
     initialize: function () {
         window.activeSession = new window.Session;
-        var localToken = $.cookie('authtoken');
-        if (localToken)
-            window.activeSession.save({token: localToken});
+
 
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
@@ -44,15 +42,15 @@ var AppRouter = Backbone.Router.extend({
         $('.content').html(new RegisterView({model: user}).el);
         //this.headerView.selectMenuItem('home-menu');
     },
-    
+
     settings: function (id) {
-    if (!this.homeView) {
-    this.homeView = new SettingsView();
-    }
-    $('.content').html(this.homeView.el);
-    this.headerView.selectMenuItem('settings-menu');
+        if (!this.homeView) {
+            this.homeView = new SettingsView();
+        }
+        $('.content').html(this.homeView.el);
+        this.headerView.selectMenuItem('settings-menu');
     },
-    
+
     about: function () {
         if (!this.aboutView) {
             this.aboutView = new AboutView();
@@ -64,8 +62,10 @@ var AppRouter = Backbone.Router.extend({
 
 utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView"], function() {
     app = new AppRouter();
-    
-    
+
+    var localToken = $.cookie('authtoken');
+    if (localToken)
+        window.activeSession.save({token: localToken}); 
 
     Backbone.history.start();
 });

@@ -23,7 +23,6 @@ window.HeaderView = Backbone.View.extend({
         $tooltip = $(this.el).find('#login');
         $loginRibbon = $(this.el).find('.login');
         $settingsRibbon = $(this.el).find('.settings').parents('li');
-        this.changeView();
         return this;
     },
 
@@ -56,8 +55,7 @@ window.HeaderView = Backbone.View.extend({
         if (window.activeSession.isAuthorized())
         {
             $('.error').removeClass('error');
-            if ($tooltip.css('opacity') == 1)
-                this.toggleLoginBox();
+            this.toggleLoginBox();
             return true;
         }
         else
@@ -98,6 +96,7 @@ window.HeaderView = Backbone.View.extend({
     logout: function () {
         window.activeSession.id = "";
         window.activeSession.clear();
+        $.removeCookie('authtoken');
     },
 
     showActive: function (menuItem) {
