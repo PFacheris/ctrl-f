@@ -47,6 +47,9 @@ window.User = Backbone.Model.extend({
         return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
     },
 
+    addItem: function(item) {
+        this.set('items') = this.get('items').push(item);
+    },
 
     defaults: {
         _id: null,

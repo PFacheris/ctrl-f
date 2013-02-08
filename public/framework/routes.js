@@ -11,7 +11,6 @@ var AppRouter = Backbone.Router.extend({
     initialize: function () {
         window.activeSession = new window.Session;
 
-
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
     },
@@ -22,6 +21,7 @@ var AppRouter = Backbone.Router.extend({
         }
         $('.content').html(this.indexView.el);
         //this.headerView.selectMenuItem('home-menu');
+        utils.hideAlert();
     },
 
     home: function (id) {
@@ -35,6 +35,7 @@ var AppRouter = Backbone.Router.extend({
         }
         else
             app.navigate('#', false);
+        utils.hideAlert();
     },
 
     register: function () {
@@ -48,6 +49,7 @@ var AppRouter = Backbone.Router.extend({
             $('.content').html(new RegisterView({model: user}).el);
             //this.headerView.selectMenuItem('home-menu');
         }
+        utils.hideAlert();
     },
 
     settings: function (id) {
@@ -61,6 +63,7 @@ var AppRouter = Backbone.Router.extend({
         }
         else
             app.navigate('#', false);
+        utils.hideAlert();
     },
 
     about: function () {
@@ -68,6 +71,7 @@ var AppRouter = Backbone.Router.extend({
             this.aboutView = new AboutView();
         }
         $('.content').html(this.aboutView.el);
+        utils.hideAlert();
     }
 
 });
