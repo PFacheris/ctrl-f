@@ -20,20 +20,20 @@ window.utils = {
     displayValidationErrors: function (messages, parent) {
         for (var key in messages) {
             if (messages.hasOwnProperty(key)) {
-                this.addValidationError(key, messages[key], parent);
+                this.addValidationError(key, messages[key]);
             }
         }
         this.showAlert('Warning!', 'Fix validation errors and try again', 'alert', parent);
     },
 
-    addValidationError: function (field, message, parent) {
-        var controlGroup = parent.find('#' + field).siblings('small');
+    addValidationError: function (field, message) {
+        var controlGroup = $('#' + field).siblings('small');
         controlGroup.addClass('error');
         controlGroup.html(message);
     },
 
-    removeValidationError: function (field, parent) {
-        var controlGroup = parent.find('#' + field).siblings('small');
+    removeValidationError: function (field) {
+        var controlGroup = $('#' + field).siblings('small');
         controlGroup.removeClass('error');
         controlGroup.html('');
     },
@@ -45,7 +45,7 @@ window.utils = {
         parent.find('.alert-box').show();
     },
 
-    hideAlert: function() {
+    hideAlert: function(parent) {
         parent.find('.alert-box').hide();
     }
 }

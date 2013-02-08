@@ -17,7 +17,7 @@ window.RegisterView = Backbone.View.extend({
 
     change: function (event) {
         // Remove any existing alert message
-        utils.hideAlert();
+        utils.hideAlert($(this.el));
 
         // Apply the change to the model
         var target = event.target;
@@ -28,9 +28,9 @@ window.RegisterView = Backbone.View.extend({
         // Run validation rule (if any) on changed item
         var check = this.model.validateItem(target.id);
         if (check.isValid === false) {
-            utils.addValidationError(target.id, check.message, $(this.el));
+            utils.addValidationError(target.id, check.message);
         } else {
-            utils.removeValidationError(target.id, $(this.el));
+            utils.removeValidationError(target.id);
         }
     },
 
