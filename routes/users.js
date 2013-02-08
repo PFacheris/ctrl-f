@@ -8,9 +8,9 @@
  */
 // Database Settings
 var COLLECTION_NAME = 'users';
-userAuth = require('../auth_user.js');
-utilities = require('../utilities.js');
-sendgrid = require('../sendgrid.js');
+var userAuth = require('../auth_user.js');
+var utilities = require('../utilities.js');
+var sendgrid = require('../sendgrid.js');
 
 module.exports = function (db, BSON) {
     return {
@@ -184,7 +184,7 @@ console.log(result);
                            }
                    });
                    //send reset email
-                   sendgrid.pwReset(request.param('email'),tempPass=result.pwHash);
+                   sendgrid.passReset(request.param('email'),tempPass=result.pwHash);
 
                }
             });
