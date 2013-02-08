@@ -89,17 +89,17 @@ module.exports = function (db, BSON) {
             var searchParam;
 
             // Check existence of paramters in order and create corresponding searchParam
-            if (request.param('id')) {
+            if (request.param('id') && request.param('id').length > 0) {
                 id = request.param('id');
                 searchParam = {'_id': new BSON.ObjectID(id)};
 
             } 
-            else if (request.param('item')) {
+            else if (request.param('item') && request.param('item').length > 0) {
                 item = request.param('item');
                 searchParam = {'items': item};
 
             } 
-            else if (request.param('email')) {
+            else if (request.param('email') && request.param('email').length > 0) {
                 email = request.param('email');
                 searchParam = {'email': email};
 
