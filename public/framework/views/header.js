@@ -42,7 +42,17 @@ window.HeaderView = Backbone.View.extend({
 
     toggleLoginBox: function () {
         var newOpacity = ($tooltip.css('opacity') == 0) ? 1 : 0;
-        $tooltip.animate({opacity: newOpacity}, 500);
+        if (newOpacity == 0)
+        {
+            $tooltip.animate({opacity: newOpacity}, 500, function() {
+                $tooltip.toggle();
+            });
+        }
+        else
+        {
+            $tooltip.toggle();
+            $tooltip.animate({opacity: newOpacity}, 500);
+        }
     },
 
     changeView: function () {
