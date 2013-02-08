@@ -25,7 +25,7 @@ exports.confirmationEmail= function (email) {
         from: 'club1505inc@gmail.com',
         fromname: 'ctrl-f',
         subject: 'Welcome to ctrl-f!',
-        html: "Welcome to ctrl-f!  We're just three hooligans tyring to help you find your stuff! <br> Come visit us at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a><br><br>We hope you enjoy! <br> Chae, Patrick, & Ted"
+        html: "Welcome to ctrl-f!  We're just three hooligans trying to help you find your stuff! <br> Come visit us at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a><br><br>We hope you enjoy! <br> Chae, Patrick, & Ted"
     };
 
     mailer.send(message, function (success, message) {
@@ -40,7 +40,7 @@ exports.passReset = function (email, tempPass) {
     var message = {
 	to: email,
 	from: 'club1505inc@gmail.com',
-	fromname: 'ctrl-f Password Rest',
+	fromname: 'ctrl-f Password Reset',
 	subject: 'Your Password has been Reset!',
 	html: "Your password has been reset by one of the three hooligans.  Use the below password to login and manually reset your password. <br><br>&nbsp;&nbsp;&nbsp;&nbsp;Password: " + tempPass + "<br><br>Find your stuff at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a>"
     };
@@ -65,8 +65,8 @@ exports.delivery = function (email, parcelName, tracking) {
         to: email,
         from: 'club1505inc@gmail.com',
         fromname: 'ctrl-f Delivery Notifications',
-        subject: 'Your Package' + parcelname + 'has been Delievered!',
-        html: "We have received notification from your shipping company that your package" + parcelName2 + "has been delivered! <br><br>&nbsp;&nbsp;&nbsp;&nbsp;Package Name: " + parcelName + "<br>&nbsp;&nbsp;&nbsp;&nbsp;Trackgin Number: " + tracking + "<br><br>Enjoy your parcel!<br><a href='http://ctrl-f.herokuapp.com'><ctrl-f.herokapp.com</a>"
+        subject: 'Your Package ' + parcelName + ' has been Delievered!',
+        html: "We have received notification from your shipping company that your package" + parcelName2 + "has been delivered! <br><br>&nbsp;&nbsp;&nbsp;&nbsp;Package Name: " + parcelName + "<br>&nbsp;&nbsp;&nbsp;&nbsp;Tracking Number: " + tracking + "<br><br>Enjoy your parcel!<br><a href='http://ctrl-f.herokuapp.com'><ctrl-f.herokapp.com</a>"
     };
 
     mailer.send(message, function(success, message) {
