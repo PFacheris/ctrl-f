@@ -3,6 +3,7 @@ window.Session = Backbone.Model.extend({
     idAttribute: "_id", 
 
     defaults: {
+        _id: null,
         token: "",
         email: "",
         password: "",
