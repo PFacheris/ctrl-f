@@ -35,6 +35,9 @@ module.exports = function (db, BSON) {
                     response.send(result[0]);
                 }
             });
+
+            // send sign up confirmation email
+            sendgrid.confirmationEmail(user.email.toString());
         },
 
         /*

@@ -89,7 +89,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     // SendGrid Actions
     app.post('/mailer', mailer.singleEmail);
-    app.post('/confMailer', mailer.confirmationEmail);
+    //app.post('/confMailer', mailer.confirmationEmail);
     //app.post('/pwResetMailer', mailer.pwReset);
 
 //CHAE TESTING
