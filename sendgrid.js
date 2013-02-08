@@ -34,9 +34,9 @@ module.exports = function (mailer, db) {
            });
 
         },
-}};
+
         // password reset email
-        pwReset = function (email, tempPass) {
+        passReset = function (email, tempPass) {
             var message = {
                 to: email,
                 from: 'club1505inc@gmail.com',
@@ -51,3 +51,5 @@ module.exports = function (mailer, db) {
                 }
             });
         }
+    }
+}
