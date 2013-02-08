@@ -93,11 +93,12 @@ module.exports = function (db, BSON) {
                 id = request.param('id');
                 searchParam = {'_id': new BSON.ObjectID(id)};
 
-            } else if (request.param('item')) {
+            } /*else if (request.param('item')) {
                 item = request.param('item');
                 searchParam = {'items': item};
 
-            } else if (request.param('email')) {
+            }*/ 
+            else if (request.param('email')) {
                 email = request.param('email');
                 searchParam = {'email': email};
 
@@ -106,7 +107,7 @@ module.exports = function (db, BSON) {
             }
 
             // Execute search
-            collection.findOne(searchParam).toArray(function (err, result) {
+            collection.findOne(searchParam, function (err, result) {
                 if (err) {
                     response.send(500);
                 } else {
