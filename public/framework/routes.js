@@ -9,7 +9,7 @@ var AppRouter = Backbone.Router.extend({
     },
 
     initialize: function () {
-        window.activeSession = new window.Session;
+        window.activeSession = new window.Session({token:  $.cookie('authtoken')});
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
     },

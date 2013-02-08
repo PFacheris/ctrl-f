@@ -20,7 +20,7 @@ window.HeaderView = Backbone.View.extend({
         this.checkSession();
         return this;
     },
-    
+
     events: {
         "click .login"        : "toggleLoginBox",
         "click #btnSubmit"    : "login",
@@ -31,21 +31,23 @@ window.HeaderView = Backbone.View.extend({
         var newOpacity = ($('#login').css('opacity') == 0) ? 1 : 0;
         $('#login').animate({opacity: newOpacity}, 500);
     },
-    
+
     checkSession: function () {
         if (window.activeSession.isAuthorized())
         {
             $('.error').removeClass('error');
             $('.login').toggleClass('login').toggleClass('settings');
             this.toggleLoginBox();
+            return true;
         }
         else
         {
             $('#txtEmail').addClass('error');
             $('#txtPassword').addClass('error');
+            return false;
         }
     },
-    
+
     login: function () {
         window.activeSession.set(
             {
@@ -55,9 +57,21 @@ window.HeaderView = Backbone.View.extend({
                 silent:true
             }
         );
-        window.activeSession.save();
+        window.activeSession.save({}, {
+            success: function (model, response) {
+                if(this.checkSession())
+                {
+                    if ($("input[name='remember']").is(':checked'))
+                        $.cookie('authtoken', window.activeSession.get('token'), { expires: 7 });
+                    else
+                        $.cookie('authtoken', window.activeSession.get('token'));
+                }
+            },
+            error: function (model, response) {
+                console.log("Error saving session.");
+            }
+        });
 
-        this.checkSession(); 
     },
 
     showActive: function (menuItem) {
