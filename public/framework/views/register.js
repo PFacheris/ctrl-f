@@ -58,11 +58,12 @@ window.RegisterView = Backbone.View.extend({
     },
     
     login: function () {
-        var self = this;
+        var email = this.model.get('email');
+        var password = this.model.get('password');
         window.activeSession.set(
             {
-                email: self.model.email,
-                password: self.model.password
+                email: email,
+                password: password
             },{
                 silent:true
             }

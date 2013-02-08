@@ -23,7 +23,7 @@ window.utils = {
                 this.addValidationError(key, messages[key]);
             }
         }
-        this.showAlert('Warning!', 'Fix validation errors and try again', 'alert', parent);
+        this.showAlert('Warning!', 'Check your input and try again.', 'alert', parent);
     },
 
     addValidationError: function (field, message) {
@@ -39,13 +39,11 @@ window.utils = {
     },
 
     showAlert: function(title, text, klass, parent) {
-        parent.find('.alert-box').removeClass("alert success secondary");
-        parent.find('.alert-box').addClass(klass);
-        parent.find('.alert-box').html('<strong>' + title + '</strong> ' + text);
-        parent.find('.alert-box').show();
+        $('.note').html('<strong>' + title + '</strong><p style="position:relative;top:10px;font-size: 22px;line-height:20px;">' + text + '</p>');
+        $('.note').show();
     },
 
     hideAlert: function(parent) {
-        parent.find('.alert-box').hide();
+        $('.note').hide();
     }
 }

@@ -127,6 +127,22 @@
                 color: #111;
             }
 
+            .note
+            {
+                background: url('/images/note.png');
+                background-size: cover;
+                height: 140px;
+                padding: 10px 15px 10px 15px;
+                font-family: 'Just Another Hand', cursive;
+                font-size: 22px;
+                display: none;
+            }
+
+            #logo
+            {
+                font-family: 'Text Me One', sans-serif;
+            }
+
         </style>
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -142,9 +158,17 @@
         <header style="top: -45px;"></header>
         <div id="content">
             <div class="row">
-                <div class="eight columns centered">
+                <div class="two mobile-one columns">
+                    <div class="note">
+                        <strong>Warning!</strong>
+                        <p >Check your inputs to continue.</p>
+                    </div>
+                </div>
+                <div class="eight mobile-three columns">
                     <div class="panel radius content">
                     </div>
+                </div>
+                <div class="two columns">
                 </div>
             </div>
         </div>
@@ -152,7 +176,7 @@
         <div class="row">
             <div class="twelve columns">
                 <ul class="inline-list">
-                    <li style="float:left;"><a href="#">Return to Top</a></p></li>
+                    <li style="float:left;"><a id="top">Return to Top</a></p></li>
                     <li style="float:right;">&copy;2013 1505, Inc.</li>
                 </ul>
             </div>
@@ -197,5 +221,10 @@
     <!-- Initialize JS -->
     <script src="lib/app.js"></script>
 
+    <script type="text/javascript">
+        $('#top').click(function () {
+            $("html, body").animate({scrollTop: '0px'}, 500);
+        });
+    </script>
 </body>
 </html>
