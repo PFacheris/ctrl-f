@@ -57,7 +57,7 @@ var AppRouter = Backbone.Router.extend({
         {
             var user = new User({email: window.activeSession.get('email')});
             user.fetch();
-            $('.content').html(new RegisterView({model: user}).el);
+            $('.content').html(new SettingsView({model: user}).el);
         }
         else
             app.navigate('#', false);
