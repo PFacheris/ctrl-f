@@ -22,7 +22,7 @@ module.exports = function (db, BSON) {
                             var token = BSON.ObjectID();
                             request.session.userToken = token;
                             request.session.userEmail = email;
-                            response.send({email, password: "", token: token});
+                            response.send({email: email, password: "", token: token});
                         } else {
                             response.send({email: email, password: "", token: ""});
                         }
