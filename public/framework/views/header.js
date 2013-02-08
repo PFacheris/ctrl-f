@@ -36,8 +36,10 @@ window.HeaderView = Backbone.View.extend({
         if (window.activeSession.isAuthorized())
         {
             $('.error').removeClass('error');
-            $('.login').toggleClass('login').toggleClass('settings');
-            this.toggleLoginBox();
+            $('.login').toggleClass('login').toggleClass('logout');
+            $('.settings').toggle();
+            if ($('#login').css('opacity') == 1)
+                this.toggleLoginBox();
             return true;
         }
         else
