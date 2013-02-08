@@ -23,7 +23,7 @@ var AppRouter = Backbone.Router.extend({
     },
 
     home: function (id) {
-        if (window.activeSession.isAuthorized)
+        if (window.activeSession.isAuthorized())
         {
             if (!this.homeView) {
                 this.homeView = new HomeView();
