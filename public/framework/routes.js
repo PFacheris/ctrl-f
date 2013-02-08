@@ -4,12 +4,16 @@ var AppRouter = Backbone.Router.extend({
         ""                  : "index",
         "home"            	: "home",
         "register"          : "register",
-        "me"      	    : "settings",
+        "me"      	        : "settings",
         "about"             : "about"
     },
 
     initialize: function () {
         window.activeSession = new window.Session;
+        var localToken = $.cookie('authtoken');
+        if (localToken)
+            window.activeSession.save({token: localToken});
+
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
     },
@@ -61,9 +65,7 @@ var AppRouter = Backbone.Router.extend({
 utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView"], function() {
     app = new AppRouter();
     
-    var localToken = $.cookie('authtoken');
-    if (localToken)
-        window.activeSession.save({token: localToken});
+    
 
     Backbone.history.start();
 });
