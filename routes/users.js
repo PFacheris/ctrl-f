@@ -85,36 +85,18 @@ module.exports = function (db, BSON) {
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var email, item, id;
-            var searchParam;
+            var user = request.body; 
 
-            // Check existence of paramters in order and create corresponding searchParam
-            if (request.param('id') && request.param('id').length > 0) {
-                id = request.param('id');
-                searchParam = {'_id': new BSON.ObjectID(id)};
-
-            } 
-            else if (request.param('item') && request.param('item').length > 0) {
-                item = request.param('item');
-                searchParam = {'items': item};
-
-            } 
-            else if (request.param('email') && request.param('email').length > 0) {
-                email = request.param('email');
-                searchParam = {'email': email};
-
-            }
-
-            if (searchParam)
+            if (user)
             {
-            // Execute search
-            collection.findOne(searchParam, function (err, result) {
-                if (err) {
-                    response.send(500);
-                } else {
-                    response.send(result);
-                }
-            });
+                // Execute search
+                collection.findOne(user, function (err, result) {
+                    if (err) {
+                        response.send(500);
+                    } else {
+                        response.send(result);
+                    }
+                });
             }
             else
             {
