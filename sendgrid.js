@@ -1,7 +1,8 @@
-module.exports = function (mailer, db) {
-    return {
+var SendGrid = require('sendgrid').SendGrid,
+    mailer = new SendGrid('club1505', 'schapiro'); 
+
         // send Single Email with specified to, subject, text body
-        singleEmail: function (request, response) {
+        exports.singleEmail= function (request, response) {
             var message = {
                 to: request.param('to'),
                 from: 'club1505inc@gmail.com', 
@@ -15,10 +16,10 @@ module.exports = function (mailer, db) {
                     console.log(message);
                 }
             });
-        },
+        };
 
         // confirmation email
-        confirmationEmail: function (request, response) {
+        exports.confirmationEmail= function (request, response) {
             var message = {
                 to: request.param('to'),
                 from: 'club1505inc@gmail.com',
@@ -33,10 +34,10 @@ module.exports = function (mailer, db) {
                 }
            });
 
-        },
+        };
 
         // password reset email
-        passReset: function (email, tempPass) {
+        exports.passReset= function (email, tempPass) {
             var message = {
                 to: email,
                 from: 'club1505inc@gmail.com',
@@ -50,6 +51,4 @@ module.exports = function (mailer, db) {
                     console.log(message);
                 }
             });
-        }
-    }
-}
+        };
