@@ -20,7 +20,7 @@ window.User = Backbone.Model.extend({
         }
 
         this.validators.password = function (value) {
-            return value.length > 0 ? {isValid: true} : {isValid: false, message: "Password must be 6 characters or longer"};
+            return value.length > 5 ? {isValid: true} : {isValid: false, message: "Password must be 6 characters or longer"};
         };
 
         this.validators.passwordConfirm = function (value) {

@@ -5,7 +5,7 @@ window.RegisterView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).html(this.template());
         return this;
     },
 
@@ -28,9 +28,9 @@ window.RegisterView = Backbone.View.extend({
         // Run validation rule (if any) on changed item
         var check = this.model.validateItem(target.id);
         if (check.isValid === false) {
-            utils.addValidationError(target.id, check.message);
+            utils.addValidationError(target.id, check.message, $(this.el));
         } else {
-            utils.removeValidationError(target.id);
+            utils.removeValidationError(target.id, $(this.el));
         }
     },
 
@@ -43,7 +43,7 @@ window.RegisterView = Backbone.View.extend({
         var self = this;
         var check = this.model.validateAll();
         if (check.isValid === false) {
-            utils.displayValidationErrors(check.messages);
+            utils.displayValidationErrors(check.messages, $(this.el));
             return false;
         }
         
@@ -52,21 +52,33 @@ window.RegisterView = Backbone.View.extend({
     },
 
     saveUser: function () {
-        var self = this;
         this.model.save(); 
+        this.login();
+        app.navigate('home', false);
     },
-
-    session: function () {
+    
+    login: function () {
+        var self = this;
         window.activeSession.set(
             {
-                email: this.model.email,
-                password: this.model.password
+                email: self.model.email,
+                password: self.model.password
             },{
                 silent:true
             }
         );
-        window.activeSession.save();
-    }
 
+        window.activeSession.save({}, {
+            success: function (model, response) {
+                if(window.activeSession.isAuthorized())
+                        $.cookie('authtoken', window.activeSession.get('token'));
+            },
+            error: function (model, response) {
+                console.log("Error saving session.");
+            }
+        });
+
+    }
+    
 });
 

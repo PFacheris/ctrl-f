@@ -34,21 +34,33 @@ var AppRouter = Backbone.Router.extend({
             //this.headerView.selectMenuItem('home-menu');
         }
         else
-            app.navigate('#');
+            app.navigate('#', false);
     },
 
     register: function () {
-        var user = new User();
-        $('.content').html(new RegisterView({model: user}).el);
-        //this.headerView.selectMenuItem('home-menu');
+        if (window.activeSession.isAuthorized())
+        {
+            app.navigate('home', false);
+        }
+        else
+        {
+            var user = new User();
+            $('.content').html(new RegisterView({model: user}).el);
+            //this.headerView.selectMenuItem('home-menu');
+        }
     },
 
     settings: function (id) {
-        if (!this.homeView) {
-            this.homeView = new SettingsView();
+        if (window.activeSession.isAuthorized())
+        {
+            if (!this.homeView) {
+                this.homeView = new SettingsView();
+            }
+            $('.content').html(this.homeView.el);
+            this.headerView.selectMenuItem('settings-menu');
         }
-        $('.content').html(this.homeView.el);
-        this.headerView.selectMenuItem('settings-menu');
+        else
+            app.navigate('#', false);
     },
 
     about: function () {

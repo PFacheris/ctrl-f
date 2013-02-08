@@ -17,35 +17,35 @@ window.utils = {
         $.when.apply(null, deferreds).done(callback);
     },
 
-    displayValidationErrors: function (messages) {
+    displayValidationErrors: function (messages, parent) {
         for (var key in messages) {
             if (messages.hasOwnProperty(key)) {
-                this.addValidationError(key, messages[key]);
+                this.addValidationError(key, messages[key], parent);
             }
         }
-        this.showAlert('Warning!', 'Fix validation errors and try again', 'alert-warning');
+        this.showAlert('Warning!', 'Fix validation errors and try again', 'alert', parent);
     },
 
-    addValidationError: function (field, message) {
-        var controlGroup = $('#' + field).parent().parent();
+    addValidationError: function (field, message, parent) {
+        var controlGroup = parent.find('#' + field).siblings('small');
         controlGroup.addClass('error');
-        $('.help-inline', controlGroup).html(message);
+        controlGroup.html(message);
     },
 
-    removeValidationError: function (field) {
-        var controlGroup = $('#' + field).parent().parent();
+    removeValidationError: function (field, parent) {
+        var controlGroup = parent.find('#' + field).siblings('small');
         controlGroup.removeClass('error');
-        $('.help-inline', controlGroup).html('');
+        controlGroup.html('');
     },
 
-    showAlert: function(title, text, klass) {
-        $('.alert').removeClass("alert-error alert-warning alert-success alert-info");
-        $('.alert').addClass(klass);
-        $('.alert').html('<strong>' + title + '</strong> ' + text);
-        $('.alert').show();
+    showAlert: function(title, text, klass, parent) {
+        parent.find('.alert-box').removeClass("alert success secondary");
+        parent.find('.alert-box').addClass(klass);
+        parent.find('.alert-box').html('<strong>' + title + '</strong> ' + text);
+        parent.find('.alert-box').show();
     },
 
     hideAlert: function() {
-        $('.alert').hide();
+        parent.find('.alert-box').hide();
     }
 }
