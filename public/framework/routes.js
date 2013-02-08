@@ -9,7 +9,7 @@ var AppRouter = Backbone.Router.extend({
     },
 
     initialize: function () {
-        window.activeSession = new window.Session({token:  $.cookie('authtoken')});
+        window.activeSession = new window.Session;
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
     },
@@ -60,6 +60,10 @@ var AppRouter = Backbone.Router.extend({
 
 utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView"], function() {
     app = new AppRouter();
+    
+    var localToken = $.cookie('authtoken');
+    if (localToken)
+        window.activeSession.save({token: localToken});
 
     Backbone.history.start();
 });

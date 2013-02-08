@@ -3,6 +3,7 @@ window.HeaderView = Backbone.View.extend({
     initialize: function () {
         if (window.activeSession)
             this.listenTo(window.activeSession, "change", this.checkSession);
+        var $tooltip;
         this.render();
     },
 
@@ -17,6 +18,7 @@ window.HeaderView = Backbone.View.extend({
                 $('.ribbon').animate({marginTop: '-28px'}, 500);
             }
         );
+        $tooltip = $(this.el).find('#login');
         this.checkSession();
         return this;
     },
@@ -28,16 +30,18 @@ window.HeaderView = Backbone.View.extend({
     },
 
     toggleLoginBox: function () {
-        var newOpacity = ($('#login').css('opacity') == 0) ? 1 : 0;
-        $('#login').animate({opacity: newOpacity}, 500);
+        var newOpacity = ($tooltip.css('opacity') == 0) ? 1 : 0;
+        $tooltip.animate({opacity: newOpacity}, 500);
     },
 
     checkSession: function () {
         if (window.activeSession.isAuthorized())
         {
             $('.error').removeClass('error');
-            $('.login').toggleClass('login').toggleClass('settings');
-            this.toggleLoginBox();
+            $('.login').toggleClass('login').toggleClass('logout');
+            $('.settings').toggle();
+            if ($tooltip.css('opacity') == 1)
+                this.toggleLoginBox();
             return true;
         }
         else
