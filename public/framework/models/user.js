@@ -21,6 +21,10 @@ window.User = Backbone.Model.extend({
         this.validators.password = function (value) {
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "Password must be 6 characters or longer"};
         };
+
+        this.validators.passwordConfirm = function (value) {
+            return value == this.get('password') ? {isValid: true} : {isValid: false, message: "Passwords must match."};
+        };
     },
 
     validateAll: function (attrs) {
@@ -48,7 +52,8 @@ window.User = Backbone.Model.extend({
         firstName: "",
         lastName: "",
         password: "",
-        email: ""
+        email: "",
+        items: []
     },
     
 });

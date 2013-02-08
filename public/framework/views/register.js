@@ -46,22 +46,14 @@ window.RegisterView = Backbone.View.extend({
             utils.displayValidationErrors(check.messages);
             return false;
         }
+        
         this.saveUser();
         return false; 
     },
 
     saveUser: function () {
         var self = this;
-        console.log(this.model);
-        this.model.save(null, {
-            success: function (model) {
-                app.navigate('home', false);
-                utils.showAlert('Success!', 'You have registered a new account.', 'alert-success');
-            },
-            error: function () {
-                utils.showAlert('Error', 'An error occurred while creating your account. Try again later.', 'alert-error');
-            }
-        }); 
+        this.model.save(); 
     },
 
     session: function () {

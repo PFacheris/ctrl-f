@@ -1,11 +1,11 @@
 /*
- * RESTful asynchronous API for ctrl-f
- * Allows for CURD interaction between client and server.
- *
- * User document:
- *
- *
- */
+* RESTful asynchronous API for ctrl-f
+* Allows for CURD interaction between client and server.
+*
+* User document:
+*
+*
+*/
 // Database Settings
 var COLLECTION_NAME = 'users';
 var userAuth = require('../auth_user.js');
@@ -15,22 +15,16 @@ var sendgrid = require('../sendgrid.js');
 module.exports = function (db, BSON) {
     return {
         /*
-         * CREATE
-         */
+        * CREATE
+        */
         create: function (request, response) {
-            var passwdHash = utilities.pwHash(request.param('password'));
+            var user = request.body;
 
-
-            var user = {
-                name: {
-                    firstName: request.param('firstName'),
-                    lastName: request.param('lastName')
-                },
-                email: request.param('email'),
-                passwdHash: passwdHash,
-                items: []
-            };
-
+            var passwdHash = utilities.pwHash(user.password);
+            user.passwdHash = passwdHash;
+            delete user.password;
+            
+            
             var collection = db.collection(COLLECTION_NAME);
             collection.insert(user, {
                 safe: true
@@ -44,49 +38,32 @@ module.exports = function (db, BSON) {
         },
 
         /*
-         * UPDATE
-         */
+        * UPDATE
+        */
         update: function (request, response) {
             var id = request.param('id');
-            var fieldsToUpdate = request.body;
-            var collection = db.collection(COLLECTION_NAME);
+            var user = request.body;
+
+            var passwdHash = utilities.pwHash(user.password);
+            user.passwdHash = passwdHash;
+            delete user.password;
             
-            // "Replacement" style update.  Not to be used for adding an item
-            // @param selector=update required 
-            if (request.param('selector') == 'update') {
-                collection.update({
-                    '_id': new BSON.ObjectID(id)
-                }, {
-                    $set: fieldsToUpdate
-                }, function (err, result) {
-                    if (err) {
-                        response.send(400);
-                    } else {
-                        response.send(result);
-                    }
-                });
-            // $push style update for adding an item
-            // @param selector=addItem required
-            } else if (request.param('selector') == 'addItem') {
-                collection.update({
-                    '_id': new BSON.ObjectID(id)
-                }, {
-                    $addToSet: {items: request.param('items')}
-                }, function (err, result) {
-                    if (err) {
-                        response.send(400);
-                    } else {
-                        response.send(result);
-                    }
-                });
-            } else {
-                response.send('Improper Request');
-            }
+            
+            var collection = db.collection(COLLECTION_NAME);
+            collection.insert(user, {
+                safe: true
+            }, function (err, result) {
+                if (err) {
+                    response.send(400);
+                } else {
+                    response.send(result[0]);
+                }
+            });
         },
 
         /*
-         * READ
-         */
+        * READ
+        */
 
         // Get All
         getAll: function (request, response) {
@@ -105,7 +82,7 @@ module.exports = function (db, BSON) {
             var collection = db.collection(COLLECTION_NAME);
             var firstName, lastName, email, item, id;
             var searchParam;
- 
+
             // Check existence of paramters in order and create corresponding searchParam
             if (request.param('id')) {
                 id = request.param('id');
@@ -139,8 +116,8 @@ module.exports = function (db, BSON) {
         },  
 
         /*
-         * DESTROY
-         */
+        * DESTROY
+        */
 
         destroy: function (request, response) {
             var id = request.param('id');
@@ -166,27 +143,27 @@ module.exports = function (db, BSON) {
         pwReset: function (request, response) {
             var id = request.param('id');
             var collection = db.collection(COLLECTION_NAME);
-            
+
             collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
                 if (err) {
                     response.send(400);
                 } else {
-console.log(result.passwdHash);
-console.log(result);
+                    console.log(result.passwdHash);
+                    console.log(result);
                     collection.update({'_id': new BSON.ObjectID(id)},
-                       // set new password equal to old password hash
-                       {$set: {passwdHash: utilities.pwHash(result.passwdHash)}},
-                       function (er, res) {
-                           if (er) {
-                               response.send(400);
-                           } else {
-                               response.send('Successful reset');
-                           }
-                   });
-                   //send reset email
-                   sendgrid.passReset(request.param('email'),tempPass=result.pwHash);
+                    // set new password equal to old password hash
+                    {$set: {passwdHash: utilities.pwHash(result.passwdHash)}},
+                    function (er, res) {
+                        if (er) {
+                            response.send(400);
+                        } else {
+                            response.send('Successful reset');
+                        }
+                    });
+                    //send reset email
+                    sendgrid.passReset(request.param('email'),tempPass=result.pwHash);
 
-               }
+                }
             });
         }
     }
