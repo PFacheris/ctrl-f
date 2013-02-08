@@ -100,7 +100,7 @@ module.exports = function (db, BSON) {
             }
             else
             {
-                response.send(417);
+                response.send(404);
             }
         },  
 
