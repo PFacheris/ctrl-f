@@ -1,4 +1,4 @@
-window.RegisterView = Backbone.View.extend({
+window.SettingsView = Backbone.View.extend({
 
     initialize: function () {
         this.render();
