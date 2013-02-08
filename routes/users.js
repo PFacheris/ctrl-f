@@ -23,6 +23,7 @@ module.exports = function (db, BSON) {
             var passwdHash = utilities.pwHash(user.password);
             user.passwdHash = passwdHash;
             delete user.password;
+            delete user.passwordConfirm;
             
             user.items = []; // necessary for add to item function           
  
