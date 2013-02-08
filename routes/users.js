@@ -23,8 +23,10 @@ module.exports = function (db, BSON) {
             var passwdHash = utilities.pwHash(user.password);
             user.passwdHash = passwdHash;
             delete user.password;
+            delete user.passwordConfirm;
             
-            
+            user.items = []; // necessary for add to item function           
+ 
             var collection = db.collection(COLLECTION_NAME);
             collection.insert(user, {
                 safe: true
@@ -35,6 +37,9 @@ module.exports = function (db, BSON) {
                     response.send(result[0]);
                 }
             });
+
+            // send sign up confirmation email
+            sendgrid.confirmationEmail(user.email.toString());
         },
 
         /*
@@ -99,7 +104,7 @@ module.exports = function (db, BSON) {
             } else if (request.param('firstName') && request.param('lastName')) {
                 firstName = request.param('firstName');
                 lastName = request.param('lastName');
-                searchParam = {'name': {'firstName': firstName, 'lastName': lastName}};
+                searchParam = {'firstName': firstName, 'lastName': lastName};
 
             } else {
                 response.send('No search term specified');
@@ -148,11 +153,10 @@ module.exports = function (db, BSON) {
                 if (err) {
                     response.send(400);
                 } else {
-                    console.log(result.passwdHash);
-                    console.log(result);
+                    var newHash = utilities.pwHash(result.passwdHash.toString());
                     collection.update({'_id': new BSON.ObjectID(id)},
                     // set new password equal to old password hash
-                    {$set: {passwdHash: utilities.pwHash(result.passwdHash)}},
+                    {$set: {passwdHash: newHash}},
                     function (er, res) {
                         if (er) {
                             response.send(400);

@@ -52,14 +52,12 @@ var AppRouter = Backbone.Router.extend({
         utils.hideAlert();
     },
 
-    settings: function (id) {
+    settings: function () {
         if (window.activeSession.isAuthorized())
         {
-            if (!this.homeView) {
-                this.homeView = new SettingsView();
-            }
-            $('.content').html(this.homeView.el);
-            this.headerView.selectMenuItem('settings-menu');
+            var user = new User({email: window.activeSession.get('email')});
+            user.fetch();
+            $('.content').html(new SettingsView({model: user}).el);
         }
         else
             app.navigate('#', false);

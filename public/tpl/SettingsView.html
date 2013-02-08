@@ -1,1 +1,64 @@
-<label text='email' /><input name='email'> </input>
+<h4>Preferences</h4>
+
+
+<form>
+    <div class="row">
+        <div class="two columns">
+        </div>
+        <div class="ten columns">
+            <div class="alert-box" style="display:none;"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="two columns">
+            <label for="firstName" class="right inline">Name:</label>
+        </div>
+        <div class="five columns">
+            <input type="text" id="firstName" name="firstName" value="<%= (firstName == null) ? "" : firstName %>"/>
+            <small></small>
+        </div>
+        <div class="five columns">
+            <input type="text" id="lastName" name="lastName" value="<%= (lastName == null) ? "" : lastName %>"/>
+            <small></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="two columns">
+            <label for="email" class="inline right">Email:</label>
+        </div>
+
+        <div class="ten columns">
+            <input type="text" id="email" name="email" value="<%= (email == null) ? "" : email %>"/>
+            <small></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="two columns">
+            <label for="password" class="inline right">New Password:</label>
+        </div>
+        <div class="ten columns">
+            <input type="password" id="password" name="password"/>
+            <small></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="two columns">
+            <label for="passwordConfirm" class="inline right">Confirm New Password:</label>
+        </div>
+        <div class="ten columns">
+            <input type="password" id="passwordConfirm" name="passwordConfirm"/>
+            <small></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="eight columns centered">
+            <a id="create" class="success button small radius centered">Change settings</a>
+        </div>
+    </div>
+
+
+</form>
