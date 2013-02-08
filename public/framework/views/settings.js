@@ -1,4 +1,4 @@
-window.SettingsView = Backbone.View.extend({
+window.RegisterView = Backbone.View.extend({
 
     initialize: function () {
         this.render();
@@ -6,20 +6,18 @@ window.SettingsView = Backbone.View.extend({
 
     render: function () {
         $(this.el).html(this.template(this.model.toJSON()));
-        $(this.el).parent('.column').toggleClass('eight').toggleClass('twelve');
-        $("input[name='email']").val(this.model.get('email'));
         return this;
     },
 
     events: {
         "change"                : "change",
-        "click #btnUpdate"      : "update",
+        "click #create"         : "beforeSave",
         "click #cancel"         : "cancel",
     },
 
     change: function (event) {
         // Remove any existing alert message
-        utils.hideAlert();
+        utils.hideAlert($(this.el));
 
         // Apply the change to the model
         var target = event.target;
@@ -45,24 +43,43 @@ window.SettingsView = Backbone.View.extend({
         var self = this;
         var check = this.model.validateAll();
         if (check.isValid === false) {
-            utils.displayValidationErrors(check.messages);
+            utils.displayValidationErrors(check.messages, $(this.el));
             return false;
         }
+        
         this.saveUser();
         return false; 
     },
 
     saveUser: function () {
-        var self = this;
-        this.model.save(null, {
-            success: function (model) {
-                app.navigate('home', false);
-                utils.showAlert('Success!', 'You have registered a new account.', 'alert-success');
-            },
-            error: function () {
-                utils.showAlert('Error', 'An error occurred while creating your account. Try again later.', 'alert-error');
-            }
-        }); 
+        this.model.save(); 
+        this.login();
+        app.navigate('home', false);
     },
+    
+    login: function () {
+        var email = this.model.get('email');
+        var password = this.model.get('password');
+        window.activeSession.set(
+            {
+                email: email,
+                password: password
+            },{
+                silent:true
+            }
+        );
+
+        window.activeSession.save({}, {
+            success: function (model, response) {
+                if(window.activeSession.isAuthorized())
+                        $.cookie('authtoken', window.activeSession.get('token'));
+            },
+            error: function (model, response) {
+                console.log("Error saving session.");
+            }
+        });
+
+    }
+    
 });
 
