@@ -86,7 +86,6 @@ module.exports = function (db, BSON) {
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var user = request.query;
-            console.log(user);
 
             if (user)
             {
