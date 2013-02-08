@@ -103,10 +103,10 @@ module.exports = function (db, BSON) {
                 email = request.param('email');
                 searchParam = {'email': email};
 
-            } else {
-                response.send('No search term specified');
             }
 
+            if (searchParam)
+            {
             // Execute search
             collection.findOne(searchParam, function (err, result) {
                 if (err) {
@@ -115,6 +115,11 @@ module.exports = function (db, BSON) {
                     response.send(result);
                 }
             });
+            }
+            else
+            {
+                response.send(417);
+            }
         },  
 
         /*
