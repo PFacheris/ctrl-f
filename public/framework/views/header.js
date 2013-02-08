@@ -1,9 +1,11 @@
 window.HeaderView = Backbone.View.extend({
 
     initialize: function () {
-        if (window.activeSession)
-            this.listenTo(window.activeSession, "change", this.checkSession);
         var $tooltip;
+        var $loginRibbon;
+        var $settingsRibbon;
+        if (window.activeSession)
+            this.listenTo(window.activeSession, "change", this.changeView);
         this.render();
     },
 
@@ -19,27 +21,41 @@ window.HeaderView = Backbone.View.extend({
             }
         );
         $tooltip = $(this.el).find('#login');
-        this.checkSession();
+        $loginRibbon = $(this.el).find('.login');
+        $settingsRibbon = $(this.el).find('.settings').parents('li');
+        this.changeView();
         return this;
     },
 
     events: {
-        "click .login"        : "toggleLoginBox",
-        "click #btnSubmit"    : "login",
-        "click #btnCancel"    : "toggleLoginBox"
+        "click .login"          : "toggleLoginBox",
+        "click .logout"         : "logout",
+        "click #btnSubmit"      : "login",
+        "click #btnCancel"      : "toggleLoginBox"
     },
 
     toggleLoginBox: function () {
         var newOpacity = ($tooltip.css('opacity') == 0) ? 1 : 0;
         $tooltip.animate({opacity: newOpacity}, 500);
     },
+    
+    changeView: function () {
+        if (window.activeSession.isAuthorized())
+        {
+            $loginRibbon.removeClass('login').addClass('logout');
+            $settingsRibbon.css('display', '');
+        }
+        else
+        {
+            $loginRibbon.removeClass('logout').addClass('login');
+            $settingsRibbon.css('display', 'none');
+        }
+    },
 
     checkSession: function () {
         if (window.activeSession.isAuthorized())
         {
             $('.error').removeClass('error');
-            $('.login').toggleClass('login').toggleClass('logout');
-            $('.settings').toggle();
             if ($tooltip.css('opacity') == 1)
                 this.toggleLoginBox();
             return true;
@@ -77,6 +93,11 @@ window.HeaderView = Backbone.View.extend({
             }
         });
 
+    },
+    
+    logout: function () {
+        window.activeSession.id = "";
+        window.activeSession.clear();
     },
 
     showActive: function (menuItem) {
