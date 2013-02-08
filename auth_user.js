@@ -22,7 +22,8 @@ module.exports = function (db, BSON) {
                             var token = BSON.ObjectID();
                             request.session.userToken = token;
                             request.session.userEmail = email;
-                            response.send({email: email, password: "", token: token});
+                            request.session.userId = user.id;
+                            response.send({id: user.id, email: email, password: "", token: token});
                         } else {
                             response.send({email: email, password: "", token: ""});
                         }
@@ -38,7 +39,7 @@ module.exports = function (db, BSON) {
             var token = request.session.userToken;
             console.log(token);
             if (token && request.param('token') == token) {
-                response.send({email: request.session.email, password: "", token: token});
+                response.send({id: request.session.userId, email: request.session.email, password: "", token: token});
             }
             else {
                 response.send({email: request.session.email, password: "", token: ""});
@@ -66,9 +67,11 @@ module.exports = function (db, BSON) {
                         var token = BSON.ObjectID();
                         request.session.userToken = null;
                         request.session.email = null;
+                        request.session.userId = null;
                         request.session.userToken = token;
                         request.session.email = email;
-                        response.send({email: email, password: "", token: token});
+                        request.session.userId = user.id;
+                        response.send({id: user.id, email: email, password: "", token: token});
                     } else {
                         response.send({email: email, password: "", token: ""});
                     }
@@ -81,6 +84,8 @@ module.exports = function (db, BSON) {
         destroy: function (request, response)
         {
             request.session.userToken = null;
+            request.session.email = null;
+            request.session.userId = null;
         }
     }
 }

@@ -54,6 +54,15 @@ window.User = Backbone.Model.extend({
 
     addItem: function(item) {
         this.get('items').add(item);
-    }
+    },
 
+    defaults: {
+        _id: null,
+        firstName: "",
+        lastName: "",
+        password: "",
+        email: "",
+        items: new ItemList() 
+    },
+    
 });

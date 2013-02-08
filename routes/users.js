@@ -55,7 +55,7 @@ module.exports = function (db, BSON) {
             
             
             var collection = db.collection(COLLECTION_NAME);
-            collection.insert(user, {
+            collection.insert({id: id}, user, {
                 safe: true
             }, function (err, result) {
                 if (err) {
@@ -85,12 +85,12 @@ module.exports = function (db, BSON) {
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var email = request.param('email');
+            var id = request.param('id');
 
-            if (email)
+            if (id)
             {
                 // Execute search
-                collection.findOne({email: email}, function (err, result) {
+                collection.findOne({id: id}, function (err, result) {
                     if (err) {
                         response.send(500);
                     } else {
@@ -100,7 +100,7 @@ module.exports = function (db, BSON) {
             }
             else
             {
-                response.send(417);
+                response.send(404);
             }
         },  
 
