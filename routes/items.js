@@ -57,7 +57,7 @@ module.exports = function (db, BSON) {
         // Generic Item Search
         read: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var id, name, tracking, service;
+/*            var id, name, tracking, service;
             var searchParam;
 
             // Check existence of paramters in order and create corresponding searchParam
@@ -76,15 +76,21 @@ module.exports = function (db, BSON) {
             } else {
                 response.send('No search term specified');
             }
+*/
+            var user = request.body;
 
+            if (user) {
             // Execute search
-            collection.find(searchParam).toArray(function (err, results) {
-                if (err) {
-                    response.send(500);
-                } else {
-                    response.send(results);
-                }
-            });
+                collection.findOne(user, function (err, results) {
+                    if (err) {
+                        response.send(500);
+                    } else {
+                        response.send(results);
+                    }
+                });
+            } else {
+                response.send(417);
+            }
         }, 
         
         // Destroy entry
@@ -102,6 +108,51 @@ module.exports = function (db, BSON) {
                     response.send(request.body);
                 }
             });
+        },
+
+        // package delivery checker
+        updateParcelStatus: function (request, response) {
+            var collection = db.collection(COLLECTION_NAME);
+            var searchParam = {type: 'Parcel', delievered: false};
+
+            collection.find(searchParam).toArray(function (err, results) {
+                if (err) {
+                    response.send(400);
+                } else {
+                    for (i=0; i < results.length; i++) {
+                        /*TODO check to see if delivered using outside API
+                        if (delivered from API = true) {
+                            // find email associated with item
+                            userCollection = db.collection('users');
+                            userCollection.findOne({items: results[i].trackingNumber.toString()},
+                                function (er, res) {
+                                    if (er) {
+                                        response.send(400);
+                                    } else {
+                                        var name;
+                                        if (results[i].name) {
+                                            name = results[i].name.toString();
+                                        } else {
+                                            name = ' '
+                                        }
+                                        sendgrid.delivered(res.email.toString(), name, 
+                                            results[i].trackingNumber.toString());
+                                    }
+                            });
+                            // mark package as delivered
+                            collection.update({'_id': results[i].id.$oid}, 
+                                {delivered: true}, function(e, re) {
+                                    if (e) {
+                                        response.send(400);
+                                    } else {
+                                        response.send(re);
+                                    }
+                            });
+                        } */
+                    }
+                }
+            });
         }
+                        
     }
 }
