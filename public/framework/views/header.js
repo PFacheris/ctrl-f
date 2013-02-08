@@ -37,14 +37,14 @@ window.HeaderView = Backbone.View.extend({
     },
 
     change: function() {
-            $('.alert-box').css('display', 'none');
+        $('.alert-box').css('display', 'none');
     },
 
     toggleLoginBox: function () {
         var newOpacity = ($tooltip.css('opacity') == 0) ? 1 : 0;
         $tooltip.animate({opacity: newOpacity}, 500);
     },
-    
+
     changeView: function () {
         if (window.activeSession.isAuthorized())
         {
@@ -88,10 +88,15 @@ window.HeaderView = Backbone.View.extend({
             success: function (model, response) {
                 if(view.checkSession())
                 {
-                    if ($("input[name='remember']").is(':checked'))
+                    if ($("input[name='remember']").is(':checked')){
                         $.cookie('authtoken', window.activeSession.get('token'), { expires: 7 });
-                    else
+                        $.cookie('authemail', window.activeSession.get('email'), { expires: 7 });
+                    
+                    }
+                    else{
                         $.cookie('authtoken', window.activeSession.get('token'));
+                        $.cookie('authemail', window.activeSession.get('email'));
+                    }
                 }
             },
             error: function (model, response) {
@@ -100,11 +105,13 @@ window.HeaderView = Backbone.View.extend({
         });
 
     },
-    
+
     logout: function () {
-        window.activeSession.id = "";
+        window.activeSession.token = "";
+        window.activeSession.email = "";
         window.activeSession.clear();
         $.removeCookie('authtoken');
+        $.removeCookie('authemail');
     },
 
     showActive: function (menuItem) {

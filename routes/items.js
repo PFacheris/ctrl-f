@@ -77,7 +77,7 @@ module.exports = function (db, BSON) {
                 response.send('No search term specified');
             }
 */
-            var user = request.body;
+            var user = request.query;
 
             if (user) {
             // Execute search

@@ -81,6 +81,7 @@ module.exports = function (db, BSON) {
         destroy: function (request, response)
         {
             request.session.userToken = null;
+            request.session.email = null;
         }
     }
 }

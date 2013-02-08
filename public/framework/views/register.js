@@ -72,9 +72,9 @@ window.RegisterView = Backbone.View.extend({
 
         window.activeSession.save({}, {
             success: function (model, response) {
-                if(window.activeSession.isAuthorized())
-                        $.cookie('authtoken', window.activeSession.get('token'));
-            },
+                 $.cookie('authtoken', window.activeSession.get('token'));
+                 $.cookie('authemail', window.activeSession.get('email'));
+                 },
             error: function (model, response) {
                 console.log("Error saving session.");
             }
