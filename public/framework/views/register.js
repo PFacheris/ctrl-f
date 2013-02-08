@@ -52,6 +52,7 @@ window.RegisterView = Backbone.View.extend({
 
     saveUser: function () {
         var self = this;
+        console.log(this.model);
         this.model.save(null, {
             success: function (model) {
                 app.navigate('home', false);

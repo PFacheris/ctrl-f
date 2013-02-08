@@ -17,6 +17,10 @@ window.User = Backbone.Model.extend({
             var regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
             return regex.test(value) ? {isValid: true} : {isValid: false, message: "You must enter a valid email"};
         }
+
+        this.validators.password = function (value) {
+            return value.length > 0 ? {isValid: true} : {isValid: false, message: "Password must be 6 characters or longer"};
+        };
     },
 
     validateAll: function (attrs) {
