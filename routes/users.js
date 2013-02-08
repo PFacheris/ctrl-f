@@ -85,7 +85,7 @@ module.exports = function (db, BSON) {
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var user = request.body;
+            var user = request.query;
             console.log(user);
 
             if (user)
