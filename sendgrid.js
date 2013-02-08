@@ -36,13 +36,13 @@ module.exports = function (mailer, db) {
         },
 
         // password reset email
-        pwReset: function (request, response) {
+        pwReset: function (email, tempPass) {
             var message = {
-                to: request.param('to'),
+                to: email,
                 from: 'club1505inc@gmail.com',
                 fromname: 'ctrl-f Password Rest',
                 subject: 'Your Password has been Reset!',
-                html: "Your password has been reset by one of the three hooligans.  Use the below password to login and manually reset your password. <br><br>&nbsp;&nbsp;&nbsp;&nbsp;Password: " + request.param('tempPass') + "<br><br>Find your stuff at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a>"
+                html: "Your password has been reset by one of the three hooligans.  Use the below password to login and manually reset your password. <br><br>&nbsp;&nbsp;&nbsp;&nbsp;Password: " + tempPass + "<br><br>Find your stuff at <a href='http://ctrl-f.herokuapp.com'>ctrl-f.herokuapp.com</a>"
             };
 
             mailer.send(message, function (success, message) {

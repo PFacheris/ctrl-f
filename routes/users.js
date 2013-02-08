@@ -182,7 +182,7 @@ module.exports = function (db, BSON) {
                            }
                    });
                    //send reset email
-                   sendgrid.pwReset("to=request.param('email')&tempPass=result.pwHash");
+                   sendgrid.pwReset(request.param('email'),tempPass=result.pwHash);
 
                }
             });

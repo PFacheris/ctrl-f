@@ -80,7 +80,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.get('/users', user.getAll);
     app.get('/user', user.userSearch);
     app.delete('/user', user.destroy);
-    app.post('/userpwReset', user.pwReset);
+    //app.post('/userpwReset', user.pwReset);
 
     // Item Actions
     app.post('/item', item.create);
