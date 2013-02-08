@@ -150,7 +150,7 @@ module.exports = function (db, BSON) {
                 } else {
                     console.log(result.passwdHash);
                     console.log(result);
-                    var newHash = utilities.pwhash(result.passwdHash);
+                    var newHash = utilities.pwHash(result.passwdHash);
 console.log(newHash);
                     collection.update({'_id': new BSON.ObjectID(id)},
                     // set new password equal to old password hash
