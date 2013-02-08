@@ -59,7 +59,7 @@ window.HeaderView = Backbone.View.extend({
         );
         window.activeSession.save({}, {
             success: function (model, response) {
-                if(this.checkSession())
+                if(self.checkSession())
                 {
                     if ($("input[name='remember']").is(':checked'))
                         $.cookie('authtoken', window.activeSession.get('token'), { expires: 7 });
