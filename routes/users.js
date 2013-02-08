@@ -85,7 +85,7 @@ module.exports = function (db, BSON) {
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var firstName, lastName, email, item, id;
+            var email, item, id;
             var searchParam;
 
             // Check existence of paramters in order and create corresponding searchParam
@@ -101,21 +101,16 @@ module.exports = function (db, BSON) {
                 email = request.param('email');
                 searchParam = {'email': email};
 
-            } else if (request.param('firstName') && request.param('lastName')) {
-                firstName = request.param('firstName');
-                lastName = request.param('lastName');
-                searchParam = {'firstName': firstName, 'lastName': lastName};
-
             } else {
                 response.send('No search term specified');
             }
 
             // Execute search
-            collection.find(searchParam,{passwdHash: 0}).toArray(function (err, results) {
+            collection.findOne(searchParam).toArray(function (err, result) {
                 if (err) {
                     response.send(500);
                 } else {
-                    response.send(results);
+                    response.send(result);
                 }
             });
         },  
