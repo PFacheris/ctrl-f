@@ -17,7 +17,7 @@ window.RegisterView = Backbone.View.extend({
 
     change: function (event) {
         // Remove any existing alert message
-        utils.hideAlert($(this.el));
+        utils.hideAlert();
 
         // Apply the change to the model
         var target = event.target;
@@ -43,7 +43,7 @@ window.RegisterView = Backbone.View.extend({
         var self = this;
         var check = this.model.validateAll();
         if (check.isValid === false) {
-            utils.displayValidationErrors(check.messages, $(this.el));
+            utils.displayValidationErrors(check.messages);
             return false;
         }
         
@@ -54,7 +54,8 @@ window.RegisterView = Backbone.View.extend({
     saveUser: function () {
         this.model.save(); 
         this.login();
-        app.navigate('home', false);
+        app.navigate('#home', false);
+        utils.showAlert('Success!', 'You now have ctrl-f account.');
     },
     
     login: function () {

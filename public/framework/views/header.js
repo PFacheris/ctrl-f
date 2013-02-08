@@ -23,6 +23,7 @@ window.HeaderView = Backbone.View.extend({
         $tooltip = $(this.el).find('#login');
         $loginRibbon = $(this.el).find('.login');
         $settingsRibbon = $(this.el).find('.settings').parents('li');
+        $logo = $(this.el).find('#logo');
         return this;
     },
 
@@ -49,11 +50,13 @@ window.HeaderView = Backbone.View.extend({
         {
             $loginRibbon.removeClass('login').addClass('logout');
             $settingsRibbon.css('display', '');
+            $logo.attr('href', '#home');
         }
         else
         {
             $loginRibbon.removeClass('logout').addClass('login');
             $settingsRibbon.css('display', 'none');
+            $logo.attr('href', '#');
         }
     },
 

@@ -17,13 +17,13 @@ window.utils = {
         $.when.apply(null, deferreds).done(callback);
     },
 
-    displayValidationErrors: function (messages, parent) {
+    displayValidationErrors: function (messages) {
         for (var key in messages) {
             if (messages.hasOwnProperty(key)) {
                 this.addValidationError(key, messages[key]);
             }
         }
-        this.showAlert('Warning!', 'Check your input and try again.', 'alert', parent);
+        this.showAlert('Warning!', 'Check your input and try again.');
     },
 
     addValidationError: function (field, message) {
@@ -38,12 +38,12 @@ window.utils = {
         controlGroup.html('');
     },
 
-    showAlert: function(title, text, klass, parent) {
+    showAlert: function(title, text) {
         $('.note').html('<strong>' + title + '</strong><p style="position:relative;top:10px;font-size: 22px;line-height:20px;">' + text + '</p>');
         $('.note').show();
     },
 
-    hideAlert: function(parent) {
+    hideAlert: function() {
         $('.note').hide();
     }
 }

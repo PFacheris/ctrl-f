@@ -28,6 +28,11 @@ window.User = Backbone.Model.extend({
         };
     },
 
+    parse: function(response) {
+        response.items = new ItemList(response.items);
+        return response;
+    },
+
     validateAll: function (attrs) {
         var messages = {};
 
@@ -48,7 +53,7 @@ window.User = Backbone.Model.extend({
     },
 
     addItem: function(item) {
-        this.set('items') = this.get('items').push(item);
+        this.get('items').add(item);
     },
 
     defaults: {
@@ -57,7 +62,7 @@ window.User = Backbone.Model.extend({
         lastName: "",
         password: "",
         email: "",
-        items: []
+        items: new ItemList() 
     },
     
 });
