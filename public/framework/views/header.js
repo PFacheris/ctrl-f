@@ -27,10 +27,16 @@ window.HeaderView = Backbone.View.extend({
     },
 
     events: {
+        "change"                : "change",
         "click .login"          : "toggleLoginBox",
         "click .logout"         : "logout",
+        "click #register"       : "toggleLoginBox",
         "click #btnSubmit"      : "login",
         "click #btnCancel"      : "toggleLoginBox"
+    },
+
+    change: function() {
+            $('.alert-box').css('display', 'none');
     },
 
     toggleLoginBox: function () {
@@ -60,8 +66,7 @@ window.HeaderView = Backbone.View.extend({
         }
         else
         {
-            $('#txtEmail').addClass('error');
-            $('#txtPassword').addClass('error');
+            $('.alert-box').css('display', '');
             return false;
         }
     },
