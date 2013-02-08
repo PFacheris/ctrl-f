@@ -1,9 +1,8 @@
 window.Session = Backbone.Model.extend({
     urlRoot: "/session",
-    idAttribute: "_id", 
+    idAttribute: "token", 
 
     defaults: {
-        _id: null,
         token: "",
         email: "",
         password: "",

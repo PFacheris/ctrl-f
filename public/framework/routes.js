@@ -55,7 +55,7 @@ var AppRouter = Backbone.Router.extend({
     settings: function () {
         if (window.activeSession.isAuthorized())
         {
-            var user = new User({id: window.activeSession.get('id')});
+            var user = new User({email: window.activeSession.get('email')});
             user.fetch();
             $('.content').html(new SettingsView({model: user}).el);
         }

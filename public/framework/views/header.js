@@ -90,11 +90,9 @@ window.HeaderView = Backbone.View.extend({
                 {
                     if ($("input[name='remember']").is(':checked')){
                         $.cookie('authtoken', window.activeSession.get('token'), { expires: 7 });
-                        $.cookie('userId', window.activeSession.get('userId'), { expires: 7 });
                     }
                     else{
                         $.cookie('authtoken', window.activeSession.get('token'));
-                        $.cookie('userId', window.activeSession.get('userId'));
                     }
                 }
             },
@@ -106,11 +104,9 @@ window.HeaderView = Backbone.View.extend({
     },
 
     logout: function () {
-        window.activeSession.id = "";
         window.activeSession.token = "";
         window.activeSession.clear();
         $.removeCookie('authtoken');
-        $.removeCookie('userId');
     },
 
     showActive: function (menuItem) {

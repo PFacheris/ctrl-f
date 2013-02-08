@@ -85,12 +85,13 @@ module.exports = function (db, BSON) {
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var id = request.param('id');
+            var user = request.body;
+            cnsole.log(user);
 
-            if (id)
+            if (user)
             {
                 // Execute search
-                collection.findOne({id: id}, function (err, result) {
+                collection.findOne(user, function (err, result) {
                     if (err) {
                         response.send(500);
                     } else {
