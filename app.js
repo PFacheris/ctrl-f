@@ -10,6 +10,10 @@ var MONGO = require('mongodb'),
     MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb',
     BSON = MONGO.BSONPure,
     db = null;
+/*
+var SendGrid = require('sendgrid').SendGrid,
+    sendgrid = new SendGrid(club1505, schapiro);
+*/    
 
 MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     if (err)
@@ -21,6 +25,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
         user = require('./routes/users')(db, BSON);
         userAuth = require('./auth_user')(db, BSON);
         item = require('./routes/items')(db, BSON);
+        mailer = require('./sendgrid')();
 
     var app = express();
 
@@ -83,6 +88,9 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.get('/items', item.getAll);
     app.get('/item', item.read);
     app.delete('/item', item.destroy);
+
+    // SendGrid Actions
+    app.post('/mailer', mailer.singleEmail);
 
 //CHAE TESTING
     utilities = require('./utilities');

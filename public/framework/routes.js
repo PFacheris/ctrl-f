@@ -4,7 +4,7 @@ var AppRouter = Backbone.Router.extend({
         ""                  : "index",
         "home"            	: "home",
         "register"          : "register",
-        //"me"      	    : "settings",
+        "me"      	    : "settings",
         "about"             : "about"
     },
 
@@ -40,7 +40,7 @@ var AppRouter = Backbone.Router.extend({
         $('.content').html(new RegisterView({model: user}).el);
         //this.headerView.selectMenuItem('home-menu');
     },
-    /*
+    
     settings: function (id) {
     if (!this.homeView) {
     this.homeView = new SettingsView();
@@ -48,7 +48,7 @@ var AppRouter = Backbone.Router.extend({
     $('.content').html(this.homeView.el);
     this.headerView.selectMenuItem('settings-menu');
     },
-    */
+    
     about: function () {
         if (!this.aboutView) {
             this.aboutView = new AboutView();
@@ -58,7 +58,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView"], function() {
+utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView"], function() {
     app = new AppRouter();
 
     Backbone.history.start();
