@@ -60,6 +60,10 @@ var AppRouter = Backbone.Router.extend({
 
 utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView"], function() {
     app = new AppRouter();
+    
+    var localToken = $.cookie('authtoken');
+    if (localToken)
+        window.activeSession.save({token: localToken});
 
     Backbone.history.start();
 });
