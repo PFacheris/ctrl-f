@@ -85,12 +85,12 @@ module.exports = function (db, BSON) {
         // Generic Get
         userSearch: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-            var user = request.body; 
+            var email = request.param('email');
 
-            if (user)
+            if (email)
             {
                 // Execute search
-                collection.findOne(user, function (err, result) {
+                collection.findOne({email: email}, function (err, result) {
                     if (err) {
                         response.send(500);
                     } else {
@@ -100,7 +100,7 @@ module.exports = function (db, BSON) {
             }
             else
             {
-                response.send(404);
+                response.send(417);
             }
         },  
 
