@@ -45,7 +45,7 @@ var Package = Item.extend({
 
 
     getName: function() {
-        return (name == "") ? ("Package from " + service) : name;
+        return (this.name == "") ? ("Package from " + service) : this.name;
     }
 
 
