@@ -19,7 +19,7 @@
             <label for="firstName" class="right inline">Name:</label>
         </div>
         <div class="four columns">
-            <input type="text" id="firstName" name="firstName" value="<%= (firstName == null) ? "" : firstName %>"/>
+            <input type="text" id="firstName" name="firstName" value="<%= 'test' %>"/>
             <small></small>
         </div>
         <div class="five columns">
@@ -44,14 +44,14 @@
             <label for="password" class="inline right">New Password:</label>
         </div>
         <div class="nine columns">
-            <input type="password" id="password" name="password" placeholder="(keep old password)"/>
+            <input type="password" id="password" name="password" placeholder="(Leave blank to keep your old password)"/>
             <small></small>
         </div>
     </div>
 
     <div class="row">
         <div class="three columns">
-            <label for="passwordConfirm" class="inline right">Confirm New Password:</label>
+            <label for="passwordConfirm" class="inline right">Confirm:</label>
         </div>
         <div class="nine columns">
             <input type="password" id="passwordConfirm" name="passwordConfirm"/>
@@ -60,7 +60,8 @@
     </div>
 
     <div class="row">
-        <div class="eight columns centered">
+        <div class="three columns"></div>
+        <div class="nine columns">
             <a id="create" class="success button small radius centered">Change settings</a>
         </div>
     </div>
