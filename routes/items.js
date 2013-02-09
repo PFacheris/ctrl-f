@@ -31,7 +31,7 @@ module.exports = function (db, BSON) {
 
             var collection = db.collection(COLLECTION_NAME);
             collection.update({'_id' : new BSON.ObjectID(id)},
-                item, {safe: true}, function (err, result) {
+                {$set: item}, {safe: true}, function (err, result) {
                     if (err) {
                         response.send(400);
                     } else {
@@ -122,7 +122,7 @@ module.exports = function (db, BSON) {
 
         // all undelivered package delivery checker
         updateParcelStati: function (request, response) {
-            var time = 10000; // in milliseconds
+            var time = 100000; // in milliseconds
 
             // repeat every 'time' seconds
             setInterval(function () {
