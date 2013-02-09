@@ -31,7 +31,7 @@ function codelocs(n, locations) {
         }
     }
         
-    geocoder.geocode( {'address' : locations.trackingInfo[n].location}, function (results, status) {
+    geocoder.geocode( {'address' : locations[n].location}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             points.push(results[0].geometry.location);
             if (n > 0)
