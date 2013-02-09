@@ -48,8 +48,8 @@ module.exports = function (db, BSON) {
             id: item.tracking.toString()
         };
 console.log(request);console.log(packet);
-        tracking.track(packet, function (req, res) {console.log(res);
-		request.trackingInfo = res;
+        tracking.track(packet, function (tracking) {console.log(tracking);console.log(tracking.data);
+		request.trackingInfo = tracking.data;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
 			response.send(400);
