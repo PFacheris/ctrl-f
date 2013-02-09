@@ -49,6 +49,7 @@ window.IndexView = Backbone.View.extend({
         this.model.save(null, {
             success: function(model, result, xhr) {
                 utils.showAlert("Success!", "You tracked a package.");
+                console.log(model.get('trackingInfo'));
                 setLocations(model.get('trackingInfo'));
             },
             error: function(model, xhr, options) {
