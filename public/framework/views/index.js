@@ -50,7 +50,6 @@ window.IndexView = Backbone.View.extend({
             success: function(model, result, xhr) {
                 console.log(model.attributes);
                 utils.showAlert("Success!", "You tracked a package.");
-                app.navigate('home', true);
             },
             error: function(model, xhr, options) {
                 if (xhr.status == 400 || xhr.status == 417) {
