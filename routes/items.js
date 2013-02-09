@@ -48,7 +48,7 @@ module.exports = function (db, BSON) {
             id: item.tracking.toString()
         };
 
-        tracking.track(packet, function (tracking) {;
+        tracking.track(packet, function (tracking) {
 		//request.trackingInfo = tracking.data.steps;
                 //request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
@@ -61,7 +61,7 @@ module.exports = function (db, BSON) {
                         if (er) {
                             response.send(400);
                         } else {
-                            console.log('point 1'); console.log(output); response.send(output); console.log('point 2');
+                            console.log('point 1'); console.log(output[0]); response.send(output[0]); console.log('point 2');
                         }
                 });
                }
