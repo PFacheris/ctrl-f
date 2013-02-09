@@ -32,7 +32,7 @@ window.ForgotPasswordView = Backbone.View.extend({
 
     beforeSend: function(event) {
         if ($("#email").val().length > 0)
-            this.sendEmail();
+            this.sendEmail($("#email").val());
     },
 
     sendEmail: function (value) {
