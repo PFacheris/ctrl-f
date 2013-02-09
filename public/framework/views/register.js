@@ -61,6 +61,7 @@ window.RegisterView = Backbone.View.extend({
             error: function(model, fail, xhr) {
                 utils.addValidationError('email', 'Email already exists.');
                 utils.showAlert("Warning", "Check your input and try again.");
+                console.log("Received error code because of duplicate email.");
             }           
         }); 
     },
