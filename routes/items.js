@@ -56,13 +56,13 @@ module.exports = function (db, BSON) {
 			response.send(400);
 		    } else {
 console.log(result);
-console.log(result._id.$oid);
+console.log(result._id);
                 collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
                     function (er, output) {
                         if (er) {
                             response.send(400);
                         } else {
-                            collection.findOne({'_id': new BSON.ObjectID(result._id.$oid)}, function (e, res) {
+                            collection.findOne({'_id': new BSON.ObjectID(result._id)}, function (e, res) {
                                 if (e) {response.send(400)}
                                 else {console.log(res);response.send(res)}
                             });
