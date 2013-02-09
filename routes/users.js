@@ -72,6 +72,7 @@ console.log('point 4');
             delete user.passwordConfirm;             
             delete user._id;
 
+            var collection = db.collection(COLLECTION_NAME);
             // check email doesn't already exist in db
             collection.findOne({email: user.email},
                 function (err, result) {
@@ -84,7 +85,6 @@ console.log('point 4');
                 }
             });
 
-            var collection = db.collection(COLLECTION_NAME);
             collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
                 function (err, result) {
                 if (err) {
