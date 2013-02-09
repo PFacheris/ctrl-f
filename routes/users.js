@@ -52,6 +52,7 @@ module.exports = function (db, BSON) {
             user.passwdHash = passwdHash;
             delete user.password;
             delete user.passwordConfirm;             
+            delete user._id;
 console.log(user);
 
             var collection = db.collection(COLLECTION_NAME);
