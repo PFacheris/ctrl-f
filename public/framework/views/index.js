@@ -17,7 +17,7 @@ window.IndexView = Backbone.View.extend({
     change: function () {
         var target = event.target;
         var change = {};
-        change[tracking] = target.value;
+        change['tracking'] = target.value;
         this.model.set(change); 
     },
 
@@ -64,6 +64,4 @@ window.IndexView = Backbone.View.extend({
             }
         });
     }
-
-
 });

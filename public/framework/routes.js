@@ -23,7 +23,7 @@ var AppRouter = Backbone.Router.extend({
         }
         else
         {
-            var package = new package();
+            var package = new Package();
             $('.content').html(new IndexView({model: package}).el);
             //this.headerView.selectMenuItem('home-menu');
         }
