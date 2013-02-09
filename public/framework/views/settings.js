@@ -5,6 +5,7 @@ window.SettingsView = Backbone.View.extend({
     },
 
     render: function () {
+        utils.showAlert("Note", "If you don't want to change your password, just retype the old one and confirm it.");
         $(this.el).html(this.template());
         var firstName = this.model.get('firstName');
         var lastName = this.model.get('lastName');
