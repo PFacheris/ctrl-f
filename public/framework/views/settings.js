@@ -5,7 +5,7 @@ window.SettingsView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(this.template({firstName: "apples"}));
+        $(this.el).html(this.template({firstName: "apples", lastName: "andOranges", email: "jchrist@example.com"}));
         return this;
     },
 
