@@ -43,7 +43,7 @@ window.ForgotPasswordView = Backbone.View.extend({
             success: function (evt, xhr, options) {
                 utils.showAlert('Sent!', "Check your email.");
             },
-            error: function (evt, xhr, settings, error) {
+            error: function (xhr, textStatus, error) {
                 if (xhr.status == 417) {
                     utils.addValidationError('email', "Email doesn't exist.");
                     utils.showAlert("Warning", "Check your input and try again.");
