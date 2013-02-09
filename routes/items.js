@@ -49,7 +49,8 @@ module.exports = function (db, BSON) {
         };
 console.log(request);console.log(packet);
         tracking.track(packet, function (tracking) {console.log(tracking);console.log(tracking.data);
-		request.trackingInfo = tracking.data;
+		request.trackingInfo = tracking.data.steps;
+                request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
 			response.send(400);
