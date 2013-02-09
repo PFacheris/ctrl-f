@@ -13,11 +13,12 @@ module.exports = function (db, BSON) {
         create: function (request, response) {
             var item = request.body;
             var collection = db.collection(COLLECTION_NAME);
+            var self = this;
             collection.insert(item, {safe:true}, function(err, result) {
                 if (err) {
                     response.send(400);
                 } else {
-                    if(updateParcelStatus(request))
+                    if(self.updateParcelStatus(request))
                         response.send(result);
                     else
                         response.send(417);
@@ -95,7 +96,33 @@ module.exports = function (db, BSON) {
                 });
             },
 
+            // pacakge delivery checker 
+            // @param tracking=trackingNumber
+            updateParcelStatus: function (trackingNumber) {
+                var collection = db.collection(COLLECTION_NAME);
+                var searchParam = {tracking: trackingNumber};
 
+                collection.findOne(searchParam, function (err, results) {
+                    if (err) {
+                        return false;
+                    } else {
+                        var packet = {
+                            service: results.service.toString(),
+                            id: results.tracking.toString()
+                        }
+
+                        tracking.track(packet, function (request, response) {
+                            collection.update(results, {$set: {trackingInfo: response}}, function (er, res) {
+                                if (er) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            });
+                        });
+                    }
+                });
+            },
 
             // all undelivered package delivery checker
             updateParcelStati: function (request, response) {
@@ -155,33 +182,7 @@ module.exports = function (db, BSON) {
                 }, time);}
     }
 
-    // pacakge delivery checker 
-    // @param tracking=trackingNumber
-    var updateParcelStatus = function (trackingNumber) {
-        var collection = db.collection(COLLECTION_NAME);
-        var searchParam = {tracking: trackingNumber};
 
-        collection.findOne(searchParam, function (err, results) {
-            if (err) {
-                return false;
-            } else {
-                var packet = {
-                    service: results.service.toString(),
-                    id: results.tracking.toString()
-                }
-
-                tracking.track(packet, function (request, response) {
-                    collection.update(results, {$set: {trackingInfo: response}}, function (er, res) {
-                        if (er) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    });
-                });
-            }
-        });
-    }
 }
 
 
