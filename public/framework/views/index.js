@@ -22,6 +22,8 @@ window.IndexView = Backbone.View.extend({
     },
 
     beforeSave: function () {
+        var package = new Package();
+        
         var trackingNumber = $('#tracking').val();
         var $ups = /\b(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|[\dT]\d\d\d ?\d\d\d\d ?\d\d\d)\b/i;
         var $fedex1 = /(\b96\d{20}\b)|(\b\d{15}\b)|(\b\d{12}\b)/;
@@ -34,19 +36,19 @@ window.IndexView = Backbone.View.extend({
 
         if ($usps1.test(trackingNumber) || $usps2.test(trackingNumber) || $usps3.test(trackingNumber) || $usps4.test(trackingNumber))
         {
-            this.model.set('service', 'usps');
+            package.set('service', 'usps');
         }
         else if ($ups.test(trackingNumber))
         {
-            this.model.set('service', 'ups');
+            package.set('service', 'ups');
         }
         else if ($fedex1.test(trackingNumber) || $fedex2.test(trackingNumber) || $fedex3.test(trackingNumber))
         {
-            this.model.set('service', 'fedex');
+            package.set('service', 'fedex');
         }
 
-        this.model.set('tracking', trackingNumber); 
-        this.model.save(null, {
+        package.set('tracking', trackingNumber); 
+        package.save(null, {
             success: function(model, result, xhr) {
                 utils.showAlert("Success!", "You tracked a package.");
                 console.log(model.get('trackingInfo'));

@@ -23,8 +23,7 @@ var AppRouter = Backbone.Router.extend({
         }
         else
         {
-            var package = new Package();
-            $('.content').html(new IndexView({model: package}).el);
+            $('.content').html(new IndexView().el);
             //this.headerView.selectMenuItem('home-menu');
         }
         utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
