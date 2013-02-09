@@ -157,15 +157,16 @@ module.exports = function (db, BSON) {
         pwReset: function (request, response) {
             var email = request.param('email');
             var collection = db.collection(COLLECTION_NAME);
-
-            collection.findOne({'email': email}, function (err, result) {
+console.log(email);
+console.log(request);
+            collection.findOne({'email': email}, function (err, result) {console.log(result);
                 if (err) {
                     response.send(400);
                 } else {
                     // check that email already exists
-                    if (result) {
+                    if (result) {console.log('point 1');
                         var newHash = utilities.pwHash(result.passwdHash.toString());
-                        collection.update({'_id': new BSON.ObjectID(id)},
+                        collection.update({'email': email},
                         // set new password equal to old password hash
                         {$set: {passwdHash: newHash}},
                         function (er, res) {
@@ -178,7 +179,7 @@ module.exports = function (db, BSON) {
                         //send reset email
                         sendgrid.passReset(result.email,result.passwdHash);
                     } else {
-                        response.send(417);
+                        response.send(417);console.log('point 2');
                     }
                 }
             });
