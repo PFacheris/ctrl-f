@@ -10,10 +10,11 @@ window.SettingsView = Backbone.View.extend({
         var lastName = this.model.get('lastName');
         var email = this.model.get('email');
         console.log(firstName, lastName, email);
+        console.log(this.model);
 
         $(this.el).find("input[name='firstName']").val(firstName);
-        $(this.el).find("input[name='lastName']").val(firstName);
-        $(this.el).find("input[name='email']").val(firstName);
+        $(this.el).find("input[name='lastName']").val(lastName);
+        $(this.el).find("input[name='email']").val(email);
         return this;
     },
 
