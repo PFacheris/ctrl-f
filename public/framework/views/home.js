@@ -42,7 +42,7 @@ window.HomeView = Backbone.View.extend({
         }
 
         this.model.set('tracking', trackingNumber); 
-        this.model.save(null, {
+        /*this.model.save(null, {
             success: function(model, result, xhr) {
                 console.log(model.attributes);
                 utils.showAlert("Success!", "You tracked a package.");
@@ -50,14 +50,14 @@ window.HomeView = Backbone.View.extend({
             },
             error: function(model, xhr, options) {
                 if (xhr.status == 400 || xhr.status == 417) {
-                    utils.addValidationError('tracking', 'Invalid tracking number, we currently support USPS, UPS, and DHL.');
-                    utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
+                    utils.addValidationError('tracking', 'Invalid tracking number; we currently support USPS, UPS, and DHL.');
+                    utils.showAlert("Warning", "Sorry, we couldn't find any results for that tracking number.");
                     console.log(xhr);
                 }
                 else {
                     console.log(model.attributes);
                 }
             }
-        });
+        });*/
     }
 });
