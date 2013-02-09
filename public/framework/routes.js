@@ -22,7 +22,7 @@ var AppRouter = Backbone.Router.extend({
         }
         $('.content').html(this.indexView.el);
         //this.headerView.selectMenuItem('home-menu');
-        utils.hideAlert();
+        utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
     },
 
     home: function (id) {
@@ -40,7 +40,7 @@ var AppRouter = Backbone.Router.extend({
         {
             app.navigate('', true);
         }
-        utils.hideAlert();
+        utils.showAlert('Hey!', 'It\'s good to see you. Get tracking!');
     },
 
     register: function () {
@@ -54,7 +54,7 @@ var AppRouter = Backbone.Router.extend({
             $('.content').html(new RegisterView({model: user}).el);
             //this.headerView.selectMenuItem('home-menu');
         }
-        utils.hideAlert();
+        utils.showAlert('Regsitering', 'I see that we have your curiousity, now we can get your attention.');
     },
 
     settings: function () {
@@ -70,7 +70,8 @@ var AppRouter = Backbone.Router.extend({
         }
         else
             app.navigate('#', true);
-        utils.hideAlert();
+            
+        utils.showAlert('Who am I?', 'Change the information associated with your account here.');
     },
 
     about: function () {
@@ -78,7 +79,7 @@ var AppRouter = Backbone.Router.extend({
             this.aboutView = new AboutView();
         }
         $('.content').html(this.aboutView.el);
-        utils.hideAlert();
+        utils.showAlert('Who are we?', 'Well, that\'s explained over there. Why are you reading this?');
     },
 
     forgotPW: function () {

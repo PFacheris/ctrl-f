@@ -40,10 +40,10 @@ window.utils = {
 
     showAlert: function(title, text) {
         $('.note').html('<strong>' + title + '</strong><p style="position:relative;top:10px;font-size: 22px;line-height:20px;">' + text + '</p>');
-        $('.note').show();
+        $('.note').fadeIn();
     },
 
     hideAlert: function() {
-        $('.note').hide();
+        $('.note').fadeOut();
     }
 }
