@@ -92,7 +92,8 @@ module.exports = function (db, BSON) {
             });
         },
 
-        // pacakge delivery checker
+        // pacakge delivery checker 
+        // @param tracking=trackingNumber
         updateParcelStatus: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var searchParam = {tracking: request.param('tracking')};
@@ -121,6 +122,8 @@ module.exports = function (db, BSON) {
 
         // all undelivered package delivery checker
         updateParcelStati: function (request, response) {
+            setInterval( function () {
+
             var collection = db.collection(COLLECTION_NAME);
             var searchParam = {type: 'Parcel', delievered: false};
 
@@ -128,7 +131,7 @@ module.exports = function (db, BSON) {
                 if (err) {
                     response.send(400);
                 } else {
-                    for (i=0; i < results.length; i++) {
+                   /* for (i=0; i < results.length; i++) {
                         var packet = {
                             service: results[i].service.toString(),
                             id: results[i].tracking.toString()
@@ -164,9 +167,10 @@ module.exports = function (db, BSON) {
                                 });
                             }
                         });
-                    }
+                    }*/response.send('alert');
                 }
             });
+}, 5000);
         }
     }
 }
