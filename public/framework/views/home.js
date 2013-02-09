@@ -28,25 +28,28 @@ window.HomeView = Backbone.View.extend({
         var $usps3 = /^91[0-9]+$/;
         var $usps4 = /^[A-Za-z]{2}[0-9]+US$/;
 
+        var pkg = new Package();
+
         if ($usps1.test(trackingNumber) || $usps2.test(trackingNumber) || $usps3.test(trackingNumber) || $usps4.test(trackingNumber))
         {
-            this.model.set('service', 'usps');
+            pkg.set('service', 'usps');
         }
         else if ($ups.test(trackingNumber))
         {
-            this.model.set('service', 'ups');
+            pkg.set('service', 'ups');
         }
         else if ($fedex1.test(trackingNumber) || $fedex2.test(trackingNumber) || $fedex3.test(trackingNumber))
         {
-            this.model.set('service', 'fedex');
+            pkg.set('service', 'fedex');
         }
 
-        this.model.set('tracking', trackingNumber); 
-        /*this.model.save(null, {
+        pkg.set('tracking', trackingNumber); 
+        pkg.save(null, {
             success: function(model, result, xhr) {
                 console.log(model.attributes);
                 utils.showAlert("Success!", "You tracked a package.");
-                app.navigate('home', true);
+                this.packages.add(pkg);
+                this.render();
             },
             error: function(model, xhr, options) {
                 if (xhr.status == 400 || xhr.status == 417) {
@@ -58,6 +61,6 @@ window.HomeView = Backbone.View.extend({
                     console.log(model.attributes);
                 }
             }
-        });*/
+        });
     }
 });
