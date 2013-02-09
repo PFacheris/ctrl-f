@@ -6,6 +6,13 @@ window.IndexView = Backbone.View.extend({
 
     render:function () {
         $(this.el).html(this.template());
+        if ($(this.el).find('#map'))
+        {
+            var $parent = $(this.el).find('#map').parent();
+            $parent.html('');
+            $parent.html('<div id="map" style="height:195px;width:100%;">');
+            makeMap($(this.el).find('#map').get(0));
+        }
         return this;
     },
 
