@@ -10,15 +10,7 @@ window.IndexView = Backbone.View.extend({
     },
 
     events: {
-        "change"            : "change",
         "click #add"        : "beforeSave"
-    },
-
-    change: function () {
-        var target = event.target;
-        var change = {};
-        change['tracking'] = target.value;
-        this.model.set(change); 
     },
 
     beforeSave: function () {
