@@ -66,15 +66,24 @@ module.exports = function (db, BSON) {
             delete user.password;
             delete user.passwordConfirm;             
             delete user._id;
-//console.log(user);
+
+            // check email doesn't already exist in db
+            collection.findOne({email: user.email.toString()},
+                function (err, result) {
+                if (err) {
+                    response.send(400);
+                } else {
+                    if (!result) {
+                        response.send(613);
+                    }
+                }
+            });
 
             var collection = db.collection(COLLECTION_NAME);
-//collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {if (err) {response.send(400); console.log('error at 2')} else {console.log(result)}});
             collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
                 function (err, result) {
                 if (err) {
                     response.send(400);
-//console.log('Error at position 1');
                 } else {
                     response.send(result[0]);
                 }
