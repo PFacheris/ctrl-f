@@ -48,29 +48,26 @@ module.exports = function (db, BSON) {
             id: item.tracking.toString()
         };
 
-        tracking.track(packet, function (tracking) {console.log(tracking.data.steps);console.log(tracking.data);
+        tracking.track(packet, function (tracking) {
 		//request.trackingInfo = tracking.data.steps;
                 //request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
 			response.send(400);
 		    } else {
-			/*if(methods.updateParcelStatus(item.tracking))
-			    response.send(result);
-			else
-			    response.send(417); */
-                       // console.log(result);
-		    }
-		});
+
                 collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
                     function (er, output) {
                         if (er) {
                             response.send(400);
                         } else {
-                            console.log('point 1'); response.send(output);
+                            console.log('point 1'); console.log(output[0]); response.send(output[0]); console.log('point 2');
                         }
                 });
+               }
             });
+           });
+
     },
 
 
