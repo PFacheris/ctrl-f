@@ -82,7 +82,7 @@ module.exports = function (db, BSON) {
                                 if (err) {
                                     response.send(400);
                                 } else {
-                                    response.send(result[0]);
+                                    response.send(result[0]);console.log(result[0]);
                                 }
                             });
                         }
