@@ -5,7 +5,7 @@
 *
 */
 var COLLECTION_NAME = 'items';
-//var tracking = require('units');
+var tracking = require('dhl');
 
 module.exports = function (db, BSON) {
     return {
@@ -31,7 +31,7 @@ module.exports = function (db, BSON) {
 
             var collection = db.collection(COLLECTION_NAME);
             collection.update({'_id' : new BSON.ObjectID(id)},
-                item, {safe: true}, function (err, result) {
+                {$set: item}, {safe: true}, function (err, result) {
                     if (err) {
                         response.send(400);
                     } else {
@@ -92,7 +92,8 @@ module.exports = function (db, BSON) {
             });
         },
 
-        // pacakge delivery checker
+        // pacakge delivery checker 
+        // @param tracking=trackingNumber
         updateParcelStatus: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var searchParam = {tracking: request.param('tracking')};
@@ -121,6 +122,12 @@ module.exports = function (db, BSON) {
 
         // all undelivered package delivery checker
         updateParcelStati: function (request, response) {
+            var time = 100000; // in milliseconds
+
+            // repeat every 'time' seconds
+            setInterval(function () {
+            
+            console.log('parcel update begin');
             var collection = db.collection(COLLECTION_NAME);
             var searchParam = {type: 'Parcel', delievered: false};
 
@@ -167,6 +174,7 @@ module.exports = function (db, BSON) {
                     }
                 }
             });
-        }
+            console.log('parcel update complete');
+        }, time);}
     }
 }

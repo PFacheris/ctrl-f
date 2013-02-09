@@ -22,21 +22,25 @@ var AppRouter = Backbone.Router.extend({
         }
         $('.content').html(this.indexView.el);
         //this.headerView.selectMenuItem('home-menu');
-        utils.hideAlert();
+        utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
     },
 
     home: function (id) {
         if (window.activeSession.isAuthorized())
         {
-            if (!this.homeView) {
-                this.homeView = new HomeView();
-            }
-            $('.content').html(this.homeView.el);
-            //this.headerView.selectMenuItem('home-menu');
+            var user = new User();
+            user.fetch({
+                data: { email: window.activeSession.get('email')},
+                success: function(model, response) {
+                    $('.content').html(new HomeView({model: user}).el);
+                }
+            });
         }
         else
-            app.navigate('#', true);
-        utils.hideAlert();
+        {
+            app.navigate('', true);
+        }
+        utils.showAlert('Hey!', 'It\'s good to see you. Get tracking!');
     },
 
     register: function () {
@@ -50,7 +54,7 @@ var AppRouter = Backbone.Router.extend({
             $('.content').html(new RegisterView({model: user}).el);
             //this.headerView.selectMenuItem('home-menu');
         }
-        utils.hideAlert();
+        utils.showAlert('Regsitering', 'I see that we have your curiousity, now we can get your attention.');
     },
 
     settings: function () {
@@ -66,7 +70,8 @@ var AppRouter = Backbone.Router.extend({
         }
         else
             app.navigate('#', true);
-        utils.hideAlert();
+            
+        utils.showAlert('Who am I?', 'Change the information associated with your account here.');
     },
 
     about: function () {
@@ -74,7 +79,7 @@ var AppRouter = Backbone.Router.extend({
             this.aboutView = new AboutView();
         }
         $('.content').html(this.aboutView.el);
-        utils.hideAlert();
+        utils.showAlert('Who are we?', 'Well, that\'s explained over there. Why are you reading this?');
     },
 
     forgotPW: function () {
@@ -88,7 +93,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView", "ForgotPasswordView"], function() {
+utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView", "ForgotPasswordView", "PackageView"], function() {
     app = new AppRouter();
 
     window.activeSession.set({token: $.cookie('authtoken')}); 
