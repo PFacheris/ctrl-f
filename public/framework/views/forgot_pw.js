@@ -39,14 +39,16 @@ window.ForgotPasswordView = Backbone.View.extend({
         jQuery.ajax({
             type: "POST",
             url: "userpwReset",
-            data: {email: value}
-        }).ajaxSuccess(function (evt, xhr, options) {
-            utils.showAlert('Sent!', "Check your email.");
-        }).ajaxError(function (evt, xhr, settings, error) {
-            if (xhr.status == 417) {
-                utils.addValidationError('email', "Email doesn't exist.");
-                utils.showAlert("Warning", "Check your input and try again.");
-                console.log("Received error code because of nonexistent email.");
+            data: {email: value},
+            success: function (evt, xhr, options) {
+                utils.showAlert('Sent!', "Check your email.");
+            },
+            error: function (evt, xhr, settings, error) {
+                if (xhr.status == 417) {
+                    utils.addValidationError('email', "Email doesn't exist.");
+                    utils.showAlert("Warning", "Check your input and try again.");
+                    console.log("Received error code because of nonexistent email.");
+                }
             }
         });
     }
