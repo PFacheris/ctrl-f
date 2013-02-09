@@ -4,6 +4,7 @@ var Package = Item.extend({
         tracking: "",
         service: "",
         delivered: false,
+        trackingInfo: []
     },
     
     initialize: function () {

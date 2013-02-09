@@ -5,7 +5,7 @@
 *
 */
 var COLLECTION_NAME = 'items';
-var tracking = require('../tracking.js');
+//var tracking = require('units');
 
 module.exports = function (db, BSON) {
     return {
@@ -92,66 +92,81 @@ module.exports = function (db, BSON) {
             });
         },
 
-        // package delivery checker
+        // pacakge delivery checker
         updateParcelStatus: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
+            var searchParam = {tracking: request.param('tracking')};
+
+            collection.findOne(searchParam, function (err, results) {
+                if (err) {
+                    response.send(400);
+                } else {
+                    var packet = {
+                        service: results.service.toString(),
+                        id: results.tracking.toString()
+                    }
+
+                    tracking.track(packet, function (request, response) {
+                        collection.udpate(results, {$set: {trackingInfo: response}}, function (er, res) {
+                           if (er) {
+                               response.send(400);
+                           } else {
+                              response.send(res);
+                           }
+                        });
+                    });
+                }
+           });
+        },
+
+        // all undelivered package delivery checker
+        updateParcelStati: function (request, response) {
+            var collection = db.collection(COLLECTION_NAME);
             var searchParam = {type: 'Parcel', delievered: false};
-            var isItThereYet = null;
 
             collection.find(searchParam).toArray(function (err, results) {
                 if (err) {
                     response.send(400);
                 } else {
                     for (i=0; i < results.length; i++) {
-                      /*var service = results[i].service;
-                        switch (service) {
-                            case 'USPS': 
-                                isItThereYet = tracking.USPS(result[i].tracking.toString()).delivered;
-                                break;
-                            case 'DHL': 
-                                isItThereYet = tracking.DHL(result[i].tracking.toString()).delivered;
-                                break;
-                            case 'UPS': 
-                                isItThereYet = tracking.UPS(result[i].tracking.toString()).delivered;
-                                break;
-                            case 'FedEx': 
-                                isItThereYet = tracking.FedEx(result[i].tracking.toString()).delivered;
-                                break;                           
+                        var packet = {
+                            service: results[i].service.toString(),
+                            id: results[i].tracking.toString()
                         }
 
-                        if (isItThereYet = true) {
-                            // find email associated with item
-                            userCollection = db.collection('users');
-                            userCollection.findOne({items: results[i].tracking.toString()},
-                                function (er, res) {
-                                    if (er) {
-                                        response.send(400);
-                                    } else {
-                                        var name;
-                                        if (results[i].name) {
-                                            name = results[i].name.toString();
+                        tracking.track(packet, function (request, response) {
+                            if (response.delivered == true) {
+                                // find email associated with item
+                                userCollection = db.collection('users');
+                                userCollection.findOne({items: results[i].tracking.toString()},
+                                    function (er, res) {
+                                        if (er) {
+                                            response.send(400);
                                         } else {
-                                            name = ' '
+                                            var name;
+                                            if (results[i].name) {
+                                                name = results[i].name.toString();
+                                            } else {
+                                                name = ' ';
+                                            }
+                                            sendgrid.delivered(res.email.toString(), name, 
+                                                results[i].tracking.toString());
                                         }
-                                        sendgrid.delivered(res.email.toString(), name, 
-                                            results[i].tracking.toString());
-                                    }
-                            });
-                            // mark package as delivered
-                            collection.update({'_id': results[i].id.$oid}, 
-                                {delivered: true}, function(e, re) {
-                                    if (e) {
-                                        response.send(400);
-                                    } else {
-                                        response.send(re);
-                                    }
-                            });
-                        }
-                      */
+                                });
+                                // mark package as delivered
+                                collection.update({'_id': results[i].id.$oid}, 
+                                    {delivered: true}, function(e, re) {
+                                        if (e) {
+                                            response.send(400);
+                                        } else {
+                                            response.send(re);
+                                        }
+                                });
+                            }
+                        });
                     }
                 }
             });
         }
-                        
     }
 }
