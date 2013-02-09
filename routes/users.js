@@ -52,10 +52,10 @@ console.log(user);
             var passwdHash = utilities.pwHash(user.password);
             user.passwdHash = passwdHash;
             delete user.password;
-            
+            delete user.passwordConfirm; 
             
             var collection = db.collection(COLLECTION_NAME);
-            collection.update({'_id': new BSON.ObjectID(id)}, user, {
+            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user}, {
                 safe: true
             }, function (err, result) {
                 if (err) {
