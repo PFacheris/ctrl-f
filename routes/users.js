@@ -73,13 +73,13 @@ console.log('point 4');
             delete user._id;
 
             // check email doesn't already exist in db
-            collection.findOne({email: user.email.toString()},
+            collection.findOne({email: user.email},
                 function (err, result) {
                 if (err) {
                     response.send(400);
                 } else {
-                    if (!result) {
-                        response.send(613);
+                    if (result) {
+                        response.send(417);
                     }
                 }
             });
