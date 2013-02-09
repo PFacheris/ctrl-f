@@ -167,7 +167,7 @@ module.exports = function (db, BSON) {
                                 });
                             }
                         });
-                    }*/response.send('alert');
+                    }*/console.log('alert');
                 }
             });
 }, 5000);
