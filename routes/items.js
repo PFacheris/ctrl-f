@@ -44,8 +44,8 @@ module.exports = function (db, BSON) {
         var collection = db.collection(COLLECTION_NAME);
         
         var packet = {
-            service: request.service.toString(),
-            id: request.tracking.toString(),
+            service: item.service.toString(),
+            id: item.tracking.toString()
         };
 console.log(request);consolelog(packet);
         tracking.track(packet, function (req, res) {console.log(res);
