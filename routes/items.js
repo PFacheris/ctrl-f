@@ -59,15 +59,15 @@ module.exports = function (db, BSON) {
 			    response.send(result);
 			else
 			    response.send(417); */
-                        response.send(result);console.log(result);
+                       // console.log(result);
 		    }
 		});
                 collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
-                    function (er, res) {
+                    function (er, output) {
                         if (er) {
                             response.send(400);
                         } else {
-                            console.log('point 1'); response.send(res); consoloe.log(res);
+                            console.log('point 1'); response.send(output);
                         }
                 });
             });
