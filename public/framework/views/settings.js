@@ -5,7 +5,8 @@ window.SettingsView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(this.template({firstName: "apples", lastName: "andOranges", email: "jchrist@example.com"}));
+        var userObj = {firstName: this.model.get("firstName"), lastName: this.model.get("lastName"), email: this.model.get("email")}
+        $(this.el).html(this.template(userObj));
         return this;
     },
 
