@@ -64,7 +64,7 @@ module.exports = function (db, BSON) {
 		});
                 collection.update(item, {$set: {tracking: tracking.data.steps, delivered: tracking.data.delivered}},
                     function (er, res) {
-                        if (err) {
+                        if (er) {
                             response.send(400);
                         } else {
                             response.send(res); consoloe.log(res);
