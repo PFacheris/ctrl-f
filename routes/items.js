@@ -47,10 +47,10 @@ module.exports = function (db, BSON) {
             service: item.service.toString(),
             id: item.tracking.toString()
         };
-console.log(request);console.log(packet);
-        tracking.track(packet, function (tracking) {console.log(tracking);console.log(tracking.data);
-		request.trackingInfo = tracking.data.steps;
-                request.delivered = tracking.data.delivered;
+
+        tracking.track(packet, function (tracking) {console.log(tracking.data.steps);console.log(tracking.data);
+		//request.trackingInfo = tracking.data.steps;
+                //request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
 			response.send(400);
@@ -62,6 +62,14 @@ console.log(request);console.log(packet);
                         response.send(result);console.log(result);
 		    }
 		});
+                collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
+                    function (er, res) {
+                        if (er) {
+                            response.send(400);
+                        } else {
+                            console.log('point 1'); response.send(res); consoloe.log(res);
+                        }
+                });
             });
     },
 
