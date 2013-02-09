@@ -55,7 +55,7 @@ module.exports = function (db, BSON) {
 console.log(user);
 
             var collection = db.collection(COLLECTION_NAME);
-            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
+            collection.update({'_id': id}, {$set: user},
                 function (err, result) {
                 if (err) {
                     response.send(400);
