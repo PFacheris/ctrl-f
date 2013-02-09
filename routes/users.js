@@ -69,22 +69,22 @@ module.exports = function (db, BSON) {
             var collection = db.collection(COLLECTION_NAME);
             // check email doesn't already exist in db
             collection.findOne({email: user.email},
-                function (err, result) {
+                function (err, result) {console.log(result);console.log(user);
                 if (err) {
                     response.send(400);
                 } else {
                     if (result) {
                         if (result._id != id) {
-                            response.send(417);
+                            response.send(417);console.log('point 1');
                         } else {
                             collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
                                 function (err, result) {
                                 if (err) {
-                                    response.send(400);
+                                    response.send(400);console.log('point 2');
                                 } else {
-                                    response.send(result[0]);
+                                    response.send(result[0]);console.log('point 3');
                                 }
-                             });
+                            });
                         }
                     }
                 }
