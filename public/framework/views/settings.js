@@ -64,9 +64,10 @@ window.SettingsView = Backbone.View.extend({
             success: function(model, result, xhr) {
                 app.navigate('home', true);
             },
-            error: function(model, fail, xhr) {
+            error: function(model, xhr, options) {
                 utils.addValidationError('email', 'Email already exists.');
                 showAlert("Warning", "Check your input and try again.");
+                console.log(xhr);
             }
         });
     }
