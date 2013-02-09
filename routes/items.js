@@ -49,8 +49,8 @@ module.exports = function (db, BSON) {
         };
 
         tracking.track(packet, function (tracking) {console.log(tracking.data.steps);console.log(tracking.data);
-		request.trackingInfo = tracking.data.steps;
-                request.delivered = tracking.data.delivered;
+		//request.trackingInfo = tracking.data.steps;
+                //request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
 			response.send(400);
@@ -62,6 +62,14 @@ module.exports = function (db, BSON) {
                         response.send(result);console.log(result);
 		    }
 		});
+                collection.update(item, {$set: {tracking: tracking.data.steps, delivered: tracking.data.delivered}},
+                    function (er, res) {
+                        if (err) {
+                            response.send(400);
+                        } else {
+                            response.send(res); consoloe.log(res);
+                        }
+                });
             });
     },
 
