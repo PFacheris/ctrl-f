@@ -57,26 +57,6 @@ module.exports = function (db, BSON) {
         // Generic Item Search
         read: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
-/*            var id, name, tracking, service;
-            var searchParam;
-
-            // Check existence of paramters in order and create corresponding searchParam
-            if (request.param('id')) {
-                id = request.param('id');
-                searchParam = {'_id': new BSON.ObjectID(id)};
-
-            } else if (request.param('name')) {
-                name = request.param('name');
-                searchParam = {'name': name};
-
-            } else if (request.param('tracking')) {
-                tracking = request.param('tracking');
-                searchParam = {'trackingNumber': tracking};
-
-            } else {
-                response.send('No search term specified');
-            }
-*/
             var user = request.query;
 
             if (user) {

@@ -82,7 +82,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     // Item Actions
     app.post('/item', item.create);
-    app.put('/item', item.update);
+    app.put('/item/:id', item.update);
     app.get('/items', item.getAll);
     app.get('/item', item.read);
     app.delete('/item', item.destroy);
