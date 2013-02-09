@@ -5,6 +5,7 @@
 *
 */
 var COLLECTION_NAME = 'items';
+var tracking = require('./tracking');
 
 module.exports = function (db, BSON) {
     return {
@@ -24,7 +25,7 @@ module.exports = function (db, BSON) {
 
         // Update item
         update: function (request, response) {
-            var id = request.param('id');
+            var id = request.param('_id');
             var item = request.body;
             delete item._id;
 
@@ -40,7 +41,7 @@ module.exports = function (db, BSON) {
         },
 
 
-        // GetAll Parcels
+        // GetAll Items
         getAll: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             
@@ -61,11 +62,11 @@ module.exports = function (db, BSON) {
 
             if (user) {
             // Execute search
-                collection.findOne(user, function (err, results) {
+                collection.findOne(user, function (err, result) {
                     if (err) {
                         response.send(500);
                     } else {
-                        response.send(results);
+                        response.send(result);
                     }
                 });
             } else {
@@ -75,6 +76,7 @@ module.exports = function (db, BSON) {
         
         // Destroy entry
         destroy: function (request, response) {
+
             var id = request.param('id');
             var collection = db.collection(COLLECTION_NAME);
             collection.remove({
@@ -94,14 +96,30 @@ module.exports = function (db, BSON) {
         updateParcelStatus: function (request, response) {
             var collection = db.collection(COLLECTION_NAME);
             var searchParam = {type: 'Parcel', delievered: false};
+            var isItThereYet = null;
 
             collection.find(searchParam).toArray(function (err, results) {
                 if (err) {
                     response.send(400);
                 } else {
                     for (i=0; i < results.length; i++) {
-                        /*TODO check to see if delivered using outside API
-                        if (delivered from API = true) {
+                      /*var service = results[i].service;
+                        switch (service) {
+                            case 'USPS': 
+                                isItThereYet = tracking.USPS(result[i].tracking.toString()).delivered;
+                                break;
+                            case 'DHL': 
+                                isItThereYet = tracking.DHL(result[i].tracking.toString()).delivered;
+                                break;
+                            case 'UPS': 
+                                isItThereYet = tracking.UPS(result[i].tracking.toString()).delivered;
+                                break;
+                            case 'FedEx': 
+                                isItThereYet = tracking.FedEx(result[i].tracking).toString().delivered;
+                                break;                           
+                        }
+
+                        if (isItThereYet = true) {
                             // find email associated with item
                             userCollection = db.collection('users');
                             userCollection.findOne({items: results[i].trackingNumber.toString()},
@@ -128,7 +146,8 @@ module.exports = function (db, BSON) {
                                         response.send(re);
                                     }
                             });
-                        } */
+                        }
+                      */
                     }
                 }
             });

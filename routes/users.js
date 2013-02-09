@@ -155,27 +155,31 @@ module.exports = function (db, BSON) {
         */
 
         pwReset: function (request, response) {
-            var id = request.param('id');
+            var email = request.param('email');
             var collection = db.collection(COLLECTION_NAME);
 
-            collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {
+            collection.findOne({'email': email}, function (err, result) {
                 if (err) {
                     response.send(400);
                 } else {
-                    var newHash = utilities.pwHash(result.passwdHash.toString());
-                    collection.update({'_id': new BSON.ObjectID(id)},
-                    // set new password equal to old password hash
-                    {$set: {passwdHash: newHash}},
-                    function (er, res) {
-                        if (er) {
-                            response.send(400);
-                        } else {
-                            response.send('Successful reset');
-                        }
-                    });
-                    //send reset email
-                    sendgrid.passReset(result.email,result.passwdHash);
-
+                    // check that email already exists
+                    if (result) {
+                        var newHash = utilities.pwHash(result.passwdHash.toString());
+                        collection.update({'_id': new BSON.ObjectID(id)},
+                        // set new password equal to old password hash
+                        {$set: {passwdHash: newHash}},
+                        function (er, res) {
+                            if (er) {
+                                response.send(400);
+                            } else {
+                                response.send('Successful reset');
+                            }
+                        });
+                        //send reset email
+                        sendgrid.passReset(result.email,result.passwdHash);
+                    } else {
+                        response.send(417);
+                    }
                 }
             });
         }
