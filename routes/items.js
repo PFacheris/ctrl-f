@@ -13,12 +13,11 @@ module.exports = function (db, BSON) {
         create: function (request, response) {
             var item = request.body;
             var collection = db.collection(COLLECTION_NAME);
-            var self = this;
             collection.insert(item, {safe:true}, function(err, result) {
                 if (err) {
                     response.send(400);
                 } else {
-                    if(self.updateParcelStatus(request))
+                    if(updateParcelStatus(request))
                         response.send(result);
                     else
                         response.send(417);
