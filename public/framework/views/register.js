@@ -52,10 +52,11 @@ window.RegisterView = Backbone.View.extend({
     },
 
     saveUser: function () {
+        var thisRef = this;
         this.model.save(null, {
             success: function(model, result, xhr) {
                 app.navigate('home', true);
-                this.login();
+                thisRef.login();
                 utils.showAlert('Success!', 'You now have a ctrl-f account.');
             },
             error: function(model, fail, xhr) {
