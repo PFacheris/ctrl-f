@@ -61,7 +61,7 @@ module.exports = function (db, BSON) {
                         if (er) {
                             response.send(400);
                         } else {
-                            console.log('point 1'); response.send(output);
+                            console.log('point 1'); response.send(output); console.log('point 2');
                         }
                 });
                }
