@@ -5,8 +5,16 @@ window.SettingsView = Backbone.View.extend({
     },
 
     render: function () {
-        var userObj = {firstName: this.model.get("firstName"), lastName: this.model.get("lastName"), email: this.model.get("email")};
-        $(this.el).html(this.template(userObj));
+        $(this.el).html(this.template());
+        var firstName = this.model.get('firstName');
+        var lastName = this.model.get('lastName');
+        var email = this.model.get('email');
+        console.log(firstName, lastName, email);
+        console.log(this.model);
+
+        $(this.el).find("input[name='firstName']").val(firstName);
+        $(this.el).find("input[name='lastName']").val(lastName);
+        $(this.el).find("input[name='email']").val(email);
         return this;
     },
 
