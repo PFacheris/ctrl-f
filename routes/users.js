@@ -48,14 +48,14 @@ module.exports = function (db, BSON) {
         update: function (request, response) {
             var id = request.param('id');
             var user = request.body;
-
+console.log(user);
             var passwdHash = utilities.pwHash(user.password);
             user.passwdHash = passwdHash;
             delete user.password;
             
             
             var collection = db.collection(COLLECTION_NAME);
-            collection.insert({id: id}, user, {
+            collection.update({'_id': new BSON.ObjectID(id)}, user, {
                 safe: true
             }, function (err, result) {
                 if (err) {
