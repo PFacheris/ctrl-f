@@ -79,8 +79,10 @@ console.log('point 4');
                 if (err) {
                     response.send(400);
                 } else {
-                    if (result._id != id) {
-                        response.send(417);
+                    if (result) {
+                        if (result._id != id) {
+                            response.send(417);
+                        }
                     }
                 }
             });
