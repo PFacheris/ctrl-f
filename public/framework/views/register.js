@@ -35,7 +35,7 @@ window.RegisterView = Backbone.View.extend({
     },
 
     cancel: function () {
-        app.navigate('home', false);
+        app.navigate('home', true);
     },
 
 
@@ -52,10 +52,17 @@ window.RegisterView = Backbone.View.extend({
     },
 
     saveUser: function () {
-        this.model.save(); 
-        this.login();
-        app.navigate('#home', false);
-        utils.showAlert('Success!', 'You now have ctrl-f account.');
+        this.model.save(null, {
+            success: function(model, result, xhr) {
+                app.navigate('home', true);
+                this.login();
+                utils.showAlert('Success!', 'You now have a ctrl-f account.');
+            },
+            error: function(model, fail, xhr) {
+                utils.addValidationError('email', 'Email already exists.');
+                showAlert("Warning", "Check your input and try again.");
+            }           
+        }); 
     },
     
     login: function () {
