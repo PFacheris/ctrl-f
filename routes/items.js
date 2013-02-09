@@ -55,13 +55,7 @@ module.exports = function (db, BSON) {
 		    if (err) {
 			response.send(400);
 		    } else {
-			/*if(methods.updateParcelStatus(item.tracking))
-			    response.send(result);
-			else
-			    response.send(417); */
-                       // console.log(result);
-		    }
-		});
+
                 collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
                     function (er, output) {
                         if (er) {
@@ -70,7 +64,10 @@ module.exports = function (db, BSON) {
                             console.log('point 1'); response.send(output);
                         }
                 });
+               }
             });
+           });
+
     },
 
 
