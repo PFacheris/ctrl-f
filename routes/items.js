@@ -49,7 +49,7 @@ module.exports = function (db, BSON) {
         };
 
         tracking.track(packet, function (tracking) {console.log(tracking.data.steps);console.log(tracking.data);
-		request.trackingInfo = tracking.data.steps.toArray();
+		request.trackingInfo = tracking.data.steps;
                 request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
