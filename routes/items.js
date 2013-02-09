@@ -46,7 +46,7 @@ module.exports = function (db, BSON) {
             if (err) {
                 response.send(400);
             } else {
-                if(methods.updateParcelStatus(request))
+                if(methods.updateParcelStatus(item.tracking))
                     response.send(result);
                 else
                     response.send(417);
