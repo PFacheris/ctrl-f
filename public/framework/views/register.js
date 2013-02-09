@@ -60,7 +60,7 @@ window.RegisterView = Backbone.View.extend({
             },
             error: function(model, fail, xhr) {
                 utils.addValidationError('email', 'Email already exists.');
-                showAlert("Warning", "Check your input and try again.");
+                utils.showAlert("Warning", "Check your input and try again.");
             }           
         }); 
     },
