@@ -154,32 +154,34 @@ module.exports = function (db, BSON) {
                     console.log('parcel update complete');
                 }, time);}
     }
-}
 
-// pacakge delivery checker 
-// @param tracking=trackingNumber
-var updateParcelStatus = function (trackingNumber) {
-    var collection = db.collection(COLLECTION_NAME);
-    var searchParam = {tracking: trackingNumber};
+    // pacakge delivery checker 
+    // @param tracking=trackingNumber
+    var updateParcelStatus = function (trackingNumber) {
+        var collection = db.collection(COLLECTION_NAME);
+        var searchParam = {tracking: trackingNumber};
 
-    collection.findOne(searchParam, function (err, results) {
-        if (err) {
-            return false;
-        } else {
-            var packet = {
-                service: results.service.toString(),
-                id: results.tracking.toString()
-            }
+        collection.findOne(searchParam, function (err, results) {
+            if (err) {
+                return false;
+            } else {
+                var packet = {
+                    service: results.service.toString(),
+                    id: results.tracking.toString()
+                }
 
-            tracking.track(packet, function (request, response) {
-                collection.update(results, {$set: {trackingInfo: response}}, function (er, res) {
-                    if (er) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                tracking.track(packet, function (request, response) {
+                    collection.update(results, {$set: {trackingInfo: response}}, function (er, res) {
+                        if (er) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    });
                 });
-            });
-        }
-    });
+            }
+        });
+    }
 }
+
+
