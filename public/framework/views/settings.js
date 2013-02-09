@@ -6,7 +6,7 @@ window.SettingsView = Backbone.View.extend({
 
     render: function () {
         console.log("Model:");
-        console.log(this.model);
+        console.log(this.model.toJSON());
         console.log("userObj: ");
         var userObj = {firstName: this.model.get("firstName"), lastName: this.model.get("lastName"), email: this.model.get("email")};
         console.log(userObj);
