@@ -6,7 +6,9 @@ window.SettingsView = Backbone.View.extend({
 
     render: function () {
         $(this.el).html(this.template());
-        $(this.el).find("input[name='firstName']").val(this.model.get('firstName'));
+        var firstName = this.model.get('firstName');
+        console.log(firstName);
+        $(this.el).find("input[name='firstName']").val(firstName);
         return this;
     },
 
