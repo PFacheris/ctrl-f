@@ -34,14 +34,14 @@ var AppRouter = Backbone.Router.extend({
             //this.headerView.selectMenuItem('home-menu');
         }
         else
-            app.navigate('#', false);
+            app.navigate('#', true);
         utils.hideAlert();
     },
 
     register: function () {
         if (window.activeSession.isAuthorized())
         {
-            app.navigate('home', false);
+            app.navigate('home', true);
         }
         else
         {
@@ -64,7 +64,7 @@ var AppRouter = Backbone.Router.extend({
             });
         }
         else
-            app.navigate('#', false);
+            app.navigate('#', true);
         utils.hideAlert();
     },
 
