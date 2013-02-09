@@ -5,7 +5,7 @@ window.SettingsView = Backbone.View.extend({
     },
 
     render: function () {
-        utils.showAlert("Note", "If you don't want to change your password, just retype the old one and confirm it.");
+        utils.showAlert("Note", "Retype your password to confirm any changes.");
         $(this.el).html(this.template());
         var firstName = this.model.get('firstName');
         var lastName = this.model.get('lastName');
@@ -43,7 +43,7 @@ window.SettingsView = Backbone.View.extend({
     },
 
     cancel: function () {
-        app.navigate('home', false);
+        app.navigate('home', true);
     },
 
 
@@ -60,8 +60,15 @@ window.SettingsView = Backbone.View.extend({
     },
 
     saveUser: function () {
-        this.model.save(); 
-        app.navigate('home', false);
+        this.model.save(null, {
+            success: function(model, result, xhr) {
+                app.navigate('home', true);
+            },
+            error: function(model, fail, xhr) {
+                utils.addValidationError('email', 'Email already exists.');
+                showAlert("Warning", "Check your input and try again.");
+            }
+        });
     }
 });
 
