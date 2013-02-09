@@ -74,7 +74,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     // User Actions
     app.post('/user', user.create);
-    app.put('/user', user.update);
+    app.put('/user/:id', user.update);
     app.get('/users', user.getAll);
     app.get('/user', user.userSearch);
     app.delete('/user', user.destroy);
