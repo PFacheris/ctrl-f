@@ -48,8 +48,8 @@ window.IndexView = Backbone.View.extend({
         this.model.set('tracking', trackingNumber); 
         this.model.save(null, {
             success: function(model, result, xhr) {
-                console.log("test1");
                 utils.showAlert("Success!", "You tracked a package.");
+                console.log(result);
             },
             error: function(model, xhr, options) {
                 if (xhr.status == 400 || xhr.status == 417) {
@@ -58,8 +58,7 @@ window.IndexView = Backbone.View.extend({
                     console.log(xhr);
                 }
                 else {
-                    console.log("test2");
-                    //console.log(model.attributes);
+                    console.log(result);
                 }
             }
         });

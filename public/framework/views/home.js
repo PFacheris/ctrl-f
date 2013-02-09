@@ -1,12 +1,12 @@
 window.HomeView = Backbone.View.extend({
 
     initialize:function () {
-        this.packages = new ItemList(this.model.items);
         this.render();
     },
 
     render:function () {
         $(this.el).html(this.template());
+        this.packages = new ItemList(this.model.items);
         _.each(this.packages, function(package){
             $(this.el).find('#packages').append(new PackageView({model: package}));
         });
@@ -16,6 +16,8 @@ window.HomeView = Backbone.View.extend({
     events: {
         "click #add"        : "beforeSave"
     },
+    
+    
     
     beforeSave: function () {
         var trackingNumber = $('#tracking').val();
@@ -48,7 +50,7 @@ window.HomeView = Backbone.View.extend({
             success: function(model, result, xhr) {
                 console.log(model.attributes);
                 utils.showAlert("Success!", "You tracked a package.");
-                this.packages.add(pkg);
+                this.model.addItem(pkg);
                 this.render();
             },
             error: function(model, xhr, options) {
