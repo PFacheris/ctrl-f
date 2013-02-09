@@ -115,14 +115,14 @@ module.exports = function (db, BSON) {
                                 isItThereYet = tracking.UPS(result[i].tracking.toString()).delivered;
                                 break;
                             case 'FedEx': 
-                                isItThereYet = tracking.FedEx(result[i].tracking).toString().delivered;
+                                isItThereYet = tracking.FedEx(result[i].tracking.toString()).delivered;
                                 break;                           
                         }
 
                         if (isItThereYet = true) {
                             // find email associated with item
                             userCollection = db.collection('users');
-                            userCollection.findOne({items: results[i].trackingNumber.toString()},
+                            userCollection.findOne({items: results[i].tracking.toString()},
                                 function (er, res) {
                                     if (er) {
                                         response.send(400);
@@ -134,7 +134,7 @@ module.exports = function (db, BSON) {
                                             name = ' '
                                         }
                                         sendgrid.delivered(res.email.toString(), name, 
-                                            results[i].trackingNumber.toString());
+                                            results[i].tracking.toString());
                                     }
                             });
                             // mark package as delivered
