@@ -55,10 +55,10 @@ window.IndexView = Backbone.View.extend({
                 if (xhr.status == 400 || xhr.status == 417) {
                     utils.addValidationError('tracking', 'Invalid tracking number, we currently support USPS, UPS, and DHL.');
                     utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
-                    console.log(xhr);
                 }
                 else {
                     console.log(model.attributes);
+                    console.log(xhr);
                 }
             }
         });
