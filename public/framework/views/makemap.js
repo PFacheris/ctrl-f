@@ -22,7 +22,17 @@ function setLocations(locationList) {
 }
 
 function codelocs(n, locations) {
-    geocoder.geocode( {'address' : locations[n]}, function (results, status) {
+    var locEl = locations.trackingInfo[n];
+    if (!locEl.location || locEl.location.length <= 0) {
+        if (n < locations.length-1)
+            codelocs(n+1, locations);
+        else{
+            doTheRest();
+            return;
+        }
+    }
+        
+    geocoder.geocode( {'address' : locations.trackingInfo[n].location}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             points.push(results[0].geometry.location);
             if (n < locations.length-1)
