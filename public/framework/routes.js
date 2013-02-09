@@ -5,7 +5,8 @@ var AppRouter = Backbone.Router.extend({
         "home"            	: "home",
         "register"          : "register",
         "me"      	        : "settings",
-        "about"             : "about"
+        "about"             : "about",
+        "reset_password"        : "forgotPW"
     },
 
     initialize: function () {
@@ -74,11 +75,20 @@ var AppRouter = Backbone.Router.extend({
         }
         $('.content').html(this.aboutView.el);
         utils.hideAlert();
+    },
+
+    forgotPW: function () {
+        if (!this.forgotPWView) {
+            this.forgotPWView = new ForgotPasswordView();
+        }
+        $('.content').html(this.forgotPWView.el);
+        utils.hideAlert();
+
     }
 
 });
 
-utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView"], function() {
+utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView", "ForgotPasswordView"], function() {
     app = new AppRouter();
 
     window.activeSession.set({token: $.cookie('authtoken')}); 

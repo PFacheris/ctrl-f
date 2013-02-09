@@ -33,7 +33,8 @@ window.HeaderView = Backbone.View.extend({
         "click .logout"         : "logout",
         "click #register"       : "toggleLoginBox",
         "click #btnSubmit"      : "login",
-        "click #btnCancel"      : "toggleLoginBox"
+        "click #btnCancel"      : "toggleLoginBox",
+        "click #forgotPW"       : "toggleLoginBox"
     },
 
     change: function() {
@@ -130,6 +131,5 @@ window.HeaderView = Backbone.View.extend({
             $('.' + menuItem).addClass('active');
         }
     }
-
 });
 
