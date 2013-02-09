@@ -42,16 +42,26 @@ module.exports = function (db, BSON) {
     methods.create = function (request, response) {
         var item = request.body;
         var collection = db.collection(COLLECTION_NAME);
-        collection.insert(item, {safe:true}, function(err, result) {
-            if (err) {
-                response.send(400);
-            } else {
-                if(methods.updateParcelStatus(item.tracking))
-                    response.send(result);
-                else
-                    response.send(417);
-            }
-        });
+        
+        var packet = {
+            service: request.service.toString(),
+            id: request.tracking.toString(),
+        };
+console.log(request);consolelog(packet);
+        tracking.track(packet, function (req, res) {console.log(res);
+		request.trackingInfo = res;
+                collection.insert(item, {safe:true}, function(err, result) {
+		    if (err) {
+			response.send(400);
+		    } else {
+			/*if(methods.updateParcelStatus(item.tracking))
+			    response.send(result);
+			else
+			    response.send(417); */
+                        response.send(result);console.log(result);
+		    }
+		});
+            });
     },
 
 
