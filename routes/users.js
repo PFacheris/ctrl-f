@@ -30,8 +30,8 @@ module.exports = function (db, BSON) {
             var collection = db.collection(COLLECTION_NAME);
 
             // check that new email doesn't exist in db
-            collection.findOne({email: user.email.toString()},
-                function (err, result) {
+            collection.findOne({email: user.email},
+                function (err, result) { console.log(result);console.log(user.email);console.log(user);
                 if (err) {
                     response.send(400);
 console.log('Error point 2');
