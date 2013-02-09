@@ -18,7 +18,7 @@ function makeMap(container) {
 //Passing a new locationList clears the last one.
 function setLocations(locationList) {
     points = [];
-    codelocs(0, locationList);
+    codelocs(locationList.length, locationList);
 }
 
 function codelocs(n, locations) {
