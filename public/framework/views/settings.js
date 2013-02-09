@@ -62,11 +62,12 @@ window.SettingsView = Backbone.View.extend({
     saveUser: function () {
         this.model.save(null, {
             success: function(model, result, xhr) {
+                utils.showAlert("Success!", "Updated your account information.");
                 app.navigate('home', true);
             },
             error: function(model, xhr, options) {
                 utils.addValidationError('email', 'Email already exists.');
-                showAlert("Warning", "Check your input and try again.");
+                utils.showAlert("Warning", "Check your input and try again.");
                 console.log(xhr);
             }
         });
