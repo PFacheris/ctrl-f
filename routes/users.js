@@ -36,7 +36,7 @@ module.exports = function (db, BSON) {
                     response.send(400);
 console.log('Error point 2');
                 } else {
-                    if (!result) {
+                    if (result) {
                         response.send(417);
 console.log('Error point 1');
                         return;
