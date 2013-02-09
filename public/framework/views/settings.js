@@ -9,8 +9,6 @@ window.SettingsView = Backbone.View.extend({
         var firstName = this.model.get('firstName');
         var lastName = this.model.get('lastName');
         var email = this.model.get('email');
-        console.log(firstName, lastName, email);
-        console.log(this.model);
 
         $(this.el).find("input[name='firstName']").val(firstName);
         $(this.el).find("input[name='lastName']").val(lastName);
@@ -62,33 +60,7 @@ window.SettingsView = Backbone.View.extend({
 
     saveUser: function () {
         this.model.save(); 
-        this.login();
         app.navigate('home', false);
-    },
-    
-    login: function () {
-        var email = this.model.get('email');
-        var password = this.model.get('password');
-        window.activeSession.set(
-            {
-                email: email,
-                password: password
-            },{
-                silent:true
-            }
-        );
-
-        window.activeSession.save({}, {
-            success: function (model, response) {
-                if(window.activeSession.isAuthorized())
-                        $.cookie('authtoken', window.activeSession.get('token'));
-            },
-            error: function (model, response) {
-                console.log("Error saving session.");
-            }
-        });
-
     }
-    
 });
 
