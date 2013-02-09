@@ -1,24 +1,24 @@
 var Package = Item.extend({
 
     defaults: {
-        trackingNumber: "",
-        deliveryService: "",
-        arrived: false,
+        tracking: "",
+        service: "",
+        delivered: false,
     },
     
     initialize: function () {
         var self = this;
         this.validators = {};
         
-        this.validators.trackingNumber = function (value) {
+        this.validators.tracking = function (value) {
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a tracking number."};
         };
 
-        this.validators.deliveryService = function (value) {
+        this.validators.service = function (value) {
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a delivery service."};
         };
 
-        this.validators.arrived = function (value) {
+        this.validators.delivered = function (value) {
             return typeof value == "boolean" ? {isValid: true} : {isValid: false, message: "A package arrival status must be a truth condition."};
         };
     },
@@ -44,7 +44,7 @@ var Package = Item.extend({
 
 
     getName: function() {
-        return (name == "") ? ("Package from " + deliveryService) : name;
+        return (name == "") ? ("Package from " + service) : name;
     }
 
 
