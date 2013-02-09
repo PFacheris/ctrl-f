@@ -47,9 +47,9 @@ module.exports = function (db, BSON) {
             service: item.service.toString(),
             id: item.tracking.toString()
         };
-console.log(packet);
+
         tracking.track(packet, function (tracking) {console.log(tracking.data.steps);console.log(tracking.data);
-		request.trackingInfo = tracking.data.steps; console.log(request.trackingInfo);
+		request.trackingInfo = tracking.data.steps.toArray();
                 request.delivered = tracking.data.delivered;
                 collection.insert(item, {safe:true}, function(err, result) {
 		    if (err) {
