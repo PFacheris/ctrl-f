@@ -49,16 +49,16 @@ window.IndexView = Backbone.View.extend({
         this.model.save(null, {
             success: function(model, result, xhr) {
                 utils.showAlert("Success!", "You tracked a package.");
-                console.log(result);
+                setLocations(model.get('trackingInfo'));
             },
             error: function(model, xhr, options) {
                 if (xhr.status == 400 || xhr.status == 417) {
                     utils.addValidationError('tracking', 'Invalid tracking number, we currently support USPS, UPS, and DHL.');
                     utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
-                    console.log(xhr);
                 }
                 else {
-                    console.log(result);
+                    console.log(model.attributes);
+                    console.log(xhr);
                 }
             }
         });
