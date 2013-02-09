@@ -56,7 +56,7 @@ console.log(user);
 
             var collection = db.collection(COLLECTION_NAME);
 collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, result) {if (err) {response.send(400); console.log('error at 2')} else {console.log(result)}});
-            collection.update({'_id': id}, {$set: user},
+            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
                 function (err, result) {
                 if (err) {
                     response.send(400);
