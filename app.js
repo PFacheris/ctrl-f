@@ -88,7 +88,6 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.delete('/item', item.destroy);
 
     // Item.Package Actions
-    app.post('/item/package', item.updateParcelStatus);
     app.post('/item/packagesUpdate', item.updateParcelStati);
 
     // SendGrid Actions

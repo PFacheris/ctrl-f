@@ -42,8 +42,8 @@ function doTheRest() {
 
     if(!map) map = new google.maps.Map(mapholder, {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: new LatLng(39.87, -98.5),
-        zoom: 5
+        center: new google.maps.LatLng(39.87, -98.5),
+        zoom: 4
     });
 
     if (points.length <= 0)

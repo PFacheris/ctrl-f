@@ -17,11 +17,16 @@ var AppRouter = Backbone.Router.extend({
     },
 
     index: function (id) {
-        if (!this.indexView) {
-            this.indexView = new IndexView();
+        if (window.activeSession.isAuthorized())
+        {
+            app.navigate('home', true);
         }
-        $('.content').html(this.indexView.el);
-        //this.headerView.selectMenuItem('home-menu');
+        else
+        {
+            var package = new package();
+            $('.content').html(new IndexView({model: package}).el);
+            //this.headerView.selectMenuItem('home-menu');
+        }
         utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
     },
 

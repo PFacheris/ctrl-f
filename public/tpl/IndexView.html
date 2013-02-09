@@ -23,7 +23,7 @@
     <div class="six mobile-four columns">
         <div class="row" style="padding-bottom: 5px;">
             <div class="twelve columns">
-                <div style="height:195px;width:100%;">
+                <div id="map" style="height:195px;width:100%;">
                 </div>
             </div>
         </div>
@@ -42,3 +42,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    makeMap($('#map').get(0));
+</script>
