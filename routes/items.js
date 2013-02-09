@@ -122,8 +122,12 @@ module.exports = function (db, BSON) {
 
         // all undelivered package delivery checker
         updateParcelStati: function (request, response) {
-            setInterval( function () {
+            var time = 10000; // in milliseconds
 
+            // repeat every 'time' seconds
+            setInterval(function () {
+            
+            console.log('package update begin');
             var collection = db.collection(COLLECTION_NAME);
             var searchParam = {type: 'Parcel', delievered: false};
 
@@ -167,10 +171,10 @@ module.exports = function (db, BSON) {
                                 });
                             }
                         });
-                    }console.log('alert');
+                    }
                 }
             });
-            }, 10000);
-        }
+            console.log('package update complete');
+        }, time);}
     }
 }
