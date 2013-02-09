@@ -1,0 +1,69 @@
+var locations;
+var geocoder;
+var points;
+var mostRecentLoc;
+var mapholder;
+var map;
+
+//Call this function to make a map.
+//"container" should be a div
+function makeMap(container) {
+    //locations = ["NEW YORK 10027", "Austin", "Atlanta", "Baltimore"]; //list of cities or whatever
+
+    points = [];
+    geocoder = new google.maps.Geocoder();
+    mapholder = container;
+}
+
+//Passing a new locationList clears the last one.
+function setLocations(locationList) {
+    points = [];
+    codelocs(0, locationList);
+}
+
+function codelocs(n, locations) {
+    geocoder.geocode( {'address' : locations[n]}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            points.push(results[0].geometry.location);
+            if (n < locations.length-1)
+                codelocs(n+1, locations);
+            else
+                doTheRest();
+        } else {
+            alert(n + " " + status);
+            doTheRest();
+        }
+    });
+}
+
+function doTheRest() {
+
+    var poly;
+
+    if(!map) map = new google.maps.Map(mapholder, {
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new LatLng(39.87, -98.5),
+        zoom: 5
+    });
+
+    poly = new google.maps.Polyline({
+        strokeColor: '#ff3333',
+        strokeWeight: 2,
+        strokeOpacity: 1.0
+    });
+    poly.setMap(map);
+
+    var path = poly.getPath();
+
+    for(var i=0; i<points.length; i++) {
+        path.push(points[i]);
+    }
+
+    /*mostRecentLoc = points[2];
+    map.setCenter(mostRecentLoc);
+    var marker = new google.maps.Marker({
+        position: mostRecentLoc,
+        map: map,
+        title: "Your package was here last."
+    });*/
+}
