@@ -1,7 +1,6 @@
 var locations;
 var geocoder;
 var points;
-var mostRecentLoc;
 var mapholder;
 var map;
 
@@ -13,6 +12,7 @@ function makeMap(container) {
     points = [];
     geocoder = new google.maps.Geocoder();
     mapholder = container;
+    doTheRest();
 }
 
 //Passing a new locationList clears the last one.
@@ -46,6 +46,9 @@ function doTheRest() {
         zoom: 5
     });
 
+    if (points.length <= 0)
+        return;
+
     poly = new google.maps.Polyline({
         strokeColor: '#ff3333',
         strokeWeight: 2,
@@ -59,11 +62,10 @@ function doTheRest() {
         path.push(points[i]);
     }
 
-    /*mostRecentLoc = points[2];
-    map.setCenter(mostRecentLoc);
+    map.setCenter(points[0]);
     var marker = new google.maps.Marker({
-        position: mostRecentLoc,
+        position: points[0],
         map: map,
         title: "Your package was here last."
-    });*/
+    });
 }
