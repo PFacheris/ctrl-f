@@ -36,7 +36,8 @@ module.exports = function (db, BSON) {
                     response.send(400);
                 } else {
                     if (!result) {
-                        response.send(613);
+                        response.send(417);
+                        return;
                     }
                 }
             });
