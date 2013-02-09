@@ -5,7 +5,7 @@
 *
 */
 var COLLECTION_NAME = 'items';
-//var tracking = require('units');
+var tracking = require('dhl');
 
 module.exports = function (db, BSON) {
     return {
@@ -131,7 +131,7 @@ module.exports = function (db, BSON) {
                 if (err) {
                     response.send(400);
                 } else {
-                   /* for (i=0; i < results.length; i++) {
+                    for (i=0; i < results.length; i++) {
                         var packet = {
                             service: results[i].service.toString(),
                             id: results[i].tracking.toString()
@@ -167,10 +167,10 @@ module.exports = function (db, BSON) {
                                 });
                             }
                         });
-                    }*/console.log('alert');
+                    }console.log('alert');
                 }
             });
-}, 5000);
+            }, 10000);
         }
     }
 }
