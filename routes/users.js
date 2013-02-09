@@ -31,7 +31,7 @@ module.exports = function (db, BSON) {
 
             // check that new email doesn't exist in db
             collection.findOne({email: user.email},
-                function (err, result) { console.log(result);console.log(user.email);console.log(user);
+                function (err, result) {
                 if (err) {
                     response.send(400);
                 } else {
@@ -69,20 +69,20 @@ module.exports = function (db, BSON) {
             var collection = db.collection(COLLECTION_NAME);
             // check email doesn't already exist in db
             collection.findOne({email: user.email},
-                function (err, result) {console.log(result);console.log(user);
+                function (err, result) {
                 if (err) {
                     response.send(400);
                 } else {
                     if (result) {
                         if (result._id != id) {
-                            response.send(417);console.log('point 1');
+                            response.send(417);
                         } else {
                             collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
                                 function (err, result) {
                                 if (err) {
-                                    response.send(400);console.log('point 2');
+                                    response.send(400);
                                 } else {
-                                    response.send(result[0]);console.log('point 3');
+                                    response.send(result[0]);
                                 }
                             });
                         }
@@ -157,14 +157,12 @@ module.exports = function (db, BSON) {
         pwReset: function (request, response) {
             var email = request.param('email');
             var collection = db.collection(COLLECTION_NAME);
-console.log(email);
-console.log(request);
-            collection.findOne({'email': email}, function (err, result) {console.log(result);
+            collection.findOne({'email': email}, function (err, result) {
                 if (err) {
                     response.send(400);
                 } else {
                     // check that email already exists
-                    if (result) {console.log('point 1');
+                    if (result) {
                         var newHash = utilities.pwHash(result.passwdHash.toString());
                         collection.update({'email': email},
                         // set new password equal to old password hash
@@ -179,7 +177,7 @@ console.log(request);
                         //send reset email
                         sendgrid.passReset(result.email,result.passwdHash);
                     } else {
-                        response.send(417);console.log('point 2');
+                        response.send(417);
                     }
                 }
             });

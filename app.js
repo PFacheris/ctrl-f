@@ -89,6 +89,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
 
     // Item.Package Actions
     app.post('/item/package', item.updateParcelStatus);
+    app.post('/item/packagesUpdate', item.updateParcelStati);
 
     // SendGrid Actions
     app.post('/mailer', mailer.singleEmail);
@@ -112,6 +113,7 @@ app.get('/mail/all', function(request,response) {
 var email = request.param('email'); var name = request.param('name'); var tracking = request.param('tracking');
 var tempPass = request.param('tempPass');mailer.delivery(email,name,tracking);mailer.confirmationEmail(email);
 mailer.passReset(email,tempPass);response.send('success');});
+var test = require('./test'); app.post('/test', function(request,response) {setInterval(function(){console.log('Hello!')}, 5000)});
 //END CHAE TESTING
 
 });
