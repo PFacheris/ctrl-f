@@ -55,13 +55,16 @@ module.exports = function (db, BSON) {
 		    if (err) {
 			response.send(400);
 		    } else {
-
+console.log(result._id);
                 collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
                     function (er, output) {
                         if (er) {
                             response.send(400);
                         } else {
-                            console.log('point 1'); console.log(output[0]); response.send(output[0]); console.log('point 2');
+                            collection.findOne({'_id': result._id}, function (e, res) {
+                                if (e) {response.send(400)}
+                                else {console.log(res);response.send(res)}
+                            });
                         }
                 });
                }
