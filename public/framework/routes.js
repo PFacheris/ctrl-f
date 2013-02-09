@@ -28,14 +28,18 @@ var AppRouter = Backbone.Router.extend({
     home: function (id) {
         if (window.activeSession.isAuthorized())
         {
-            if (!this.homeView) {
-                this.homeView = new HomeView();
-            }
-            $('.content').html(this.homeView.el);
-            //this.headerView.selectMenuItem('home-menu');
+            var user = new User();
+            user.fetch({
+                data: { email: window.activeSession.get('email')},
+                success: function(model, response) {
+                    $('.content').html(new HomeView({model: user}).el);
+                }
+            });
         }
         else
-            app.navigate('#', true);
+        {
+            app.navigate('', true);
+        }
         utils.hideAlert();
     },
 
@@ -88,7 +92,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView", "ForgotPasswordView"], function() {
+utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView", "ForgotPasswordView", "PackageView"], function() {
     app = new AppRouter();
 
     window.activeSession.set({token: $.cookie('authtoken')}); 
