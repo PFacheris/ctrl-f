@@ -18,25 +18,24 @@ function makeMap(container) {
 //Passing a new locationList clears the last one.
 function setLocations(locationList) {
     points = [];
-    codelocs(0, locationList);
+    codelocs(locationList.length, locationList);
 }
 
 function codelocs(n, locations) {
-    var locEl = locations.trackingInfo[n];
-    if (!locEl.location || locEl.location.length <= 0) {
-        if (n < locations.length-1)
-            codelocs(n+1, locations);
+    var locEl = locations[n];
+    if (!locations || !locEl || !locEl.location || locEl.location.length <= 0) {
+        if (n > 0)
+            return codelocs(n-1, locations);
         else{
-            doTheRest();
-            return;
+            return doTheRest();
         }
     }
         
     geocoder.geocode( {'address' : locations.trackingInfo[n].location}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             points.push(results[0].geometry.location);
-            if (n < locations.length-1)
-                codelocs(n+1, locations);
+            if (n > 0)
+                codelocs(n-1, locations);
             else
                 doTheRest();
         } else {
