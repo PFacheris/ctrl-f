@@ -166,7 +166,7 @@ console.log(request);
                     // check that email already exists
                     if (result) {console.log('point 1');
                         var newHash = utilities.pwHash(result.passwdHash.toString());
-                        collection.update({'_id': new BSON.ObjectID(id)},
+                        collection.update({'email': email},
                         // set new password equal to old password hash
                         {$set: {passwdHash: newHash}},
                         function (er, res) {
