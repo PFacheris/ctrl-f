@@ -114,7 +114,8 @@ window.HeaderView = Backbone.View.extend({
                 console.log("Error saving session.");
             }
         });
-
+        
+        app.navigate('home', true);
     },
 
     logout: function () {

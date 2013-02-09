@@ -5,7 +5,11 @@ window.PackageView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(this.template());
+        $(this.el).html(this.template({
+            name: this.model.getName(),
+            tracking: this.model.tracking,
+            service: this.model.service
+        }));
         return this;
     }
 
