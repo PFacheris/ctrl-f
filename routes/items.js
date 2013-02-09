@@ -5,7 +5,7 @@
 *
 */
 var COLLECTION_NAME = 'items';
-var tracking = require('./tracking');
+var tracking = require('../tracking.js');
 
 module.exports = function (db, BSON) {
     return {
