@@ -34,21 +34,25 @@ module.exports = function (db, BSON) {
                 function (err, result) {
                 if (err) {
                     response.send(400);
+console.log('Error point 2');
                 } else {
                     if (!result) {
                         response.send(417);
+console.log('Error point 1');
                         return;
                     }
                 }
             });
-
+console.log('point 5');
             collection.insert(user, {
                 safe: true
             }, function (err, result) {
                 if (err) {
                     response.send(400);
+console.log('Error point 3');
                 } else {
                     response.send(result[0]);
+console.log('point 4');
                 }
             });
 
