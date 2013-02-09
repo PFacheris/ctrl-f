@@ -46,20 +46,20 @@ module.exports = function (db, BSON) {
         * UPDATE
         */
         update: function (request, response) {
-            var id = request.param('id');
+            var id = request.param('_id');
             var user = request.body;
-console.log(user);
             var passwdHash = utilities.pwHash(user.password);
             user.passwdHash = passwdHash;
             delete user.password;
-            delete user.passwordConfirm; 
-            
+            delete user.passwordConfirm;             
+console.log(user);
+
             var collection = db.collection(COLLECTION_NAME);
-            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user}, {
-                safe: true
-            }, function (err, result) {
+            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
+                function (err, result) {
                 if (err) {
                     response.send(400);
+console.log('Error at position 1');
                 } else {
                     response.send(result[0]);
                 }
