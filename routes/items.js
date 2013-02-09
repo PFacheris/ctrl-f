@@ -62,7 +62,7 @@ console.log(result[0]._id);
                         if (er) {
                             response.send(400);
                         } else {
-                            collection.findOne({'_id': new BSON.ObjectID(result[0]._id)}, function (e, res) {
+                            collection.findOne({'_id': new BSON.ObjectID(result[0]._id.toString())}, function (e, res) {
                                 if (e) {response.send(400)}
                                 else {console.log(res);response.send(res)}
                             });
