@@ -34,30 +34,24 @@ module.exports = function (db, BSON) {
                 function (err, result) { console.log(result);console.log(user.email);console.log(user);
                 if (err) {
                     response.send(400);
-console.log('Error point 2');
                 } else {
                     if (result) {
                         response.send(417);
-console.log('Error point 1');
                         return;
+                    } else {
+                        collection.insert(user, function (er, res) {
+                            if (er) {
+                                response.send(400);
+                            } else {
+                                response.send(res[0]);
+                               
+                                // send sign up confirmation email
+                                sendgrid.confirmationEmail(user.email.toString());
+                            }
+                        });
                     }
                 }
             });
-console.log('point 5');
-            collection.insert(user, {
-                safe: true
-            }, function (err, result) {
-                if (err) {
-                    response.send(400);
-console.log('Error point 3');
-                } else {
-                    response.send(result[0]);
-console.log('point 4');
-                }
-            });
-
-            // send sign up confirmation email
-            sendgrid.confirmationEmail(user.email.toString());
         },
 
         /*
@@ -82,17 +76,17 @@ console.log('point 4');
                     if (result) {
                         if (result._id != id) {
                             response.send(417);
+                        } else {
+                            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
+                                function (err, result) {
+                                if (err) {
+                                    response.send(400);
+                                } else {
+                                    response.send(result[0]);
+                                }
+                             });
                         }
                     }
-                }
-            });
-
-            collection.update({'_id': new BSON.ObjectID(id)}, {$set: user},
-                function (err, result) {
-                if (err) {
-                    response.send(400);
-                } else {
-                    response.send(result[0]);
                 }
             });
         },
