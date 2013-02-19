@@ -1,6 +1,7 @@
 var Package = Item.extend({
 
     defaults: {
+        name: "",
         tracking: "",
         service: "",
         delivered: false,
@@ -41,12 +42,6 @@ var Package = Item.extend({
 
     validateItem: function (key) {
         return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
-    },
-
-
-    getName: function() {
-        return (this.name == "") ? ("Package from " + service) : this.name;
     }
-
 
 });

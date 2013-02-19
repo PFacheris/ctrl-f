@@ -77,15 +77,15 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.put('/user/:id', user.update);
     app.get('/users', user.getAll);
     app.get('/user', user.userSearch);
-    app.delete('/user', user.destroy);
+    app.delete('/user/:id', user.destroy);
     app.post('/userpwReset', user.pwReset);
 
     // Item Actions
     app.post('/item', item.create);
     app.put('/item/:id', item.update);
     app.get('/items', item.getAll);
-    app.get('/item', item.read);
-    app.delete('/item', item.destroy);
+    app.get('/item/:id', item.read);
+    app.delete('/item/:id', item.destroy);
 
     // Item.Package Actions
     app.post('/item/packagesUpdate', item.updateParcelStati);

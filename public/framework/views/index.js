@@ -6,6 +6,7 @@ window.IndexView = Backbone.View.extend({
 
     render:function () {
         $(this.el).html(this.template());
+        //makeMap($(this.el).find('#map').get(0));
         return this;
     },
 
@@ -43,8 +44,8 @@ window.IndexView = Backbone.View.extend({
         package.save(null, {
             success: function(model, result, xhr) {
                 utils.showAlert("Success!", "You tracked a package.");
-                console.log(model.get('trackingInfo'));
                 setLocations(model.get('trackingInfo'));
+                model.destroy();
             },
             error: function(model, xhr, options) {
                 if (xhr.status == 400 || xhr.status == 417) {
@@ -52,8 +53,7 @@ window.IndexView = Backbone.View.extend({
                     utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
                 }
                 else {
-                    console.log(model.attributes);
-                    console.log(xhr);
+                    utils.showAlert("Error", "Something went wrong, we'll check it out.");
                 }
             }
         });

@@ -5,7 +5,7 @@ window.User = Backbone.Model.extend({
     initialize: function () {
         var self = this;
         this.validators = {};
-        
+
         this.validators.firstName = function (value) {
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a first name"};
         };
@@ -26,6 +26,7 @@ window.User = Backbone.Model.extend({
         this.validators.passwordConfirm = function (value) {
             return value == self.get('password') ? {isValid: true} : {isValid: false, message: "Passwords must match."};
         };
+
     },
 
     parse: function(response) {
@@ -54,6 +55,7 @@ window.User = Backbone.Model.extend({
 
     addItem: function(item) {
         this.get('items').add(item);
+        this.save();
     },
 
     defaults: {
@@ -64,5 +66,5 @@ window.User = Backbone.Model.extend({
         email: "",
         items: new ItemList() 
     },
-    
+
 });

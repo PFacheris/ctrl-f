@@ -6,7 +6,7 @@ var AppRouter = Backbone.Router.extend({
         "register"          : "register",
         "me"      	        : "settings",
         "about"             : "about",
-        "reset_password"        : "forgotPW"
+        "reset_password"    : "forgotPW"
     },
 
     initialize: function () {
@@ -100,7 +100,7 @@ var AppRouter = Backbone.Router.extend({
 utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "RegisterView", "SettingsView", "ForgotPasswordView", "PackageView"], function() {
     app = new AppRouter();
 
-    window.activeSession.set({token: $.cookie('authtoken')}); 
+    window.activeSession.set({token: $.cookie('authtoken'), email: $.cookie('authemail')}); 
 
     Backbone.history.start();
 });
