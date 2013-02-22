@@ -30,7 +30,7 @@ window.PackageView = Backbone.View.extend({
         }
         else
         {
-            //deleteFromMap();
+            deleteOverlays()
             $button.html("View");
             $button.css("color", "");
         }

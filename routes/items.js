@@ -22,8 +22,7 @@ var upsCredentials = {
 };
 
 var uspsCredentials = {
-    id: '8521505I1183',
-    testing: true
+    id: '8521505I1183'
 };
 
 /*
