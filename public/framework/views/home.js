@@ -5,6 +5,7 @@ window.HomeView = Backbone.View.extend({
     initialize:function () {
         self = this;
         this.listenTo(this.model.get('items'), "remove", self.addAll);
+        this.listenTo(this.model.get('items'), "add", self.addOne);
         this.render();
     },
 

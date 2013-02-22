@@ -4,6 +4,7 @@
 .DS_Store
 humans.txt
 robots.txt
+/node_modules
 
 #sass
 *.rb

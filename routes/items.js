@@ -5,11 +5,50 @@
 *
 */
 var COLLECTION_NAME = 'items';
-var tracking = require('dhl');
+var tracking = require('packmule');
 
+// Credentials for packmule
+var fedexCredentials = {
+    key: 'Qpl5pWPVtGG5MHxL',
+    password: 'tBbtJQok2nFtNHJUWW6wDcZai',
+    number: '357267196',
+    meter: '104876784'
+};
+
+var upsCredentials = {
+    key: "8CAF46F7778C3870",
+    user: "Club1505",
+    password: "Schapiro1"
+};
+
+var uspsCredentials = {
+    id: '8521505I1183',
+    testing: true
+};
+
+/*
+* Gets correct credential set for passing to packmule.
+* @param string carrier a string representing an active carrier for packmule
+*
+*/
+var getCredentials = function (carrier)
+{
+    switch(carrier.toLowerCase()){
+        case "fedex":
+            return fedexCredentials;
+        case "ups":
+            return upsCredentials;
+        case "usps":
+            return uspsCredentials;
+        default:
+            return;
+    }
+};
+
+// Exported methods for item creation and manipulation
 module.exports = function (db, BSON) {
     var methods = {}
-    
+
     // pacakge delivery checker 
     // @param tracking=trackingNumber
     methods.updateParcelStatus = function (trackingNumber) {
@@ -21,11 +60,13 @@ module.exports = function (db, BSON) {
                 return false;
             } else {
                 var packet = {
-                    service: results.service.toString(),
-                    id: results.tracking.toString()
+                    carrier: results.service.toString(),
+                    number: results.tracking.toString()
                 }
 
-                tracking.track(packet, function (request, response) {
+                var credentials = getCredentials(results.service.toString());
+
+                tracking.track(credentials, packet, function (request, response) {
                     collection.update(results, {$set: {trackingInfo: response}}, function (er, res) {
                         if (er) {
                             return false;
@@ -42,35 +83,37 @@ module.exports = function (db, BSON) {
     methods.create = function (request, response) {
         var item = request.body;
         var collection = db.collection(COLLECTION_NAME);
-        
+
         var packet = {
-            service: item.service.toString(),
-            id: item.tracking.toString()
+            carrier: item.service.toString(),
+            number: item.tracking.toString()
         };
 
-        tracking.track(packet, function (tracking) {
-		//request.trackingInfo = tracking.data.steps;
-                //request.delivered = tracking.data.delivered;
-                collection.insert(item, {safe:true}, function(err, result) {
-		    if (err) {
-			response.send(400);
-		    } else {
-console.log(result[0]);
-console.log(result[0]._id);
-                collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
-                    function (er, output) {
-                        if (er) {
-                            response.send(400);
-                        } else {
-                            collection.findOne({'_id': new BSON.ObjectID(result[0]._id.toString())}, function (e, res) {
-                                if (e) {response.send(400)}
-                                else {console.log(res);response.send(res)}
-                            });
-                        }
-                });
-               }
+        var credentials = getCredentials(item.service.toString());
+
+        tracking.track(credentials, packet, function (tracking) {
+            //request.trackingInfo = tracking.data.steps;
+            //request.delivered = tracking.data.delivered;
+            collection.insert(item, {safe:true}, function(err, result) {
+                if (err) {
+                    response.send(400);
+                } else {
+                    console.log(result[0]);
+                    console.log(result[0]._id);
+                    collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
+                        function (er, output) {
+                            if (er) {
+                                response.send(400);
+                            } else {
+                                collection.findOne({'_id': new BSON.ObjectID(result[0]._id.toString())}, function (e, res) {
+                                    if (e) {response.send(400)}
+                                    else {console.log(res);response.send(res)}
+                                });
+                            }
+                        });
+                }
             });
-           });
+        });
 
     },
 
@@ -163,11 +206,13 @@ console.log(result[0]._id);
                     } else {
                         for (i=0; i < results.length; i++) {
                             var packet = {
-                                service: results[i].service.toString(),
-                                id: results[i].tracking.toString()
+                                carrier: results[i].service.toString(),
+                                number: results[i].tracking.toString()
                             }
 
-                            tracking.track(packet, function (request, response) {
+                            var credentials = getCredentials(results[i].service.toString());
+
+                            tracking.track(credentials, packet, function (request, response) {
                                 if (response.delivered == true) {
                                     // find email associated with item
                                     userCollection = db.collection('users');
