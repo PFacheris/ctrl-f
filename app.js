@@ -94,25 +94,35 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.post('/mailer', mailer.singleEmail);
     //app.post('/confMailer', mailer.confirmationEmail);
     //app.post('/pwResetMailer', mailer.pwReset);
-/*
-//CHAE TESTING
-utilities = require('./utilities');app.get('/hashTest',function (request, response) {
-var password = request.param('password');var hash = utilities.pwHash(password);
-console.log(hash);
-//response.send('Hello, World! And Patrick');   
-response.send(hash.toString());});
-app.get('/mail/delivery', function(request,response) {
-var name = request.param('name'); var email = request.param('email'); var tracking = request.param('tracking');
-mailer.delivery(email, name, tracking);response.send('success');});
-app.get('/mail/confirmation', function(request,response) {
-var email = request.param('email'); mailer.confirmationEmail(email);response.send('success');});
-app.get('/mail/pwReset', function(request,response) {var email = request.param('email'); 
-var tempPass = request.param('tempPass'); mailer.passReset(email,tempPass);response.send('success');});
-app.get('/mail/all', function(request,response) {
-var email = request.param('email'); var name = request.param('name'); var tracking = request.param('tracking');
-var tempPass = request.param('tempPass');mailer.delivery(email,name,tracking);mailer.confirmationEmail(email);
-mailer.passReset(email,tempPass);response.send('success');});
-//var test = require('./test'); app.post('/test', function(request,response) {setInterval(function(){console.log('Hello!')}, 5000)});
-//END CHAE TESTING
-*/
+    
+    utilities = require('./utilities');
+    
+    app.get('/hashTest',function (request, response) {
+        var password = request.param('password');var hash = utilities.pwHash(password);
+        console.log(hash);
+        //response.send('Hello, World! And Patrick');   
+        response.send(hash.toString());
+    });
+
+    app.get('/mail/delivery', function(request,response) {
+        var name = request.param('name');
+        var email = request.param('email');
+        var tracking = request.param('tracking');
+        mailer.delivery(email, name, tracking);
+        response.send('success');
+    });
+
+    app.get('/mail/confirmation', function(request,response) {
+        var email = request.param('email'); mailer.confirmationEmail(email);response.send('success');
+    });
+
+    app.get('/mail/pwReset', function(request,response) {var email = request.param('email'); 
+        var tempPass = request.param('tempPass'); mailer.passReset(email,tempPass);response.send('success');
+    });
+    
+    app.get('/mail/all', function(request,response) {
+        var email = request.param('email'); var name = request.param('name'); var tracking = request.param('tracking');
+        var tempPass = request.param('tempPass');mailer.delivery(email,name,tracking);mailer.confirmationEmail(email);
+        mailer.passReset(email,tempPass);response.send('success');
+    });
 });

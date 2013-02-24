@@ -61,8 +61,12 @@ module.exports = function (db, BSON) {
         update: function (request, response) {
             var id = request.param('_id');
             var user = request.body;
-            var passwdHash = utilities.pwHash(user.password);
-            user.passwdHash = passwdHash;
+            if (user.password) {
+                var passwdHash = utilities.pwHash(user.password);
+                user.passwdHash = passwdHash;
+            }
+            else
+                delete user.passwdHash;
             delete user.password;
             delete user.passwordConfirm;             
             delete user._id;
@@ -166,7 +170,7 @@ module.exports = function (db, BSON) {
                     // check that email already exists
                     if (result) {
                         var newHash = utilities.pwHash(result.passwdHash.toString());
-                        collection.update({'email': email},
+                        collection.update(result,
                         // set new password equal to old password hash
                         {$set: {passwdHash: newHash}},
                         function (er, res) {

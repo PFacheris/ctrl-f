@@ -47,7 +47,6 @@ window.ForgotPasswordView = Backbone.View.extend({
                 if (xhr.status == 417) {
                     utils.addValidationError('email', "Email doesn't exist.");
                     utils.showAlert("Warning", "Check your input and try again.");
-                    console.log("Received error code because of nonexistent email.");
                 }
             }
         });

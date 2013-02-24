@@ -69,7 +69,6 @@ window.SettingsView = Backbone.View.extend({
                 if (xhr.status == 400 || xhr.status == 417) {
                     utils.addValidationError('email', 'Email already exists.');
                     utils.showAlert("Warning", "Check your input and try again.");
-                    console.log(xhr);
                 }
                 else {
                     utils.showAlert("Success!", "Updated your account information.");
