@@ -1,30 +1,41 @@
 var self;
+var packageViews;
 
 window.HomeView = Backbone.View.extend({
-
     initialize:function () {
         self = this;
-        this.listenTo(this.model.get('items'), "remove", self.addAll);
-        this.listenTo(this.model.get('items'), "add", self.addOne);
+        packageViews = {};
+        this.listenTo(this.model.get('itemsList'), "remove", self.removeOne);
+        this.listenTo(this.model.get('itemsList'), "add", self.addOne);
         this.render();
     },
 
     render:function () {
         $(this.el).html(this.template());
-        makeMap($(this.el).find('#map').get(0));
+        _.defer(makeMap, $(this.el).find('#map').get(0));
         this.addAll();
         return this;
     },
 
     addAll: function () {
         $(self.el).find('#packages').html(" ");
-        self.model.get('items').each(self.addOne);
+        self.model.get('itemsList').each(self.addOne);
     },
 
-    addOne: function (package) {
+    addOne: function (package, animate) {
         var view = new PackageView({model: package});
+        packageViews[package.get('_id')] = view;
         view.render();
-        $(self.el).find('#packages').append(view.el);
+        if (animate) view.$el.css("display", "none");
+        $(self.el).find('#packages').prepend(view.el);
+        if (animate) view.$el.slideToggle('slow');
+    },
+    
+    removeOne: function (package) {
+        packageViews[package.get('_id')].$el.slideToggle('slow', function () {
+            packageViews[package.get('_id')].remove();
+            packageViews[package.get('_id')] = null;
+        });
     },
 
     events: {
@@ -33,18 +44,10 @@ window.HomeView = Backbone.View.extend({
     },
 
     removePackage: function (ev) {
-        var id = $(ev.target).parents('li').attr('id');
-        var toRemove = self.model.get('items').get(id);
-        self.model.get('items').remove(toRemove);
-        toRemove.destroy({
-            success: function(model, result, xhr) {
-                utils.showAlert("Removed", "The selected package was removed.");
-            },
-            error: function(model, xhr, options) {
-                utils.showAlert("Error", "The selected package could not be removed.");
-            }
-        });
-        self.model.save();
+        if (confirm("Are you sure?")){
+            var id = $(ev.target).parents('li').attr('id');
+            this.model.removeItem(id);
+        }
     },
 
     beforeSave: function () {
@@ -72,22 +75,41 @@ window.HomeView = Backbone.View.extend({
         {
             package.set('service', 'fedex');
         }
+        
+        if (package.get('service'))
+        {
+            package.set('tracking', trackingNumber);
+            package.fetch({
+                data: {"tracking": package.get('tracking'), "service": package.get('service')},
+                success: function(model, result) {
+                    utils.showAlert("Success!", "You tracked a package.");
+                    self.model.addItem(package);
+                },
+                error: function(model, xhr) {
+                    if (xhr.status == 404)
+                    {
+                        package.save(null, {
+                            success: function(mod, result) {
+                                utils.showAlert("Success!", "You tracked a package.");
+                                self.model.addItem(package);
+                            },
+                            error: function(mod, xhr, options) {
+                                if (xhr.status == 400 || xhr.status == 417) {
+                                    utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
+                                }
+                                else {
+                                    utils.showAlert("Error", "Something went wrong, we'll check it out.");
+                                }
+                            }
+                        });
+                    }
+                }
+            });
 
-        package.set('tracking', trackingNumber); 
-        package.save(null, {
-            success: function(model, result, xhr) {
-                utils.showAlert("Success!", "You tracked a package.");
-                self.model.addItem(model);
-            },
-            error: function(model, xhr, options) {
-                if (xhr.status == 400 || xhr.status == 417) {
-                    utils.addValidationError('tracking', 'Invalid tracking number, we currently support USPS, UPS, and DHL.');
-                    utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
-                }
-                else {
-                    utils.showAlert("Error", "Something went wrong, we'll check it out.");
-                }
-            }
-        });
+        }
+        else
+        {
+            utils.showAlert('Warning', 'Invalid tracking number, we currently support USPS, UPS, and FedEx.');
+        }
     }
 });

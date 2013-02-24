@@ -16,6 +16,14 @@ window.utils = {
 
         $.when.apply(null, deferreds).done(callback);
     },
+    
+    showActive: function (menuItem){
+        $('.ribbon').animate({marginTop: '-28px'}, 500);
+        if (menuItem) {
+        
+            $('.' + menuItem).animate({marginTop: '-10px'}, 500);
+        }
+    },
 
     displayValidationErrors: function (messages) {
         for (var key in messages) {

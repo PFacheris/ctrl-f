@@ -1,6 +1,7 @@
 var Package = Item.extend({
 
     defaults: {
+        _id: null,
         name: "",
         tracking: "",
         service: "",

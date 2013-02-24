@@ -4,12 +4,12 @@ window.IndexView = Backbone.View.extend({
         this.render();
     },
 
-    render:function () {
+    render: function () {
         $(this.el).html(this.template());
-        //makeMap($(this.el).find('#map').get(0));
+        _.defer(makeMap, $(this.el).find('#map').get(0));
         return this;
     },
-
+    
     events: {
         "click #add"        : "beforeSave"
     },
@@ -40,22 +40,28 @@ window.IndexView = Backbone.View.extend({
             package.set('service', 'fedex');
         }
 
-        package.set('tracking', trackingNumber); 
-        package.save(null, {
-            success: function(model, result, xhr) {
-                utils.showAlert("Success!", "You tracked a package.");
-                setLocations(model.get('trackingInfo'));
-                model.destroy();
-            },
-            error: function(model, xhr, options) {
-                if (xhr.status == 400 || xhr.status == 417) {
-                    utils.addValidationError('tracking', 'Invalid tracking number, we currently support USPS, UPS, and DHL.');
-                    utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
+        if (package.get('service'))
+        {
+            package.set('tracking', trackingNumber); 
+            package.save(null, {
+                success: function(model, result, xhr) {
+                    utils.showAlert("Success!", "You tracked a package.");
+                    setLocations(model.get('trackingInfo'));
+                    model.destroy();
+                },
+                error: function(model, xhr, options) {
+                    if (xhr.status == 400 || xhr.status == 417) {
+                        utils.showAlert("Warning", "We couldn't find any results for that tracking number, sorry.");
+                    }
+                    else {
+                        utils.showAlert("Error", "Something went wrong, we'll check it out.");
+                    }
                 }
-                else {
-                    utils.showAlert("Error", "Something went wrong, we'll check it out.");
-                }
-            }
-        });
+            });
+        }
+        else
+        {
+            utils.showAlert('Warning', 'Invalid tracking number, we currently support USPS, UPS, and FedEx.');
+        }
     }
 });

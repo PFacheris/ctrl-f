@@ -12,6 +12,7 @@
 
         <!-- Included CSS Files -->
         <link rel="stylesheet" href="stylesheets/app.css">
+        <link rel="stylesheet" href="stylesheets/general_foundicons.css">
 
         <style type="text/css">
             body
@@ -36,7 +37,7 @@
             {
                 height: 84px;
                 width: 39px;
-                margin-top: -40px;
+                margin-top: -28px;
             }
 
             .info
@@ -132,10 +133,13 @@
                 background: url('/images/note.png');
                 background-size: cover;
                 height: 140px;
+                width: 140px;
                 padding: 10px 15px 10px 15px;
                 font-family: 'Just Another Hand', cursive;
                 font-size: 22px;
                 display: none;
+                position:fixed;
+                top: 50px;
             }
 
             #logo
@@ -147,6 +151,41 @@
             {
                 cursor: pointer;
                 cursor:hand;
+            }
+
+            li.packageInfo
+            {
+                -webkit-appearance: none;
+                -webkit-border-image: none;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 2px 0px inset;
+                -webkit-rtl-ordering: logical;
+                -webkit-transition-delay: 0s;
+                -webkit-transition-duration: 0.15s;
+                -webkit-transition-property: all;
+                -webkit-transition-timing-function: linear;
+                -webkit-user-select: text;
+                -webkit-writing-mode: horizontal-tb;
+                background-color: rgb(255, 255, 255);
+                border-bottom-color: rgb(204, 204, 204);
+                border-bottom-left-radius: 2px;
+                border-bottom-right-radius: 2px;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                border-left-color: rgb(204, 204, 204);
+                border-left-style: solid;
+                border-left-width: 1px;
+                border-right-color: rgb(204, 204, 204);
+                border-right-style: solid;
+                border-right-width: 1px;
+                border-top-color: rgb(204, 204, 204);
+                border-top-left-radius: 2px;
+                border-top-right-radius: 2px;
+                border-top-style: solid;
+                border-top-width: 1px;
+                box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 2px 0px inset;
+                box-sizing: border-box;
+                color: rgba(0, 0, 0, 0.74902);
+                padding:10px;margin-top:2px;
             }
 
         </style>
@@ -164,11 +203,11 @@
         <header style="top: -45px;"></header>
         <div id="content">
             <div class="row">
-                <div class="two mobile-one columns">
-                    <div class="note">
+                <div class="two columns">
+                    <div class="note hide-for-small">
                     </div>
                 </div>
-                <div class="ten mobile-three columns">
+                <div class="ten mobile-four columns">
                     <div class="panel radius content">
                     </div>
                 </div>
@@ -185,7 +224,7 @@
         </div>
     </div>
     </footer>
-    
+
     <!-- Google Maps API -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTkcTFqfjl3o5Gx_8RDLIbzfyTFB6haoA&sensor=false"></script>
     <script src="framework/views/makemap.js"></script>
@@ -231,7 +270,7 @@
     <!-- Initialize JS -->
     <script src="lib/app.js"></script>
 
-    
+
 
     <script type="text/javascript">
         $('#top').click(function () {

@@ -24,6 +24,7 @@ module.exports = function (db, BSON) {
             user.passwdHash = passwdHash;
             delete user.password;
             delete user.passwordConfirm;
+            delete user.itemsList;
             
             user.items = []; // necessary for add to item function           
  
@@ -65,6 +66,7 @@ module.exports = function (db, BSON) {
             delete user.password;
             delete user.passwordConfirm;             
             delete user._id;
+            delete user.itemsList;
 
             var collection = db.collection(COLLECTION_NAME);
             // check email doesn't already exist in db
@@ -82,7 +84,7 @@ module.exports = function (db, BSON) {
                                 if (err) {
                                     response.send(400);
                                 } else {
-                                    response.send(result[0]);console.log(result[0]);
+                                    response.send(result[0]);
                                 }
                             });
                         }

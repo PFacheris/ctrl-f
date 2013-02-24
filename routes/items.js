@@ -48,207 +48,163 @@ var getCredentials = function (carrier)
 module.exports = function (db, BSON) {
     var methods = {}
 
-    // pacakge delivery checker 
-    // @param tracking=trackingNumber
-    methods.updateParcelStatus = function (trackingNumber) {
+    // package delivery checker 
+    methods.updateParcelStatus = function (item) {
         var collection = db.collection(COLLECTION_NAME);
-        var searchParam = {tracking: trackingNumber};
+        var packet = {
+            carrier: item.service,
+            number: item.tracking
+        }
 
-        collection.findOne(searchParam, function (err, results) {
-            if (err) {
-                return false;
-            } else {
-                var packet = {
-                    carrier: results.service.toString(),
-                    number: results.tracking.toString()
-                }
+        var credentials = getCredentials(results.service.toString());
 
-                var credentials = getCredentials(results.service.toString());
-
-                tracking.track(credentials, packet, function (request, response) {
-                    collection.update(results, {$set: {trackingInfo: response}}, function (er, res) {
-                        if (er) {
-                            return false;
-                        } else {
-                            return true;
+        tracking.track(credentials, packet, function (tracking) {
+            if (tracking.data.steps != item.trackingInfo)
+            {
+                var toUpdate = {"delivered": tracking.data.delivered, "trackingInfo": tracking.data.steps};
+                collection.update({'_id' : new BSON.ObjectID(item.id)}, {$set: toUpdate}, function (er, res) {
+                    if (er) return false;
+                    var users = db.collection('users');
+                    users.find({"items._id": item.id}).toArray(function (err, results) {
+                        if (err) return false;
+                        var email;
+                        var name = item.name ? item.name : "Your package shipped by " + item.service.toUpperCase(); 
+                        for (var i = 0; i < results.length; i++)
+                        {
+                            email = results[i].email;
+                            sendgrid.delivered(email, name, item.tracking.toString());
                         }
-                    });
+                        return true;
+                    })
                 });
             }
         });
     },
 
-    // Create Item
-    methods.create = function (request, response) {
-        var item = request.body;
-        var collection = db.collection(COLLECTION_NAME);
+// Create Item
+methods.create = function (request, response) {
+    var item = request.body;
+    var collection = db.collection(COLLECTION_NAME);
 
-        var packet = {
-            carrier: item.service.toString(),
-            number: item.tracking.toString()
-        };
+    var packet = {
+        carrier: item.service.toString(),
+        number: item.tracking.toString()
+    };
 
-        var credentials = getCredentials(item.service.toString());
+    var credentials = getCredentials(item.service.toString());
 
-        tracking.track(credentials, packet, function (tracking) {
-            //request.trackingInfo = tracking.data.steps;
-            //request.delivered = tracking.data.delivered;
-            collection.insert(item, {safe:true}, function(err, result) {
-                if (err) {
-                    response.send(400);
-                } else {
-                    console.log(result[0]);
-                    console.log(result[0]._id);
-                    collection.update(item, {$set: {trackingInfo: tracking.data.steps, delivered: tracking.data.delivered}},
-                        function (er, output) {
-                            if (er) {
-                                response.send(400);
-                            } else {
-                                collection.findOne({'_id': new BSON.ObjectID(result[0]._id.toString())}, function (e, res) {
-                                    if (e) {response.send(400)}
-                                    else {console.log(res);response.send(res)}
-                                });
-                            }
-                        });
-                }
-            });
-        });
-
-    },
-
-
-    // Update item
-    methods.update = function (request, response) {
-        var id = request.param('_id');
-        var item = request.body;
-        delete item._id;
-
-        var collection = db.collection(COLLECTION_NAME);
-        collection.update({'_id' : new BSON.ObjectID(id)},
-        {$set: item}, {safe: true}, function (err, result) {
+    tracking.track(credentials, packet, function (tracking) {
+        item.trackingInfo = tracking.data.steps;
+        item.delivered = tracking.data.delivered;
+        collection.insert(item, {safe:true}, function(err, result) {
             if (err) {
                 response.send(400);
-            } else {
+            } 
+            else{
+                response.send(item);
+            }
+        });
+    });
+
+},
+
+
+// Update item
+methods.update = function (request, response) {
+    var id = request.param('_id');
+    var item = request.body;
+    delete item._id;
+
+    var collection = db.collection(COLLECTION_NAME);
+    collection.update({'_id' : new BSON.ObjectID(id)},
+    {$set: item}, {safe: true}, function (err, result) {
+        if (err) {
+            response.send(400);
+        } else {
+            response.send(result);
+        }
+    });
+},
+
+
+// GetAll Items
+methods.getAll = function (request, response) {
+    var collection = db.collection(COLLECTION_NAME);
+
+    collection.find().toArray(function (err, results) {
+        if (err) {
+            response.send(500);
+        } else {
+            response.send(results);
+        }
+    });
+},
+
+
+// Generic Item Search
+methods.read = function (request, response) {
+    var collection = db.collection(COLLECTION_NAME);
+    var item = request.query;
+    if (item._id) item._id = new BSON.ObjectID(item._id);
+
+    if (item) {
+        // Execute search
+        collection.findOne(item, function (err, result) {
+            if (err) {
+                response.send(500);
+            }
+            else if (result == null) {
+                response.send(404);
+            }else {
                 response.send(result);
             }
         });
-    },
+    } else {
+        response.send(417);
+    }
+}, 
+
+// Destroy entry
+methods.destroy = function (request, response) {
+    var id = request.param('id');
+    var collection = db.collection(COLLECTION_NAME);
+    collection.remove({
+        '_id': new BSON.ObjectID(id)
+    }, {
+        safe: true
+    }, function (err, result) {
+        if (err) {
+            response.send(400);
+        } else {
+            response.send(request.body);
+        }
+    });
+},
 
 
-    // GetAll Items
-    methods.getAll = function (request, response) {
+
+// all undelivered package delivery checker
+methods.updateParcelStati = function (request, response) {
+    var time = 100000; // in milliseconds
+
+    // repeat every 'time' seconds
+    setInterval(function () {
+
+        console.log('parcel update begin');
         var collection = db.collection(COLLECTION_NAME);
 
-        collection.find().toArray(function (err, results) {
+        collection.find({ "delivered": false }).toArray(function (err, results) {
             if (err) {
-                response.send(500);
+                response.send(400);
             } else {
-                response.send(results);
+                for (i=0; i < results.length; i++) {
+                    updateParcelStatus(result[i]);
+                }
             }
         });
-    },
-
-
-    // Generic Item Search
-    methods.read = function (request, response) {
-        var collection = db.collection(COLLECTION_NAME);
-        var user = request.query;
-
-        if (user) {
-            // Execute search
-            collection.findOne(user, function (err, result) {
-                if (err) {
-                    response.send(500);
-                } else {
-                    response.send(result);
-                }
-            });
-        } else {
-            response.send(417);
-        }
-    }, 
-
-    // Destroy entry
-        methods.destroy = function (request, response) {
-
-            var id = request.param('id');
-            var collection = db.collection(COLLECTION_NAME);
-            collection.remove({
-                '_id': new BSON.ObjectID(id)
-            }, {
-                safe: true
-            }, function (err, result) {
-                if (err) {
-                    response.send(400);
-                } else {
-                    response.send(request.body);
-                }
-            });
-        },
-
-
-
-        // all undelivered package delivery checker
-        methods.updateParcelStati = function (request, response) {
-            var time = 100000; // in milliseconds
-
-            // repeat every 'time' seconds
-            setInterval(function () {
-
-                console.log('parcel update begin');
-                var collection = db.collection(COLLECTION_NAME);
-                var searchParam = {type: 'Parcel', delievered: false};
-
-                collection.find(searchParam).toArray(function (err, results) {
-                    if (err) {
-                        response.send(400);
-                    } else {
-                        for (i=0; i < results.length; i++) {
-                            var packet = {
-                                carrier: results[i].service.toString(),
-                                number: results[i].tracking.toString()
-                            }
-
-                            var credentials = getCredentials(results[i].service.toString());
-
-                            tracking.track(credentials, packet, function (request, response) {
-                                if (response.delivered == true) {
-                                    // find email associated with item
-                                    userCollection = db.collection('users');
-                                    userCollection.findOne({items: results[i].tracking.toString()},
-                                    function (er, res) {
-                                        if (er) {
-                                            response.send(400);
-                                        } else {
-                                            var name;
-                                            if (results[i].name) {
-                                                name = results[i].name.toString();
-                                            } else {
-                                                name = ' ';
-                                            }
-                                            sendgrid.delivered(res.email.toString(), name, 
-                                            results[i].tracking.toString());
-                                        }
-                                    });
-                                    // mark package as delivered
-                                    collection.update({'_id': results[i].id.$oid}, 
-                                        {delivered: true}, function(e, re) {
-                                            if (e) {
-                                                response.send(400);
-                                            } else {
-                                                response.send(re);
-                                            }
-                                        });
-                                }
-                            });
-                        }
-                    }
-                });
-                console.log('parcel update complete');
-            }, time);
-        }
-
-        return methods;
+        console.log('parcel update complete');
+    }, time);
 }
 
-
+return methods;
+}

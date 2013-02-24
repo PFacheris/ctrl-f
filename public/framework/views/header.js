@@ -15,10 +15,7 @@ window.HeaderView = Backbone.View.extend({
         $(this.el).find('nav').css('background', 'none');
         $(this.el).find('#header').animate(
             {top: '0px'},
-            500,
-            function() {
-                $('.ribbon').animate({marginTop: '-28px'}, 500);
-            }
+            500
         );
         $tooltip = $(this.el).find('#login');
         $loginRibbon = $(this.el).find('.login');
@@ -62,12 +59,14 @@ window.HeaderView = Backbone.View.extend({
             $loginRibbon.removeClass('login').addClass('logout');
             $settingsRibbon.css('display', '');
             $logo.attr('href', '#home');
+            app.navigate('home', true);
         }
         else
         {
             $loginRibbon.removeClass('logout').addClass('login');
             $settingsRibbon.css('display', 'none');
             $logo.attr('href', '#');
+            app.navigate('', true);
         }
     },
 
@@ -124,13 +123,7 @@ window.HeaderView = Backbone.View.extend({
         window.activeSession.clear();
         $.removeCookie('authtoken');
         $.removeCookie('authemail');
-    },
-
-    showActive: function (menuItem) {
-        $('.ribbon').removeClass('active');
-        if (menuItem) {
-            $('.' + menuItem).addClass('active');
-        }
     }
+
 });
 

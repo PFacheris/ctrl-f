@@ -84,7 +84,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.post('/item', item.create);
     app.put('/item/:id', item.update);
     app.get('/items', item.getAll);
-    app.get('/item/:id', item.read);
+    app.get('/item', item.read);
     app.delete('/item/:id', item.destroy);
 
     // Item.Package Actions
@@ -94,7 +94,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     app.post('/mailer', mailer.singleEmail);
     //app.post('/confMailer', mailer.confirmationEmail);
     //app.post('/pwResetMailer', mailer.pwReset);
-
+/*
 //CHAE TESTING
 utilities = require('./utilities');app.get('/hashTest',function (request, response) {
 var password = request.param('password');var hash = utilities.pwHash(password);
@@ -114,5 +114,5 @@ var tempPass = request.param('tempPass');mailer.delivery(email,name,tracking);ma
 mailer.passReset(email,tempPass);response.send('success');});
 //var test = require('./test'); app.post('/test', function(request,response) {setInterval(function(){console.log('Hello!')}, 5000)});
 //END CHAE TESTING
-
+*/
 });

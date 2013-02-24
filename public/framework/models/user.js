@@ -4,6 +4,9 @@ window.User = Backbone.Model.extend({
 
     initialize: function () {
         var self = this;
+
+
+        //Validators
         this.validators = {};
 
         this.validators.firstName = function (value) {
@@ -29,8 +32,31 @@ window.User = Backbone.Model.extend({
 
     },
 
-    parse: function(response) {
-        response.items = new ItemList(response.items);
+    parse: function (response)
+    {
+        response.itemsList = new ItemList();
+        return this.getItemsById(response);        
+    },
+    
+    getItemsById: function (response)
+    {
+        for(var i = 0; i < response.items.length; i++)
+        {
+            (function(i) {
+                var package = new Package();
+                package.fetch({
+                    data: { "_id": response.items[i]},
+                    success: function(model, res) {
+                        response.itemsList.add(package);
+                    },
+                    error: function (model, xhr) {
+                        delete response.items[i];
+                        response.items.splice(i, 1);
+                    }
+                });
+
+            })(i);
+        }
         return response;
     },
 
@@ -54,7 +80,15 @@ window.User = Backbone.Model.extend({
     },
 
     addItem: function(item) {
-        this.get('items').add(item);
+        this.get('items').push(item.get("_id"));
+        this.get('itemsList').add(item);
+        this.save();
+    },
+    
+    removeItem: function(id) {
+        this.get('items').splice(this.get('items').indexOf(id));
+        var toRemove = this.get('itemsList').get(id);
+        this.get('itemsList').remove(toRemove);
         this.save();
     },
 
@@ -64,7 +98,8 @@ window.User = Backbone.Model.extend({
         lastName: "",
         password: "",
         email: "",
-        items: new ItemList() 
+        items: [],
+        itemsList: new ItemList()
     },
 
 });

@@ -1,45 +1,22 @@
-<li id="<%= id %>" style="-webkit-appearance: none;
--webkit-border-image: none;
--webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 2px 0px inset;
--webkit-rtl-ordering: logical;
--webkit-transition-delay: 0s;
--webkit-transition-duration: 0.15s;
--webkit-transition-property: all;
--webkit-transition-timing-function: linear;
--webkit-user-select: text;
--webkit-writing-mode: horizontal-tb;
-background-color: rgb(255, 255, 255);
-border-bottom-color: rgb(204, 204, 204);
-border-bottom-left-radius: 2px;
-border-bottom-right-radius: 2px;
-border-bottom-style: solid;
-border-bottom-width: 1px;
-border-left-color: rgb(204, 204, 204);
-border-left-style: solid;
-border-left-width: 1px;
-border-right-color: rgb(204, 204, 204);
-border-right-style: solid;
-border-right-width: 1px;
-border-top-color: rgb(204, 204, 204);
-border-top-left-radius: 2px;
-border-top-right-radius: 2px;
-border-top-style: solid;
-border-top-width: 1px;
-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 2px 0px inset;
-box-sizing: border-box;
-color: rgba(0, 0, 0, 0.74902);
-padding:10px;margin-top:2px;">
-    <div class="row">
-        <div class="eleven columns">
-            <h5><%= name ? name : ("Package from " + service) %></h5>
-            <p>Tracking number: <%= tracking %><br>Delivery Service: <%= service %></p>
-            <p>This package has <%= id ? "" : "not" %> been delivered.</p>
-        </div>
-        <div class="one columns">
-            <p>
-            <a id="remove" style="font-weight:bold;position:relative;right:0;">x</a><br><br><br><br>
-            <a id="view" style="font-weight:bold;">View</a>
-            </p>
-        </div>
+<li id="<%= id %>" class="packageInfo">
+<div class="row">
+    <div class="ten mobile-three columns">
+        <h5><%= name ? name : ("Package from " + service) %></h5>
+        <p><strong>Tracking number:</strong> <%= tracking %>
+        <br><strong>Delivery Service:</strong> <%= service %></p>
+        <p>This package has <%= id ? "" : "not" %> been delivered.</p>
     </div>
+    <div class="two mobile-one columns" style="text-align:right;">
+        <i style="font-size:18px" class="foundicon-remove" id="remove"></i>
+        <i style="font-size:18px;" class="foundicon-globe" id="view"><p style="margin-top:-15px;"><small>View</small></p></i>
+    </div>
+</div>
+<div class="row">
+    <div class="hide-for-small twelve mobile-four columns">
+        <strong>Details:</strong>
+        <ul id="details" style="padding-left: 7%">
+
+        </ul>
+    </div>
+</div>
 </li>

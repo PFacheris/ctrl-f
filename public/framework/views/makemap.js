@@ -61,7 +61,7 @@ function codelocs(n) {
 
 function doTheRest() {
 
-    if(!map)
+    if(!map || map.getDiv() != mapholder)
     {   
         map = new google.maps.Map(mapholder, {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -70,7 +70,6 @@ function doTheRest() {
         });
 
         google.maps.event.addListener(map, 'click', function() {
-            // Replace our Info Window's content and position 
             infoWindow.open() 
         });
     }

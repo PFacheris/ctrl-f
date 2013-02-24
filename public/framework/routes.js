@@ -24,9 +24,9 @@ var AppRouter = Backbone.Router.extend({
         else
         {
             $('.content').html(new IndexView().el);
-            //this.headerView.selectMenuItem('home-menu');
+            utils.showActive();
+            utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
         }
-        utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
     },
 
     home: function (id) {
@@ -37,6 +37,8 @@ var AppRouter = Backbone.Router.extend({
                 data: { email: window.activeSession.get('email')},
                 success: function(model, response) {
                     $('.content').html(new HomeView({model: user}).el);
+                    utils.showActive();
+                    utils.showAlert('Hey!', 'It\'s good to see you. Get tracking!');
                 }
             });
         }
@@ -44,7 +46,6 @@ var AppRouter = Backbone.Router.extend({
         {
             app.navigate('', true);
         }
-        utils.showAlert('Hey!', 'It\'s good to see you. Get tracking!');
     },
 
     register: function () {
@@ -56,9 +57,9 @@ var AppRouter = Backbone.Router.extend({
         {
             var user = new User();
             $('.content').html(new RegisterView({model: user}).el);
-            //this.headerView.selectMenuItem('home-menu');
+            utils.showActive();
+            utils.showAlert('Registering', 'I see that we have your curiosity, now we can get your attention.');
         }
-        utils.showAlert('Regsitering', 'I see that we have your curiousity, now we can get your attention.');
     },
 
     settings: function () {
@@ -69,13 +70,16 @@ var AppRouter = Backbone.Router.extend({
                 data: { email: window.activeSession.get('email')},
                 success: function(model, response) {
                     $('.content').html(new SettingsView({model: user}).el);
+                    utils.showActive("settings");
+                    utils.showAlert('Who am I?', 'Change the information associated with your account here.');
                 }
             });
         }
         else
+        {
             app.navigate('#', true);
+        }
             
-        utils.showAlert('Who am I?', 'Change the information associated with your account here.');
     },
 
     about: function () {
@@ -84,6 +88,7 @@ var AppRouter = Backbone.Router.extend({
         }
         $('.content').html(this.aboutView.el);
         utils.showAlert('Who are we?', 'Well, that\'s explained over there. Why are you reading this?');
+        utils.showActive("info");
     },
 
     forgotPW: function () {
@@ -92,6 +97,7 @@ var AppRouter = Backbone.Router.extend({
         }
         $('.content').html(this.forgotPWView.el);
         utils.hideAlert();
+        utils.showActive();
 
     }
 
