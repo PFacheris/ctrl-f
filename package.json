@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "nodefly": "stable",
     "express": "3.1.0",
 	"mongodb": "1.2.11",
     "packmule": "1.1.2",
