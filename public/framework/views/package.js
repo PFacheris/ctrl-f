@@ -1,6 +1,7 @@
 window.PackageView = Backbone.View.extend({
 
     initialize: function () {
+        this.listenTo(this.model, "change", this.render);
         this.render();
     },
 
@@ -39,7 +40,6 @@ window.PackageView = Backbone.View.extend({
             setLocations(this.model.get('trackingInfo'));
             $button.find("small").html("Hide");
             $button.css("color", "rgba(76, 76, 76, 0.7)");
-            console.log($button.html());
         }
         else
         {

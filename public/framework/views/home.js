@@ -1,30 +1,35 @@
 var self;
-var packageViews;
 
 window.HomeView = Backbone.View.extend({
     initialize:function () {
         self = this;
-        packageViews = {};
+        this.packageViews = {};
         this.listenTo(this.model.get('itemsList'), "remove", self.removeOne);
         this.listenTo(this.model.get('itemsList'), "add", self.addOne);
         this.render();
+        (function(view) {
+            window.homeInterval = window.setInterval(function() { view.model.get('itemsList').updateAll(); }, 5000);
+        })(this);
     },
 
     render:function () {
         $(this.el).html(this.template());
         _.defer(makeMap, $(this.el).find('#map').get(0));
-        this.addAll();
         return this;
     },
 
+    onClose: function(){
+        self.stopListening();
+        window.clearInterval(window.homeInterval);
+    },
+
     addAll: function () {
-        $(self.el).find('#packages').html(" ");
         self.model.get('itemsList').each(self.addOne);
     },
 
     addOne: function (package, animate) {
         var view = new PackageView({model: package});
-        packageViews[package.get('_id')] = view;
+        self.packageViews[package.get('_id')] = view;
         view.render();
         if (animate) view.$el.css("display", "none");
         $(self.el).find('#packages').prepend(view.el);
@@ -32,9 +37,8 @@ window.HomeView = Backbone.View.extend({
     },
     
     removeOne: function (package) {
-        packageViews[package.get('_id')].$el.slideToggle('slow', function () {
-            packageViews[package.get('_id')].remove();
-            packageViews[package.get('_id')] = null;
+        self.packageViews[package.get('_id')].$el.slideToggle('slow', function () {
+            self.packageViews[package.get('_id')].close();
         });
     },
 

@@ -4,6 +4,7 @@ window.User = Backbone.Model.extend({
 
     initialize: function () {
         var self = this;
+        
 
 
         //Validators

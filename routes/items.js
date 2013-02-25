@@ -64,18 +64,21 @@ module.exports = function (db, BSON) {
                 var toUpdate = {"delivered": tracking.data.delivered, "trackingInfo": tracking.data.steps};
                 collection.update({'_id' : new BSON.ObjectID(item.id)}, {$set: toUpdate}, function (er, res) {
                     if (er) return false;
-                    var users = db.collection('users');
-                    users.find({"items._id": item.id}).toArray(function (err, results) {
-                        if (err) return false;
-                        var email;
-                        var name = item.name ? item.name : "Your package shipped by " + item.service.toUpperCase(); 
-                        for (var i = 0; i < results.length; i++)
-                        {
-                            email = results[i].email;
-                            sendgrid.delivered(email, name, item.tracking.toString());
-                        }
-                        return true;
-                    })
+                    if (tracking.data.delivered)
+                    {
+                        var users = db.collection('users');
+                        users.find({"items._id": item.id}).toArray(function (err, results) {
+                            if (err) return false;
+                            var email;
+                            var name = item.name ? item.name : "Your package shipped by " + item.service.toUpperCase(); 
+                            for (var i = 0; i < results.length; i++)
+                            {
+                                email = results[i].email;
+                                sendgrid.delivered(email, name, item.tracking.toString());
+                            }
+                            return true;
+                        })
+                    }
                 });
             }
         });
@@ -146,6 +149,7 @@ methods.read = function (request, response) {
     var collection = db.collection(COLLECTION_NAME);
     var item = request.query;
     if (item._id) item._id = new BSON.ObjectID(item._id);
+    if (request.params.id) item._id = new BSON.ObjectID(request.params.id);
 
     if (item) {
         // Execute search

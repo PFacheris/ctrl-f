@@ -1,3 +1,11 @@
+Backbone.View.prototype.close = function(){
+  this.remove();
+  this.unbind();
+  if (this.onClose){
+    this.onClose();
+  }
+};
+
 var AppRouter = Backbone.Router.extend({
 
     routes: {
@@ -10,10 +18,16 @@ var AppRouter = Backbone.Router.extend({
     },
 
     initialize: function () {
+        this.bind( "all", this.removeUnused);
         window.activeSession = new window.Session;
+
 
         this.headerView = new HeaderView();
         $('header').html(this.headerView.el);
+    },
+    
+    removeUnused: function () {
+        if (this.homeView) this.homeView.onClose();
     },
 
     index: function (id) {
@@ -23,7 +37,10 @@ var AppRouter = Backbone.Router.extend({
         }
         else
         {
-            $('.content').html(new IndexView().el);
+            if (!this.indexView) {
+                this.indexView = new IndexView();
+            }
+            $('.content').html(this.indexView.el);
             utils.showActive();
             utils.showAlert('Welcome!', 'You can put in a tracking number or login by clicking the lock on the top right.');
         }
@@ -33,10 +50,12 @@ var AppRouter = Backbone.Router.extend({
         if (window.activeSession.isAuthorized())
         {
             var user = new User();
+            var self = this;
             user.fetch({
                 data: { email: window.activeSession.get('email')},
                 success: function(model, response) {
-                    $('.content').html(new HomeView({model: user}).el);
+                    self.homeView = new HomeView({model: user});
+                    $('.content').html(self.homeView.el);
                     utils.showActive();
                     utils.showAlert('Hey!', 'It\'s good to see you. Get tracking!');
                 }
@@ -110,4 +129,3 @@ utils.loadTemplate(['HeaderView', 'IndexView', 'HomeView', "AboutView", "Registe
 
     Backbone.history.start();
 });
-
