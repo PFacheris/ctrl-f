@@ -81,7 +81,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     // User Actions
     app.post('/user', user.create);
     app.put('/user/:id', user.update);
-    app.get('/users', user.getAll);
+    //app.get('/users', user.getAll);
     app.get('/user', user.userSearch);
     app.delete('/user/:id', user.destroy);
     app.post('/userpwReset', user.pwReset);
@@ -89,7 +89,7 @@ MONGO_CLIENT.connect(MONGO_URI, function (err, db) {
     // Item Actions
     app.post('/item', item.create);
     app.put('/item/:id', item.update);
-    app.get('/items', item.getAll);
+    //app.get('/items', item.getAll);
     app.get('/item', item.read);
     app.get('/item/:id', item.read);
     app.delete('/item/:id', item.destroy);
