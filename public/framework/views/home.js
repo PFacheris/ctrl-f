@@ -62,12 +62,14 @@ window.HomeView = Backbone.View.extend({
         var $fedex1 = /(\b96\d{20}\b)|(\b\d{15}\b)|(\b\d{12}\b)/;
         var $fedex2 = /\b((98\d\d\d\d\d?\d\d\d\d|98\d\d) ?\d\d\d\d ?\d\d\d\d( ?\d\d\d)?)\b/;
         var $fedex3 = /^[0-9]{15}$/;
+        var $fedex4 = /^[0-9]{20}$/;
         var $usps1 = /\b(91\d\d ?\d\d\d\d ?\d\d\d\d ?\d\d\d\d ?\d\d\d\d ?\d\d|91\d\d ?\d\d\d\d ?\d\d\d\d ?\d\d\d\d ?\d\d\d\d)\b/i;
         var $usps2 = /^E\D{1}\d{9}\D{2}$|^9\d{15,21}$/;
         var $usps3 = /^91[0-9]+$/;
         var $usps4 = /^[A-Za-z]{2}[0-9]+US$/;
+        var $usps5 = /^[0-9]{26}$/;
 
-        if ($usps1.test(trackingNumber) || $usps2.test(trackingNumber) || $usps3.test(trackingNumber) || $usps4.test(trackingNumber))
+        if ($usps1.test(trackingNumber) || $usps2.test(trackingNumber) || $usps3.test(trackingNumber) || $usps4.test(trackingNumber) || $usps5.test(trackingNumber))
         {
             package.set('service', 'usps');
         }
@@ -75,7 +77,7 @@ window.HomeView = Backbone.View.extend({
         {
             package.set('service', 'ups');
         }
-        else if ($fedex1.test(trackingNumber) || $fedex2.test(trackingNumber) || $fedex3.test(trackingNumber))
+        else if ($fedex1.test(trackingNumber) || $fedex2.test(trackingNumber) || $fedex3.test(trackingNumber) || $fedex4.test(trackingNumber))
         {
             package.set('service', 'fedex');
         }
@@ -90,7 +92,7 @@ window.HomeView = Backbone.View.extend({
                     self.model.addItem(package);
                 },
                 error: function(model, xhr) {
-                    if (xhr.status == 404)
+                    if (xhr.status == 404 || xhr.status == 400 || xhr.status == 417)
                     {
                         package.save(null, {
                             success: function(mod, result) {

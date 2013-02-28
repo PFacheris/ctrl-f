@@ -97,16 +97,23 @@ methods.create = function (request, response) {
     var credentials = getCredentials(item.service.toString());
 
     tracking.track(credentials, packet, function (tracking) {
-        item.trackingInfo = tracking.data.steps;
-        item.delivered = tracking.data.delivered;
-        collection.insert(item, {safe:true}, function(err, result) {
-            if (err) {
-                response.send(400);
-            } 
-            else{
-                response.send(item);
-            }
-        });
+        if(tracking.data.steps)
+        {
+            item.trackingInfo = tracking.data.steps;
+            item.delivered = tracking.data.delivered;
+            collection.insert(item, {safe:true}, function(err, result) {
+                if (err) {
+                    response.send(400);
+                } 
+                else{
+                    response.send(item);
+                }
+            });
+        }
+        else
+        {
+            response.send(400);
+        }
     });
 
 },
